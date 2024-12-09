@@ -9,13 +9,13 @@ import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
 import kotlin.math.abs
 
-class Welcome1 : ComponentActivity() {
+class Welcome3 : ComponentActivity() {
 
     private var x1: Float = 0f
     private var y1: Float = 0f
     private val handler = Handler(Looper.getMainLooper())
     private val navigateRunnable = Runnable {
-        val intent = Intent(this, Welcome2::class.java)
+        val intent = Intent(this, Welcome1::class.java)
         startActivity(intent)
         overridePendingTransition(R.anim.enter_animation, R.anim.exit_animation)
         finish()
@@ -24,7 +24,7 @@ class Welcome1 : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.welcome1)
+        setContentView(R.layout.welcome3)
 
         handler.postDelayed(navigateRunnable, 5000)
     }
@@ -44,12 +44,12 @@ class Welcome1 : ComponentActivity() {
 
                 if (abs(deltaX) > abs(deltaY)) {
                     if (deltaX > 0) {
-                        val intent = Intent(this, Welcome3::class.java)
+                        val intent = Intent(this, Welcome2::class.java)
                         startActivity(intent)
                         overridePendingTransition(R.anim.enter_animation, R.anim.exit_animation)
                         finish()
                     } else {
-                        val intent = Intent(this, Welcome2::class.java)
+                        val intent = Intent(this, Welcome1::class.java)
                         startActivity(intent)
                         overridePendingTransition(R.anim.enter_animation, R.anim.exit_animation)
                         finish()

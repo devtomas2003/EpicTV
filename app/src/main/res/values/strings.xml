@@ -16,4 +16,10 @@
     <string name="start_session_welcome">Iniciar Sessão</string>
     <string name="aderir_lbl">Aderir</string>
     <string name="welcome1_slogan">Onde cada momento é épico.</string>
+    <string name="welcome2MainText">Planos adaptados a ti!</string>
+    <string name="welcome2_slogan">Diversão ajustada à tua carteira.</string>
+    <string name="Welcome3MainText">Onde cada momento é épico!</string>
+    <string name="welcome3_slogan">Vários filmes e séries da atualidade.</string>
+    <string name="title_activity_welcome2">Welcome2</string>
+    <string name="title_activity_welcome3">Welcome3</string>
 </resources>

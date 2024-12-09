@@ -18,9 +18,20 @@
         android:theme="@style/Theme.EpicTV"
         tools:targetApi="31">
         <activity
+            android:name=".Welcome3"
+            android:exported="false"
+            android:label="@string/title_activity_welcome3"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.EpicTV" />
+        <activity
+            android:name=".Welcome2"
+            android:exported="false"
+            android:label="@string/title_activity_welcome2"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.EpicTV" />
+        <activity
             android:name=".Welcome1"
             android:exported="true"
-            android:label="@string/title_activity_welcome1"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.EpicTV">
             <intent-filter>
@@ -45,12 +56,11 @@
             android:name=".Login"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.EpicTV">
-        </activity>
+            android:theme="@style/Theme.EpicTV" />
 
         <service
             android:name=".utils.DownloadService"
-            android:foregroundServiceType="dataSync"></service>
+            android:foregroundServiceType="dataSync" />
     </application>
 
 </manifest>
