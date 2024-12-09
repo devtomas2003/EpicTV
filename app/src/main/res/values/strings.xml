@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">EpicTV</string>
+    <string name="logo_desc">Logo da EPIC TV</string>
+    <string name="inp_mail">Email</string>
+    <string name="inp_password">Password</string>
+    <string name="btnLogin">Login</string>
+    <string name="btnCreateAccount">Criar Conta</string>
+    <string name="title_activity_player">Player</string>
+    <string name="txtRecoverAccount">Recuperar Conta</string>
+    <string name="title_activity_catalog">Catalog</string>
+    <string name="contentbgimage">contentBgImage</string>
+    <string name="contentlogo">contentLogo</string>
+    <string name="startWatch">Ver filme</string>
+    <string name="welcome1MainText">Assista vários filmes e séries!</string>
+    <string name="title_activity_welcome1">Welcome1</string>
+</resources>

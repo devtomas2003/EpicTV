@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#222">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="260dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/logo_desc"
+        android:scaleType="fitCenter"
+        android:src="@drawable/epictv_logo"
+        android:layout_marginTop="80dp"
+    />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="100dp"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/editTextText"
+            android:layout_width="330dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center_horizontal"
+            android:autofillHints="emailAddress"
+            android:backgroundTint="#fff"
+            android:ems="10"
+            android:hint="@string/inp_mail"
+            android:inputType="text"
+            android:textColor="#fff"
+            android:textColorHint="#fff" />
+
+        <EditText
+            android:id="@+id/editTextTextPassword"
+            android:layout_width="330dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:autofillHints="password"
+            android:backgroundTint="#fff"
+            android:ems="10"
+            android:hint="@string/inp_password"
+            android:inputType="textPassword"
+            android:textColor="#fff"
+            android:textColorHint="#fff" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="30dp"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/buttonLogin"
+                android:layout_width="330dp"
+                android:layout_height="50dp"
+                android:background="@drawable/btn_border_orange"
+                android:textColor="#fff"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/btnLogin" />
+
+            <Button
+                android:id="@+id/buttonCreateAccount"
+                android:layout_width="330dp"
+                android:layout_height="50dp"
+                android:textColor="#fff"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/btn_border_transparent"
+                android:layout_marginTop="8dp"
+                android:text="@string/btnCreateAccount" />
+
+            <LinearLayout
+                android:layout_width="330dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#fff"
+                    android:text="@string/txtRecoverAccount" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
