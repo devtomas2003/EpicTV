@@ -15,6 +15,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        app:layout_constraintGuide_begin="450dp" />
+
+
+        <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/endOfGradient"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
         app:layout_constraintGuide_begin="550dp" />
 
         <ImageView
@@ -22,11 +30,21 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:scaleType="centerCrop"
-            app:layout_constraintBottom_toTopOf="@+id/startOfGradient"
+            app:layout_constraintBottom_toTopOf="@+id/endOfGradient"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:src="@drawable/catalog_bg" />
+
+        <View
+            android:id="@+id/gradientBox"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/catalog_degrade"
+            app:layout_constraintBottom_toTopOf="@+id/endOfGradient"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/startOfGradient" />
 
         <TextView
             android:id="@+id/textView2"
@@ -39,14 +57,14 @@
             android:textColor="#fff"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/startOfGradient" />
+            app:layout_constraintTop_toBottomOf="@+id/endOfGradient" />
 
         <TextView
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#CCFFFFFF"
-            android:text="Onde cada momento é épico."
+            android:text="@string/welcome1_slogan"
             android:textSize="15sp"
             android:layout_marginTop="10dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -58,8 +76,8 @@
             android:layout_width="120dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:textSize="16sp"
-            android:text="Aderir"
+            android:textSize="14sp"
+            android:text="@string/aderir_lbl"
             android:background="@drawable/btn_border_orange"
             android:textColor="#fff"
             android:layout_marginTop="25dp"
@@ -69,11 +87,11 @@
 
         <Button
             android:id="@+id/button2"
-            android:layout_width="150dp"
+            android:layout_width="160dp"
             android:layout_height="40dp"
             android:layout_weight="1"
             android:textSize="14sp"
-            android:text="Iniciar Sessão"
+            android:text="@string/start_session_welcome"
             android:textColor="#fff"
             android:layout_marginTop="10dp"
             android:background="@drawable/btn_border_cyan"

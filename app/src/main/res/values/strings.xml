@@ -13,4 +13,7 @@
     <string name="startWatch">Ver filme</string>
     <string name="welcome1MainText">Assista vários filmes e séries!</string>
     <string name="title_activity_welcome1">Welcome1</string>
+    <string name="start_session_welcome">Iniciar Sessão</string>
+    <string name="aderir_lbl">Aderir</string>
+    <string name="welcome1_slogan">Onde cada momento é épico.</string>
 </resources>
