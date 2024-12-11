@@ -18,6 +18,11 @@
         android:theme="@style/Theme.EpicTV"
         tools:targetApi="31">
         <activity
+            android:name=".Planos"
+            android:exported="false"
+            android:label="@string/title_activity_planos"
+            android:theme="@style/Theme.EpicTV" />
+        <activity
             android:name=".Welcome3"
             android:exported="false"
             android:label="@string/title_activity_welcome3"
