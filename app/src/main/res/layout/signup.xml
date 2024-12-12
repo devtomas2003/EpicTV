@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#222">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="21dp"
+        android:layout_marginRight="21dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/arrow_back"
+            android:layout_marginTop="5dp"/>
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp"
+            android:text="Criar Conta"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginLeft="95dp"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/subtitle"
+        android:layout_width="307dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50sp"
+        android:gravity="center"
+        android:paddingBottom="16dp"
+        android:text="Assiste aos teus filmes e séries favoritos em qualquer lugar"
+        android:textColor="#CCCCCC"
+        android:textSize="14sp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="21dp"
+        android:layout_marginRight="21dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="37dp"
+                android:layout_height="wrap_content"
+                android:text="Email"
+                android:textColor="#FFFFFF" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="*"
+                android:textColor="#f37903"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/email"
+                android:layout_width="380dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#FF6600"
+                android:padding="12dp"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#999999" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="65dp"
+                android:layout_height="wrap_content"
+                android:text="Password"
+                android:textColor="#FFFFFF" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="*"
+                android:textColor="#f37903"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/pass"
+                android:layout_width="380dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#FF6600"
+                android:padding="12dp"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#999999" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="113dp"
+                android:layout_height="wrap_content"
+                android:text="Repetir Password"
+                android:textColor="#FFFFFF" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="*"
+                android:textColor="#f37903"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/reppass"
+                android:layout_width="380dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#FF6600"
+                android:padding="12dp"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#999999" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:text="Nome"
+                android:textColor="#FFFFFF" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="*"
+                android:textColor="#f37903"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/name"
+                android:layout_width="380dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#FF6600"
+                android:padding="12dp"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#999999" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:text="Apelido"
+                android:textColor="#FFFFFF" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="*"
+                android:textColor="#f37903"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/nickname"
+                android:layout_width="380dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#FF6600"
+                android:padding="12dp"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#999999" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="370dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:text="O carácter * indica que o campo é de preenchimento obrigatório"
+            android:textColor="#FFFFFF"
+            android:textSize="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:text="Ao criar conta, confirma que tem 18 anos ou mais, aceita os Termos de Utilização e declara que leu e compreendeu a nossa Política de Privacidade."
+            android:textColor="#FFFFFF"
+            android:textSize="11dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_marginBottom="20dp">
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FFFFFF" />
+
+            <TextView
+                android:layout_width="340dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="-5dp"
+                android:text="Autorizo o envio de ofertas exclusivas, anúncios personalizados e atualizações sobre os conteúdos mais recentes disponíveis na EpicTV."
+                android:textColor="#FFFFFF"
+                android:textSize="11dp" />
+        </LinearLayout>
+
+        <Button
+            android:layout_width="230dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/btn_border_orange"
+            android:text="Criar Conta" />
+
+    </LinearLayout>
+</LinearLayout>

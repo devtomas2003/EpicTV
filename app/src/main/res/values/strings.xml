@@ -24,4 +24,5 @@
     <string name="title_activity_welcome3">Welcome3</string>
     <string name="title_activity_planos">Planos</string>
     <string name="title_plans_page">O melhor do entretenimento, onde e quando quiser!</string>
+    <string name="title_activity_sign_up">SignUp</string>
 </resources>

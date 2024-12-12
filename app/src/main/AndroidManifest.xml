@@ -18,6 +18,11 @@
         android:theme="@style/Theme.EpicTV"
         tools:targetApi="31">
         <activity
+            android:name=".utils.SignUp"
+            android:exported="false"
+            android:label="@string/title_activity_sign_up"
+            android:theme="@style/Theme.EpicTV" />
+        <activity
             android:name=".Planos"
             android:exported="false"
             android:label="@string/title_activity_planos"
