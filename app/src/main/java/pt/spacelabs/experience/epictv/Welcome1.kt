@@ -17,7 +17,7 @@ class Welcome1 : ComponentActivity() {
     private val navigateRunnable = Runnable {
         val intent = Intent(this, Welcome2::class.java)
         startActivity(intent)
-        overridePendingTransition(R.anim.enter_animation, R.anim.exit_animation)
+        overridePendingTransition(R.anim.enter_animation_right, R.anim.exit_animation_right)
         finish()
     }
 
@@ -46,12 +46,12 @@ class Welcome1 : ComponentActivity() {
                     if (deltaX > 0) {
                         val intent = Intent(this, Welcome3::class.java)
                         startActivity(intent)
-                        overridePendingTransition(R.anim.enter_animation, R.anim.exit_animation)
+                        overridePendingTransition(R.anim.enter_animation_left, R.anim.exit_animation_left)
                         finish()
                     } else {
                         val intent = Intent(this, Welcome2::class.java)
                         startActivity(intent)
-                        overridePendingTransition(R.anim.enter_animation, R.anim.exit_animation)
+                        overridePendingTransition(R.anim.enter_animation_right, R.anim.exit_animation_right)
                         finish()
                     }
                 }
