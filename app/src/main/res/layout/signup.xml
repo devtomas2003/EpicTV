@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="21dp"
-        android:layout_marginRight="21dp">
+        android:layout_marginRight="21dp"
+        android:layout_marginTop="40dp">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -75,12 +76,12 @@
 
             <EditText
                 android:id="@+id/email"
-                android:layout_width="380dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#FF6600"
                 android:padding="12dp"
+                android:background="@drawable/inputbox"
                 android:textColor="#FFFFFF"
-                android:textColorHint="#999999" />
+                android:textSize="16sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -109,12 +110,12 @@
 
             <EditText
                 android:id="@+id/pass"
-                android:layout_width="380dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#FF6600"
                 android:padding="12dp"
+                android:background="@drawable/inputbox"
                 android:textColor="#FFFFFF"
-                android:textColorHint="#999999" />
+                android:textSize="16sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -142,12 +143,12 @@
 
             <EditText
                 android:id="@+id/reppass"
-                android:layout_width="380dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#FF6600"
                 android:padding="12dp"
+                android:background="@drawable/inputbox"
                 android:textColor="#FFFFFF"
-                android:textColorHint="#999999" />
+                android:textSize="16sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -175,12 +176,12 @@
 
             <EditText
                 android:id="@+id/name"
-                android:layout_width="380dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#FF6600"
                 android:padding="12dp"
+                android:background="@drawable/inputbox"
                 android:textColor="#FFFFFF"
-                android:textColorHint="#999999" />
+                android:textSize="16sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -207,12 +208,13 @@
 
             <EditText
                 android:id="@+id/nickname"
-                android:layout_width="380dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#FF6600"
                 android:padding="12dp"
+                android:background="@drawable/inputbox"
                 android:textColor="#FFFFFF"
-                android:textColorHint="#999999" />
+                android:textSize="16sp"
+                android:layout_marginBottom="2dp"/>
         </LinearLayout>
 
         <TextView
@@ -256,7 +258,9 @@
             android:layout_height="35dp"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/btn_border_orange"
-            android:text="Criar Conta" />
+            android:text="Criar Conta"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"/>
 
     </LinearLayout>
 </LinearLayout>

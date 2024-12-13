@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.MotionEvent
+import android.widget.Button
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
 import kotlin.math.abs
@@ -27,6 +28,12 @@ class Welcome1 : ComponentActivity() {
         setContentView(R.layout.welcome1)
 
         handler.postDelayed(navigateRunnable, 5000)
+
+        findViewById<Button>(R.id.button_aderir).setOnClickListener {
+            val intent = Intent (this, SignUp::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {

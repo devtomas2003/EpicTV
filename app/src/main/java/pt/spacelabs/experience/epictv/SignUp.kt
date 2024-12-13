@@ -1,9 +1,8 @@
-package pt.spacelabs.experience.epictv.utils
+package pt.spacelabs.experience.epictv
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
-import pt.spacelabs.experience.epictv.R
 
 class SignUp : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

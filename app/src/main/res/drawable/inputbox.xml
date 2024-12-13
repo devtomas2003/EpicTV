@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:id="@+id/email"
-        android:layout_width="380dp"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#FF6600"
-        android:padding="12dp"
-        android:textColor="#FFFFFF"
-        android:textColorHint="#999999"/>
-</selector>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#222" /> <!-- cor de fundo -->
+    <corners android:radius="4dp" />
+    <stroke
+        android:width="2dp"
+        android:color="#f37903" /> <!--cor da borda-->
+</shape>
