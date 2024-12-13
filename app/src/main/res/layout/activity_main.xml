@@ -108,19 +108,170 @@
         </RadioGroup>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="413dp"
-        android:layout_height="114dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="533dp"
-        tools:ignore="MissingConstraints">
-
-    <TextView
+    <ScrollView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-    </LinearLayout>
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="521dp">
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/color_select_plan_mensal"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="346dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Explorador"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="346dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center"
+                    android:text="4.99€/mês"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="346dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:lineSpacingExtra="4dp"
+                    android:paddingLeft="10dp"
+                    android:text="● HD 720p - Imagem nítida e perfeita para descobrir novos conteúdos\n● Ideal para começar na plataforma\n● Conta somente para 1 utilizador"
+                    android:textColor="#FFFFFF"
+                    android:textSize="9sp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/color_select_plan_mensal"
+                android:layout_marginTop="15dp"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="346dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Navegador"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="346dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center"
+                    android:text="8.99€/mês"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="346dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:lineSpacingExtra="4dp"
+                    android:paddingLeft="10dp"
+                    android:text="● Full HD 1080p – Imagens vibrantes e imersivas\n● Visualização de filmes offline\n● Conta partilhada até 2 utilizadores"
+                    android:textColor="#FFFFFF"
+                    android:textSize="9sp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/color_select_plan_mensal"
+                android:layout_marginTop="15dp"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="346dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Conquistador"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="346dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center"
+                    android:text="12.99€/mês"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="346dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:lineSpacingExtra="4dp"
+                    android:paddingLeft="10dp"
+                    android:text="● 4K Ultra HD – Detalhes deslumbrantes para conquistar a tela.\n● Assista em tempo real com amigos\n● Visualização de filmes offline\n● Conta partilhada até 3 utilizadores"
+                    android:textColor="#FFFFFF"
+                    android:textSize="9sp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/color_select_plan_mensal"
+                android:layout_marginTop="15dp"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="346dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Lendário"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="346dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center"
+                    android:text="16.99€/mês"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="346dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:lineSpacingExtra="4dp"
+                    android:paddingLeft="10dp"
+                    android:text="● 4K Ultra HD – Detalhes deslumbrantes para conquistar a tela.\n● Assista em tempo real com amigos\n● Visualização de filmes offline\n● Conta partilhada até 3 utilizadores"
+                    android:textColor="#FFFFFF"
+                    android:textSize="9sp"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
