@@ -40,7 +40,7 @@
             android:id="@+id/gradientBox"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@drawable/catalog_degrade"
+            android:background="@drawable/color_catalog_degrade"
             app:layout_constraintBottom_toTopOf="@+id/endOfGradient"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -62,7 +62,7 @@
             android:id="@+id/imageView3"
             android:layout_width="150sp"
             android:layout_height="match_parent"
-            android:src="@drawable/epictv_logo"
+            android:src="@drawable/img_epictv_logo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

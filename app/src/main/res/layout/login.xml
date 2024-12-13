@@ -15,7 +15,7 @@
         android:adjustViewBounds="true"
         android:contentDescription="@string/logo_desc"
         android:scaleType="fitCenter"
-        android:src="@drawable/epictv_logo"
+        android:src="@drawable/img_epictv_logo"
         android:layout_marginTop="80dp"
     />
 

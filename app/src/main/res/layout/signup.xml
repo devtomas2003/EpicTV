@@ -17,7 +17,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/arrow_back"
+            android:src="@drawable/icon_arrow_back"
             android:layout_marginTop="5dp"/>
 
         <TextView
@@ -58,7 +58,8 @@
                 android:layout_width="37dp"
                 android:layout_height="wrap_content"
                 android:text="Email"
-                android:textColor="#FFFFFF" />
+                android:textColor="#FFFFFF"
+                android:layout_marginBottom="5dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -91,7 +92,8 @@
                 android:layout_width="65dp"
                 android:layout_height="wrap_content"
                 android:text="Password"
-                android:textColor="#FFFFFF" />
+                android:textColor="#FFFFFF"
+                android:layout_marginBottom="5dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -125,7 +127,8 @@
                 android:layout_width="113dp"
                 android:layout_height="wrap_content"
                 android:text="Repetir Password"
-                android:textColor="#FFFFFF" />
+                android:textColor="#FFFFFF"
+                android:layout_marginBottom="5dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -158,7 +161,8 @@
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:text="Nome"
-                android:textColor="#FFFFFF" />
+                android:textColor="#FFFFFF"
+                android:layout_marginBottom="5dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -191,7 +195,8 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:text="Apelido"
-                android:textColor="#FFFFFF" />
+                android:textColor="#FFFFFF"
+                android:layout_marginBottom="5dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -213,13 +218,13 @@
                 android:padding="12dp"
                 android:background="@drawable/inputbox"
                 android:textColor="#FFFFFF"
-                android:textSize="16sp"
-                android:layout_marginBottom="2dp"/>
+                android:textSize="16sp"/>
         </LinearLayout>
 
         <TextView
             android:layout_width="370dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
             android:layout_marginBottom="20dp"
             android:gravity="center"
             android:text="O carácter * indica que o campo é de preenchimento obrigatório"

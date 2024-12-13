@@ -9,7 +9,7 @@
         android:layout_width="100sp"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
-        android:src="@drawable/epictv_logo"
+        android:src="@drawable/img_epictv_logo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

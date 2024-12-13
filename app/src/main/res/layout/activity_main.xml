@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#222">
 
     <ImageView
         android:id="@+id/imageView2"
@@ -12,70 +14,113 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:src="@drawable/imagem_planos" />
+        android:src="@drawable/img_imagem_planos" />
 
     <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
+        android:id="@+id/textView4"
+        android:layout_width="330dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="160dp"
         android:gravity="center"
         android:text="@string/title_plans_page"
-        android:textColor="#fff"
-        android:textSize="20sp"
+        android:textColor="#FFFFFF"
+        android:textSize="25dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/imageView2" />
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteY="185dp" />
 
-    <FrameLayout
-        android:id="@+id/button_container"
-        android:layout_width="300dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/button_container_background"
-        android:layout_gravity="center"
-        app:layout_constraintTop_toBottomOf="@id/imageView2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:padding="8dp">
-
-            <Button
-                android:id="@+id/button_mensal"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:text="Mensal"
-                android:backgroundTint="@color/button_background_color_active"
-                android:textColor="@android:color/white"
-                android:layout_marginEnd="8dp"
-                android:layout_weight="1" />
-
-            <Button
-                android:id="@+id/button_anual"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:text="Anual"
-                android:backgroundTint="@color/button_background_color_inactive"
-                android:textColor="@android:color/white"
-                android:layout_weight="1" />
-        </LinearLayout>
-    </FrameLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_plans"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/button_container"
-        app:layout_constraintStart_toStartOf="parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginTop="16dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteY="384dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="Vários filmes e séries da atualidade."
+            android:textColor="#FFF" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="Partilhe momentos inesquecíveis!"
+            android:textColor="#FFF" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Diversão garantida para todos!"
+            android:textColor="#FFF" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="227dp"
+        android:layout_height="71dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteY="462dp">
+
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:background="@drawable/color_background_buttons_plan"
+            android:orientation="horizontal"
+            tools:ignore="ExtraText">
+
+            <RadioButton
+                android:id="@+id/radioMensal"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/color_button_left_plan"
+                android:button="@null"
+                android:gravity="center"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="8dp"
+                android:text="Mensal"
+                android:textColor="#FFFFFF" />
+
+            <RadioButton
+                android:id="@+id/radioAnual"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/color_button_right_plan"
+                android:button="@null"
+                android:gravity="center"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="8dp"
+                android:text="Anual"
+                android:textColor="#FFFFFF" />
+        </RadioGroup>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="413dp"
+        android:layout_height="114dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="533dp"
+        tools:ignore="MissingConstraints">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

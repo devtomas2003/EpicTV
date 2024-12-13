@@ -34,13 +34,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:src="@drawable/catalog_bg" />
+            android:src="@drawable/img_catalog_bg" />
 
         <View
             android:id="@+id/gradientBox"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@drawable/catalog_degrade"
+            android:background="@drawable/color_catalog_degrade"
             app:layout_constraintBottom_toTopOf="@+id/endOfGradient"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -112,19 +112,19 @@
             <View
                 android:layout_width="5dp"
                 android:layout_height="5dp"
-                android:background="@drawable/page_indicator_inactive"
+                android:background="@drawable/color_page_indicator_inactive"
                 android:layout_marginEnd="6dp">
             </View>
             <View
                 android:layout_width="5dp"
                 android:layout_height="5dp"
-                android:background="@drawable/page_indicator_active"
+                android:background="@drawable/color_page_indicator_active"
                 android:layout_marginEnd="6dp">
             </View>
             <View
                 android:layout_width="5dp"
                 android:layout_height="5dp"
-                android:background="@drawable/page_indicator_inactive"
+                android:background="@drawable/color_page_indicator_inactive"
                 >
             </View>
         </LinearLayout>
