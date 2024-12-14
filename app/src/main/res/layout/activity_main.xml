@@ -1,35 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="#222">
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:scaleType="centerCrop"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:src="@drawable/img_imagem_planos" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="370dp"
+        android:layout_marginBottom="20dp">
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:src="@drawable/img_imagem_planos" />
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="330dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/title_plans_page"
-        android:textColor="#FFFFFF"
-        android:textSize="25dp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteY="185dp" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_arrow_back"
+            android:layout_marginLeft="21dp"
+            android:layout_marginRight="21dp"
+            android:layout_marginTop="45dp"/>
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="330dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/title_plans_page"
+            android:textColor="#FFFFFF"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="185dp"/>
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -37,50 +51,84 @@
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteY="384dp">
+        android:layout_marginLeft="51dp">
 
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:text="Vários filmes e séries da atualidade."
-            android:textColor="#FFF" />
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:text="Partilhe momentos inesquecíveis!"
-            android:textColor="#FFF" />
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/icon_blue_check"/>
 
-        <TextView
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="Vários filmes e séries da atualidade."
+                android:textColor="#FFF"
+                android:textSize="18dp"
+                android:layout_marginLeft="2dp"/>
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Diversão garantida para todos!"
-            android:textColor="#FFF" />
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/icon_blue_check"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="Partilhe momentos inesquecíveis!"
+                android:textColor="#FFF"
+                android:textSize="18dp"
+                android:layout_marginLeft="2dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/icon_blue_check"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Diversão garantida para todos!"
+                android:textColor="#FFF"
+                android:textSize="18dp"
+                android:layout_marginLeft="2dp"/>
+        </LinearLayout>
     </LinearLayout>
 
+
     <LinearLayout
-        android:layout_width="227dp"
+        android:layout_width="match_parent"
         android:layout_height="71dp"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteY="462dp">
+        app:layout_constraintStart_toStartOf="parent">
 
         <RadioGroup
-            android:id="@+id/radioGroup"
+            android:id="@+id/radioGroup_button_plan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:background="@drawable/color_background_buttons_plan"
-            android:orientation="horizontal"
-            tools:ignore="ExtraText">
+            android:orientation="horizontal">
 
             <RadioButton
                 android:id="@+id/radioMensal"
-                android:layout_width="130dp"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="0dp"
                 android:layout_weight="1"
@@ -94,7 +142,7 @@
 
             <RadioButton
                 android:id="@+id/radioAnual"
-                android:layout_width="130dp"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="0dp"
                 android:layout_weight="1"
@@ -109,11 +157,10 @@
     </LinearLayout>
 
     <ScrollView
+        android:id="@+id/scrollview_plan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="521dp">
+        android:padding="16dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -122,8 +169,8 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:background="@drawable/color_select_plan_mensal"
                 android:orientation="vertical"
                 android:padding="16dp">
@@ -278,4 +325,178 @@
         </LinearLayout>
     </ScrollView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/color_select_plan_mensal"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/planexploradoranual"
+                    android:layout_width="346dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Explorador"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="346dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center"
+                    android:text="49.99€/mês"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="346dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:lineSpacingExtra="4dp"
+                    android:paddingLeft="10dp"
+                    android:text="● HD 720p - Imagem nítida e perfeita para descobrir novos conteúdos\n● Ideal para começar na plataforma\n● Conta somente para 1 utilizador"
+                    android:textColor="#FFFFFF"
+                    android:textSize="9sp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/plannavegadoranual"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/color_select_plan_mensal"
+                android:layout_marginTop="15dp"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="346dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Navegador"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="346dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center"
+                    android:text="89.99€/mês"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="346dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:lineSpacingExtra="4dp"
+                    android:paddingLeft="10dp"
+                    android:text="● Full HD 1080p – Imagens vibrantes e imersivas\n● Visualização de filmes offline\n● Conta partilhada até 2 utilizadores"
+                    android:textColor="#FFFFFF"
+                    android:textSize="9sp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/planconquistadoranual"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/color_select_plan_mensal"
+                android:layout_marginTop="15dp"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="346dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Conquistador"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="346dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center"
+                    android:text="129.99€/mês"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="346dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:lineSpacingExtra="4dp"
+                    android:paddingLeft="10dp"
+                    android:text="● 4K Ultra HD – Detalhes deslumbrantes para conquistar a tela.\n● Assista em tempo real com amigos\n● Visualização de filmes offline\n● Conta partilhada até 3 utilizadores"
+                    android:textColor="#FFFFFF"
+                    android:textSize="9sp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/planlendarioanual"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/color_select_plan_mensal"
+                android:layout_marginTop="15dp"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="346dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Lendário"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="346dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center"
+                    android:text="169.99€/mês"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="346dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:lineSpacingExtra="4dp"
+                    android:paddingLeft="10dp"
+                    android:text="● 4K Ultra HD – Detalhes deslumbrantes para conquistar a tela.\n● Assista em tempo real com amigos\n● Visualização de filmes offline\n● Conta partilhada até 3 utilizadores"
+                    android:textColor="#FFFFFF"
+                    android:textSize="9sp"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Os planos renovam-se automaticamente todos os meses, a menos que sejam cancelados com 30 dias de antecedência."
+        android:textSize="8dp"
+        android:gravity="center"/>
+</LinearLayout>

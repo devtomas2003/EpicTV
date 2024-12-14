@@ -1,6 +1,5 @@
 package pt.spacelabs.experience.epictv
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -10,7 +9,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
 
 class SignUp : ComponentActivity() {
-
     private val handler = Handler(Looper.getMainLooper())
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,11 +16,11 @@ class SignUp : ComponentActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.signup)
 
-        findViewById<Button>(R.id.criarconta).setOnClickListener {
-            val intent = Intent (this, Plan::class.java)
-            startActivity(intent)
-            finish()
-        }
+    findViewById<Button>(R.id.button_chooseplan).setOnClickListener {
+        val intent = Intent (this, Plan::class.java)
+        startActivity(intent)
+        finish()
     }
 
+    }
 }

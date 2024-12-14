@@ -34,6 +34,12 @@ class Welcome1 : ComponentActivity() {
             startActivity(intent)
             finish()
         }
+
+        findViewById<Button>(R.id.button_login).setOnClickListener {
+            val intent = Intent ( this, Login::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {

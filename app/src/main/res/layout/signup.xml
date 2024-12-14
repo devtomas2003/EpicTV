@@ -57,7 +57,7 @@
             <TextView
                 android:layout_width="37dp"
                 android:layout_height="wrap_content"
-                android:text="Email"
+                android:text="@string/title_input_signup1"
                 android:textColor="#FFFFFF"
                 android:layout_marginBottom="5dp"/>
 
@@ -91,7 +91,7 @@
             <TextView
                 android:layout_width="65dp"
                 android:layout_height="wrap_content"
-                android:text="Password"
+                android:text="@string/title_input_signup2"
                 android:textColor="#FFFFFF"
                 android:layout_marginBottom="5dp"/>
 
@@ -126,7 +126,7 @@
             <TextView
                 android:layout_width="113dp"
                 android:layout_height="wrap_content"
-                android:text="Repetir Password"
+                android:text="@string/title_input_signup3"
                 android:textColor="#FFFFFF"
                 android:layout_marginBottom="5dp"/>
 
@@ -160,7 +160,7 @@
             <TextView
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
-                android:text="Nome"
+                android:text="@string/title_input_signup4"
                 android:textColor="#FFFFFF"
                 android:layout_marginBottom="5dp"/>
 
@@ -194,7 +194,7 @@
             <TextView
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:text="Apelido"
+                android:text="@string/title_input_signup5"
                 android:textColor="#FFFFFF"
                 android:layout_marginBottom="5dp"/>
 
@@ -227,7 +227,7 @@
             android:layout_marginTop="2dp"
             android:layout_marginBottom="20dp"
             android:gravity="center"
-            android:text="O carácter * indica que o campo é de preenchimento obrigatório"
+            android:text="@string/required_field"
             android:textColor="#FFFFFF"
             android:textSize="8dp" />
 
@@ -235,7 +235,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
-            android:text="Ao criar conta, confirma que tem 18 anos ou mais, aceita os Termos de Utilização e declara que leu e compreendeu a nossa Política de Privacidade."
+            android:text="@string/terms_and_policies"
             android:textColor="#FFFFFF"
             android:textSize="11dp" />
 
@@ -253,13 +253,13 @@
                 android:layout_width="340dp"
                 android:layout_height="45dp"
                 android:layout_marginTop="-5dp"
-                android:text="Autorizo o envio de ofertas exclusivas, anúncios personalizados e atualizações sobre os conteúdos mais recentes disponíveis na EpicTV."
+                android:text="@string/authorization_signup"
                 android:textColor="#FFFFFF"
                 android:textSize="11dp" />
         </LinearLayout>
 
         <Button
-            android:id="@+id/criarconta"
+            android:id="@+id/button_chooseplan"
             android:layout_width="230dp"
             android:layout_height="35dp"
             android:layout_gravity="center_horizontal"

@@ -25,4 +25,12 @@
     <string name="title_activity_planos">Planos</string>
     <string name="title_plans_page">O melhor do entretenimento, onde e quando quiser!</string>
     <string name="title_activity_sign_up">SignUp</string>
+    <string name="title_input_signup1">Email</string>
+    <string name="title_input_signup2">Password</string>
+    <string name="title_input_signup3">Repetir Password</string>
+    <string name="title_input_signup4">Nome</string>
+    <string name="title_input_signup5">Apelido</string>
+    <string name="required_field">O carácter * indica que o campo é de preenchimento obrigatório</string>
+    <string name="terms_and_policies">Ao criar conta, confirma que tem 18 anos ou mais, aceita os Termos de Utilização e declara que leu e compreendeu a nossa Política de Privacidade.</string>
+    <string name="authorization_signup">Autorizo o envio de ofertas exclusivas, anúncios personalizados e atualizações sobre os conteúdos mais recentes disponíveis na EpicTV.</string>
 </resources>
