@@ -2,6 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -18,30 +19,31 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/icon_arrow_back"
-            android:layout_marginTop="5dp"/>
+            android:layout_marginTop="8dp"/>
 
         <TextView
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="8dp"
-            android:text="Criar Conta"
+            android:text="@string/btnCreateAccount"
             android:textColor="#FFFFFF"
             android:textSize="24sp"
             android:textStyle="bold"
-            android:layout_marginLeft="95dp"/>
+            android:layout_marginStart="95dp"/>
     </LinearLayout>
 
     <TextView
         android:id="@+id/subtitle"
         android:layout_width="307dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="50sp"
+        android:layout_marginStart="50sp"
         android:gravity="center"
         android:paddingBottom="16dp"
-        android:text="Assiste aos teus filmes e séries favoritos em qualquer lugar"
+        android:text="@string/startWatching_signup"
         android:textColor="#CCCCCC"
         android:textSize="14sp"/>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -50,176 +52,175 @@
         android:layout_marginRight="21dp"
         android:orientation="vertical">
 
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-
             <TextView
-                android:layout_width="37dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Email"
+                android:text="@string/name_lbl"
                 android:textColor="#FFFFFF"
                 android:layout_marginBottom="5dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="*"
+                android:text="@string/required_char"
                 android:textColor="#f37903"/>
         </LinearLayout>
 
-        <LinearLayout
+        <EditText
+            android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:padding="12dp"
             android:layout_marginBottom="12dp"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:background="@drawable/inputbox"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp" />
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/inp_mail"
+                android:textColor="#FFFFFF"
+                android:layout_marginBottom="5dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/required_char"
+                android:textColor="#f37903"/>
+        </LinearLayout>
+        
             <EditText
                 android:id="@+id/email"
+                android:layout_marginBottom="12dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="12dp"
+                android:inputType="textEmailAddress"
                 android:background="@drawable/inputbox"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp" />
-        </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <TextView
-                android:layout_width="65dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Password"
+                android:text="@string/inp_password"
                 android:textColor="#FFFFFF"
                 android:layout_marginBottom="5dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="*"
+                android:text="@string/required_char"
                 android:textColor="#f37903"/>
 
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:gravity="center"
-            android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/pass"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textPassword"
                 android:padding="12dp"
+                android:layout_marginBottom="12dp"
                 android:background="@drawable/inputbox"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp" />
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <TextView
-                android:layout_width="113dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Repetir Password"
+                android:text="@string/repeat_pass_lbl"
                 android:textColor="#FFFFFF"
                 android:layout_marginBottom="5dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="*"
+                android:text="@string/required_char"
                 android:textColor="#f37903"/>
         </LinearLayout>
 
-        <LinearLayout
+        <EditText
+            android:id="@+id/reppass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="12dp"
             android:layout_marginBottom="12dp"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/reppass"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="12dp"
-                android:background="@drawable/inputbox"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp" />
-        </LinearLayout>
+            android:inputType="textPassword"
+            android:background="@drawable/inputbox"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <TextView
-                android:layout_width="40dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Nome"
+                android:text="@string/profile_name"
                 android:textColor="#FFFFFF"
                 android:layout_marginBottom="5dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="*"
+                android:text="@string/required_char"
                 android:textColor="#f37903"/>
         </LinearLayout>
 
-        <LinearLayout
+        <EditText
+            android:id="@+id/nickname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:background="@drawable/inputbox"
             android:layout_marginBottom="12dp"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="12dp"
-                android:background="@drawable/inputbox"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp" />
-        </LinearLayout>
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <TextView
-                android:layout_width="50dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Apelido"
+                android:text="@string/phone_number_lbl"
                 android:textColor="#FFFFFF"
                 android:layout_marginBottom="5dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="*"
+                android:text="@string/required_char"
                 android:textColor="#f37903"/>
         </LinearLayout>
 
-        <LinearLayout
+        <EditText
+            android:id="@+id/phoneinp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/nickname"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="12dp"
-                android:background="@drawable/inputbox"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp"/>
-        </LinearLayout>
+            android:inputType="phone"
+            android:padding="12dp"
+            android:background="@drawable/inputbox"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"/>
 
         <TextView
             android:layout_width="370dp"
@@ -227,17 +228,17 @@
             android:layout_marginTop="2dp"
             android:layout_marginBottom="20dp"
             android:gravity="center"
-            android:text="O carácter * indica que o campo é de preenchimento obrigatório"
+            android:text="@string/required_fields"
             android:textColor="#FFFFFF"
-            android:textSize="8dp" />
+            android:textSize="10sp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
-            android:text="Ao criar conta, confirma que tem 18 anos ou mais, aceita os Termos de Utilização e declara que leu e compreendeu a nossa Política de Privacidade."
+            android:text="@string/underage_warning"
             android:textColor="#FFFFFF"
-            android:textSize="11dp" />
+            android:textSize="11sp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -253,9 +254,9 @@
                 android:layout_width="340dp"
                 android:layout_height="45dp"
                 android:layout_marginTop="-5dp"
-                android:text="Autorizo o envio de ofertas exclusivas, anúncios personalizados e atualizações sobre os conteúdos mais recentes disponíveis na EpicTV."
+                android:text="@string/legal_lbl"
                 android:textColor="#FFFFFF"
-                android:textSize="11dp" />
+                android:textSize="11sp" />
         </LinearLayout>
 
         <Button
@@ -264,7 +265,7 @@
             android:layout_height="35dp"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/btn_border_orange"
-            android:text="Criar Conta"
+            android:text="@string/btnCreateAccount"
             android:textColor="#FFFFFF"
             android:textStyle="bold"/>
 

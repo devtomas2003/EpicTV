@@ -1,13 +1,23 @@
 package pt.spacelabs.experience.epictv
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Base64
 import android.view.MotionEvent
 import android.widget.Button
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
+import com.android.volley.RequestQueue
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
+import org.json.JSONException
+import org.json.JSONObject
+import pt.spacelabs.experience.epictv.utils.Constants
+import pt.spacelabs.experience.epictv.utils.DBHelper
 import kotlin.math.abs
 
 class Welcome1 : ComponentActivity() {
@@ -27,12 +37,65 @@ class Welcome1 : ComponentActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.welcome1)
 
-        handler.postDelayed(navigateRunnable, 5000)
+        if(DBHelper(this).getConfig("token") != "none"){
+            val requestQueue: RequestQueue = Volley.newRequestQueue(this)
 
-        findViewById<Button>(R.id.button_aderir).setOnClickListener {
-            val intent = Intent (this, SignUp::class.java)
-            startActivity(intent)
-            finish()
+            val stringRequest = object : StringRequest(
+                Method.GET,
+                Constants.baseURL + "/checkAuth",
+                Response.Listener { response ->
+                    try {
+                        val jsonObject = JSONObject(response)
+                        val status = jsonObject.getString("message")
+                        if(status == "ok"){
+                            val intent = Intent(this, Catalog::class.java)
+                            startActivity(intent)
+                            finish()
+                        }
+                    } catch (e: JSONException) {
+                        AlertDialog.Builder(this)
+                            .setTitle("Falha de ligação")
+                            .setMessage("Ocorreu um erro com a resposta do servidor!")
+                            .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
+                            .create()
+                            .show()
+                    }
+                },
+                Response.ErrorListener { error ->
+                    try {
+                        val errorResponse = String(error.networkResponse.data, Charsets.UTF_8)
+                        val errorObject = JSONObject(errorResponse)
+                        if(errorObject.has("message")){
+                            DBHelper(this).clearConfig("token");
+                        }
+                    } catch (e: Exception) {  }
+                }
+            ) {
+                override fun getHeaders(): Map<String, String> {
+                    val headers = HashMap<String, String>()
+                    val auth = "Bearer " + DBHelper(this@Welcome1).getConfig("token")
+                    headers["Authorization"] = auth
+                    return headers
+                }
+                override fun getBodyContentType(): String {
+                    return "text/plain; charset=UTF-8"
+                }
+            }
+
+            requestQueue.add(stringRequest)
+        }else{
+            handler.postDelayed(navigateRunnable, 5000)
+            findViewById<Button>(R.id.button_aderir).setOnClickListener {
+                val intent = Intent (this, Plans::class.java)
+                startActivity(intent)
+                finish()
+            }
+
+            findViewById<Button>(R.id.button_login).setOnClickListener {
+                val intent = Intent (this, Login::class.java)
+                startActivity(intent)
+                finish()
+            }
         }
     }
 

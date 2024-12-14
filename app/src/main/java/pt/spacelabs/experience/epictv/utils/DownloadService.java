@@ -134,7 +134,7 @@ public class DownloadService extends Service {
                     }
                 }
                 DBHelper dbh = new DBHelper(this);
-                dbh.createOfflinePlayback("spider");
+                //dbh.createOfflinePlayback("spider");
                 showNotification("Download Complete", "All files downloaded.", 100);
             } catch (Exception e) {
                 Log.e(TAG, "Download process failed", e);

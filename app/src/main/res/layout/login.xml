@@ -26,7 +26,7 @@
         android:orientation="vertical">
 
         <EditText
-            android:id="@+id/editTextText"
+            android:id="@+id/inpMail"
             android:layout_width="330dp"
             android:layout_height="48dp"
             android:layout_gravity="center_horizontal"
@@ -39,7 +39,7 @@
             android:textColorHint="#fff" />
 
         <EditText
-            android:id="@+id/editTextTextPassword"
+            android:id="@+id/inpPass"
             android:layout_width="330dp"
             android:layout_height="48dp"
             android:layout_gravity="center_horizontal"

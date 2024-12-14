@@ -21,11 +21,13 @@
             android:name=".SignUp"
             android:exported="false"
             android:label="@string/title_activity_sign_up"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.EpicTV" />
         <activity
-            android:name=".Planos"
+            android:name=".Plans"
             android:exported="false"
             android:label="@string/title_activity_planos"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.EpicTV" />
         <activity
             android:name=".Welcome3"

@@ -33,8 +33,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:contentDescription="Testing" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <View
             android:id="@+id/gradientBox"
@@ -50,7 +49,7 @@
             android:id="@+id/opacity"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="#80444444"
+            android:background="#80222222"
             app:layout_constraintBottom_toTopOf="@+id/endOfGradient"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"

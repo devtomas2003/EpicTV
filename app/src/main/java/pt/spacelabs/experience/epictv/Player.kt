@@ -2,6 +2,7 @@ package pt.spacelabs.experience.epictv
 
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
@@ -15,6 +16,7 @@ import androidx.media3.datasource.DefaultHttpDataSource
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.hls.HlsMediaSource
 import androidx.media3.ui.PlayerView
+import pt.spacelabs.experience.epictv.utils.Constants
 import pt.spacelabs.experience.epictv.utils.DBHelper
 import java.io.File
 
@@ -25,6 +27,7 @@ class Player : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         setContentView(R.layout.player)
 
@@ -33,27 +36,31 @@ class Player : ComponentActivity() {
 
         playerItem.player = player
 
-
-
         val dbHelper = DBHelper(this)
 
-        if(dbHelper.checkPlaybackPresence("spider")){
-            val manifestPath = "$filesDir/stream_0.m3u8"
-            val uri = Uri.fromFile(File(manifestPath))
+        //if(dbHelper.checkPlaybackPresence("spider")){
+        //    val manifestPath = "$filesDir/stream_0.m3u8"
+        //    val uri = Uri.fromFile(File(manifestPath))
+//
+        //    val dataSourceFactory: DataSource.Factory = DefaultDataSource.Factory(this)
+//
+        //    // Use a local HLS Media Source
+        //    val mediaItem = MediaItem.fromUri(uri)
+        //    val hlsMediaSource = HlsMediaSource.Factory(dataSourceFactory).createMediaSource(mediaItem)
+//
+        //    player.setMediaSource(hlsMediaSource)
+        //}else{
+            val headers = mapOf(
+                "Authorization" to "Bearer " + DBHelper(this).getConfig("token")
+            )
+            val httpDataSourceFactory = DefaultHttpDataSource.Factory()
+            .setDefaultRequestProperties(headers)
 
-            val dataSourceFactory: DataSource.Factory = DefaultDataSource.Factory(this)
-
-            // Use a local HLS Media Source
-            val mediaItem = MediaItem.fromUri(uri)
+        val dataSourceFactory: DataSource.Factory = DefaultDataSource.Factory(this, httpDataSourceFactory)
+            val mediaItem = MediaItem.fromUri( Constants.contentURLPrivate + intent.getStringExtra("manifestName") + "/master.m3u8")
             val hlsMediaSource = HlsMediaSource.Factory(dataSourceFactory).createMediaSource(mediaItem)
-
             player.setMediaSource(hlsMediaSource)
-        }else{
-            val dataSourceFactory = DefaultHttpDataSource.Factory()
-            val mediaItem = MediaItem.fromUri("https://vis-ipv-cda.epictv.spacelabs.pt/spider/master.m3u8")
-            val hlsMediaSource = HlsMediaSource.Factory(dataSourceFactory).createMediaSource(mediaItem)
-            player.setMediaSource(hlsMediaSource)
-        }
+        //}
 
 
 
@@ -93,7 +100,6 @@ class Player : ComponentActivity() {
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
-        // Re-enter immersive mode when the window gains focus
         if (hasFocus) {
             enterImmersiveMode()
         }

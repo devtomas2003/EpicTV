@@ -1,6 +1,5 @@
 package pt.spacelabs.experience.epictv
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -19,10 +18,12 @@ class SignUp : ComponentActivity() {
         setContentView(R.layout.signup)
 
         findViewById<Button>(R.id.criarconta).setOnClickListener {
-            val intent = Intent (this, Plan::class.java)
+            val intent = Intent (this, Plans::class.java)
             startActivity(intent)
             finish()
         }
+
+
     }
 
 }

@@ -17,7 +17,8 @@ import com.android.volley.toolbox.Volley
 
 import com.squareup.picasso.Picasso
 import org.json.JSONObject
-import pt.spacelabs.experience.epictv.entities.Content
+import pt.spacelabs.experience.epictv.entitys.CatalogContent
+import pt.spacelabs.experience.epictv.utils.Constants
 
 class Catalog : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -32,32 +33,27 @@ class Catalog : AppCompatActivity() {
         val startMovieBtn = findViewById<Button>(R.id.startMovieBtn)
 
         val queue = Volley.newRequestQueue(this)
-        val urlApi = "https://api-master.epictv.spacelabs.pt/v1/"
-        val urlContent = "https://vis-ipv-cda.epictv.spacelabs.pt/public/"
 
-        val getRandomContent = StringRequest(Request.Method.GET, urlApi + "getRandomContent", { response ->
+        val getRandomContent = StringRequest(Request.Method.GET, Constants.baseURL + "/getRandomContent", { response ->
             val contentObject = JSONObject(response)
 
-            val content = Content().apply {
-                name = contentObject.getString("name")
-                description = contentObject.getString("description")
-                friendlyName = contentObject.getString("friendlyName")
-                poster = contentObject.getString("poster")
-                miniPoster = contentObject.getString("miniPoster")
-            }
-
-            movieDescription.text = content.description
-
+            movieDescription.text = contentObject.getString("description")
 
             Picasso.with(this)
-                .load(urlContent + content.miniPoster)
+                .load(Constants.contentURLPublic + contentObject.getString("miniPoster"))
                 .into(movieLogo)
 
             Picasso.with(this)
-                .load(urlContent + content.poster)
+                .load(Constants.contentURLPublic + contentObject.getString("poster"))
                 .fit()
                 .centerCrop()
                 .into(bgImage)
+
+            startMovieBtn.setOnClickListener {
+                val intent = Intent (this, Player::class.java)
+                intent.putExtra("manifestName", contentObject.getString("manifestName"))
+                startActivity(intent)
+            }
 
         },
             { error ->
@@ -67,15 +63,6 @@ class Catalog : AppCompatActivity() {
                     .show()
             })
 
-        startMovieBtn.setOnClickListener {
-            val intent = Intent (this, Player::class.java)
-            startActivity(intent)
-        }
-
         queue.add(getRandomContent);
     }
-
-    val asd = setOf("sda", "sdfsfg")
-
-    
 }

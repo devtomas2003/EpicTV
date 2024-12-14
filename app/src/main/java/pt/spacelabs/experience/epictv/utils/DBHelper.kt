@@ -1,50 +1,58 @@
 package pt.spacelabs.experience.epictv.utils;
 
-import android.content.ContentValues;
-import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
+import android.content.ContentValues
+import android.content.Context
+import android.database.sqlite.SQLiteDatabase
+import android.database.sqlite.SQLiteOpenHelper
 
-public class DBHelper extends SQLiteOpenHelper {
-    public static final String DBName = "epictv.db";
+class DBHelper(context: Context?) :
+    SQLiteOpenHelper(context, DBName, null, 1) {
 
-    public DBHelper(Context context) {
-        super(context, DBName, null, 1);
+    override fun onCreate(epicTV: SQLiteDatabase) {
+        epicTV.execSQL("CREATE TABLE configs(configType TEXT PRIMARY KEY, value TEXT)")
     }
 
-    @Override
-    public void onCreate(SQLiteDatabase epictvDB) {
-        epictvDB.execSQL("CREATE TABLE offlinePlayback(contentId TEXT PRIMARY KEY, downloadDone INTEGER)");
+    override fun onUpgrade(epicTV: SQLiteDatabase, i: Int, i1: Int) {
+        epicTV.execSQL("DROP TABLE IF EXISTS configs")
     }
 
-    @Override
-    public void onUpgrade(SQLiteDatabase epictvDB, int i, int i1) {
-        epictvDB.execSQL("DROP TABLE IF EXISTS offlinePlayback");
+    fun createConfig(configType: String?, value: String?) {
+        val epicTV = this.writableDatabase
+        val contentValues = ContentValues()
+        contentValues.put("configType", configType)
+        contentValues.put("value", value)
+        epicTV.insert("configs", null, contentValues)
     }
 
-    public void createOfflinePlayback(String contentId){
-        SQLiteDatabase epictvDB = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("contentId", contentId);
-        contentValues.put("downloadDone", 1);
-        long result = epictvDB.insert("offlinePlayback", null, contentValues);
-    }
+    fun getConfig(configType: String): String {
+        val epicTV = this.readableDatabase
+        val cursor = epicTV.rawQuery(
+            "SELECT * FROM configs WHERE configType = ?",
+            arrayOf(configType)
+        )
 
-    public boolean checkPlaybackPresence(String contentId){
-        SQLiteDatabase epictvDB = this.getReadableDatabase();
-        Cursor cursor = epictvDB.rawQuery("SELECT * FROM offlinePlayback WHERE contentId = ?", new String[] { contentId });
-
-        if(cursor.getCount() == 1){
-            cursor.close();
-            return true;
+        var result = "none"
+        if (cursor.moveToFirst()) {
+            result = cursor.getString(cursor.getColumnIndexOrThrow("value"))
         }
-        cursor.close();
-        return false;
+
+        cursor.close()
+        return result
     }
 
-    public void clearOfflinePlaybackCache(String contentId){
-        SQLiteDatabase epictvDB = this.getWritableDatabase();
-        epictvDB.execSQL("DELETE FROM offlinePlayback WHERE contentId = ?", new String[] { contentId });
+    fun updateConfig(configType: String, value: String) {
+        val epicTV = this.readableDatabase
+        val con = ContentValues()
+        con.put("value", value)
+        epicTV.update("configs", con, "configType = ?", arrayOf(configType))
+    }
+
+    fun clearConfig(configType: String) {
+        val epicTV = this.writableDatabase
+        epicTV.execSQL("DELETE FROM configs WHERE configType = ?", arrayOf(configType))
+    }
+
+    companion object {
+        const val DBName: String = "epictv.db"
     }
 }
