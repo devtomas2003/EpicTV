@@ -18,6 +18,26 @@
         android:theme="@style/Theme.EpicTV"
         tools:targetApi="31">
         <activity
+            android:name=".AddGiftCard"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.EpicTV" />
+        <activity
+            android:name=".ConfirmSubscription"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.EpicTV" />
+        <activity
+            android:name=".AddCreditCard"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.EpicTV" />
+        <activity
+            android:name=".PayMethod"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.EpicTV" />
+        <activity
             android:name=".SignUp"
             android:exported="false"
             android:label="@string/title_activity_sign_up"
@@ -32,13 +52,11 @@
         <activity
             android:name=".Welcome3"
             android:exported="false"
-            android:label="@string/title_activity_welcome3"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.EpicTV" />
         <activity
             android:name=".Welcome2"
             android:exported="false"
-            android:label="@string/title_activity_welcome2"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.EpicTV" />
         <activity

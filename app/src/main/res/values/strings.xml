@@ -17,8 +17,6 @@
     <string name="welcome2_slogan">Diversão ajustada à tua carteira.</string>
     <string name="Welcome3MainText">Onde cada momento é épico!</string>
     <string name="welcome3_slogan">Vários filmes e séries da atualidade.</string>
-    <string name="title_activity_welcome2">Welcome2</string>
-    <string name="title_activity_welcome3">Welcome3</string>
     <string name="title_activity_planos">Planos</string>
     <string name="title_plans_page">O melhor do entretenimento, onde e quando quiser!</string>
     <string name="title_activity_sign_up">SignUp</string>
@@ -42,5 +40,4 @@
     <string name="q4k_lbl">4K Ultra HD – Detalhes deslumbrantes para conquistar a tela.</string>
     <string name="watch_offline">Visualização de filmes offline</string>
     <string name="watch_2_lbl">Assista em tempo real com amigos</string>
-    <string name="title_activity_list_update">ListUpdate</string>
 </resources>
