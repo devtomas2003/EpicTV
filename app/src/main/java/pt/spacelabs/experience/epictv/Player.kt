@@ -27,9 +27,10 @@ class Player : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        setContentView(R.layout.player)
 
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-        setContentView(R.layout.player)
+        window.addFlags(WindowManager.LayoutParams.FLAG_SECURE);
 
         player = ExoPlayer.Builder(this).build()
         val playerItem = findViewById<PlayerView>(R.id.playerItem)

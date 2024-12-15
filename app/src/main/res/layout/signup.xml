@@ -19,13 +19,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/icon_arrow_back"
-            android:layout_marginTop="8dp"/>
+            android:layout_marginTop="4dp"/>
 
         <TextView
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="8dp"
             android:text="@string/btnCreateAccount"
             android:textColor="#FFFFFF"
             android:textSize="24sp"
@@ -38,8 +37,8 @@
         android:layout_width="307dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="50sp"
+        android:layout_marginTop="10dp"
         android:gravity="center"
-        android:paddingBottom="16dp"
         android:text="@string/startWatching_signup"
         android:textColor="#CCCCCC"
         android:textSize="14sp"/>
@@ -50,6 +49,7 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="21dp"
         android:layout_marginRight="21dp"
+        android:layout_marginTop="10dp"
         android:orientation="vertical">
 
 

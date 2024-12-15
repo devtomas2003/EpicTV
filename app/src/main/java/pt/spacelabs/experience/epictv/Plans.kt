@@ -1,6 +1,7 @@
 package pt.spacelabs.experience.epictv
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.Window
@@ -26,6 +27,7 @@ import pt.spacelabs.experience.epictv.utils.Constants
 class Plans : AppCompatActivity() {
 
     private var selectedOption: String = "Mensal"
+    private var planIdSelected: String = "";
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,10 +69,12 @@ class Plans : AppCompatActivity() {
                     }
 
                     val adapter = PlanAdapter(plansList, selectedOption){ selectedPlan ->
-                        if (selectedPlan!!) {
+                        if (selectedPlan != null) {
+                            planIdSelected = selectedPlan.id
                             btnGoPay.isEnabled = true
                             btnGoPay.setBackgroundResource(R.drawable.main_orange)
                         } else {
+                            planIdSelected = ""
                             btnGoPay.isEnabled = false
                             btnGoPay.setBackgroundResource(R.drawable.btn_disable)
                         }
@@ -110,5 +114,22 @@ class Plans : AppCompatActivity() {
         )
 
         requestQueue.add(requestPlans)
+
+        findViewById<Button>(R.id.btnGoPay).setOnClickListener {
+            if(planIdSelected == ""){
+                AlertDialog.Builder(this)
+                    .setTitle("Selação do plano")
+                    .setMessage("Por favor, seleciona um plano!")
+                    .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
+                    .create()
+                    .show()
+            }else{
+                val intent = Intent(this, SignUp::class.java)
+                intent.putExtra("planId", planIdSelected);
+                startActivity(intent)
+                finish()
+            }
+
+        }
     }
 }

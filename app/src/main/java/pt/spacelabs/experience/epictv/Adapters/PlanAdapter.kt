@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import pt.spacelabs.experience.epictv.R
 import pt.spacelabs.experience.epictv.entitys.Plan
 
-class PlanAdapter(private val planList: List<Plan>, private var selectedOption: String, private val onPlanSelected: (Boolean?) -> Unit) :
+class PlanAdapter(private val planList: List<Plan>, private var selectedOption: String, private val onPlanSelected: (Plan?) -> Unit) :
     RecyclerView.Adapter<PlanAdapter.PlanViewHolder>() {
 
     private val filteredPlanList = mutableListOf<Plan>()
@@ -35,7 +35,7 @@ class PlanAdapter(private val planList: List<Plan>, private var selectedOption: 
         updateFilteredList()
         selectedPosition = -1
         notifyDataSetChanged()
-        onPlanSelected(false)
+        onPlanSelected(null)
     }
 
     private fun updateFilteredList() {
@@ -84,7 +84,7 @@ class PlanAdapter(private val planList: List<Plan>, private var selectedOption: 
 
             notifyItemChanged(previousPosition)
             notifyItemChanged(selectedPosition)
-            onPlanSelected(true)
+            onPlanSelected(plan)
         }
     }
 
