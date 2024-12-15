@@ -18,7 +18,7 @@ class SignUp : ComponentActivity() {
         setContentView(R.layout.signup)
 
         findViewById<Button>(R.id.criarconta).setOnClickListener {
-            val intent = Intent (this, Plans::class.java)
+            val intent = Intent (this, PayMethod::class.java)
             startActivity(intent)
             finish()
         }
