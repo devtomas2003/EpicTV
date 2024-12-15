@@ -8,6 +8,6 @@ data class Plan (
     val qtdProfiles: Int,
     val haveDownloads: Boolean,
     val haveWatchShare: Boolean,
-    val valueMonthly: Double,
-    val valueYearly: Double
+    val value: Double,
+    val isYearly: Boolean
 )

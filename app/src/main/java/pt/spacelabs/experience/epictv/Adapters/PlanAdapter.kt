@@ -12,8 +12,14 @@ import androidx.recyclerview.widget.RecyclerView
 import pt.spacelabs.experience.epictv.R
 import pt.spacelabs.experience.epictv.entitys.Plan
 
-class PlanAdapter(private val planList: List<Plan>) :
+class PlanAdapter(private val planList: List<Plan>, private var selectedOption: String) :
     RecyclerView.Adapter<PlanAdapter.PlanViewHolder>() {
+
+    private val filteredPlanList = mutableListOf<Plan>()
+
+    init {
+        updateFilteredList()
+    }
 
     inner class PlanViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val planName: TextView = view.findViewById(R.id.planName)
@@ -26,6 +32,21 @@ class PlanAdapter(private val planList: List<Plan>) :
         val watch2Gether: LinearLayout = view.findViewById(R.id.watch2Gether)
     }
 
+    fun updateOption(newOption: String) {
+        selectedOption = newOption
+        updateFilteredList()
+        notifyDataSetChanged()
+    }
+
+    private fun updateFilteredList() {
+        filteredPlanList.clear()
+        filteredPlanList.addAll(
+            planList.filter { plan ->
+                (selectedOption == "Mensal" && !plan.isYearly) || (selectedOption == "Anual" && plan.isYearly)
+            }
+        )
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlanViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.plan_item, parent, false)
@@ -33,39 +54,24 @@ class PlanAdapter(private val planList: List<Plan>) :
     }
 
     override fun onBindViewHolder(holder: PlanViewHolder, position: Int) {
-        val plan = planList[position]
-
-        Log.d("Testing", plan.name)
+        val plan = filteredPlanList[position]
 
         holder.planName.text = plan.name
-        holder.planPrice.text = plan.valueMonthly.toString() + " €";
+        holder.planPrice.text = plan.value.toString() + " €"
 
-        if(!plan.haveWatchShare){
-            holder.watch2Gether.visibility = View.GONE;
+        holder.watch2Gether.visibility = if (plan.haveWatchShare) View.VISIBLE else View.GONE
+        holder.haveDownloads.visibility = if (plan.haveDownloads) View.VISIBLE else View.GONE
+
+        holder.maxProfiles.text = if (plan.qtdProfiles > 1) {
+            "Conta partilhada até ${plan.qtdProfiles} utilizadores"
+        } else {
+            "Conta com 1 utilizador"
         }
 
-        if(!plan.haveDownloads){
-            holder.haveDownloads.visibility = View.GONE;
-        }
-
-        if(plan.qtdProfiles > 1){
-            holder.maxProfiles.text = "Conta partilhada até " + plan.qtdProfiles + " utilizadores";
-        }else{
-            holder.maxProfiles.text = "Conta com 1 utilizador";
-        }
-
-        if(!plan.have4k){
-            holder.plan4k.visibility = View.GONE
-        }
-
-        if(!plan.have1080 or plan.have4k){
-            holder.plan1080p.visibility = View.GONE
-        }
-
-        if(plan.have1080 or plan.have4k){
-            holder.plan720p.visibility = View.GONE
-        }
+        holder.plan4k.visibility = if (plan.have4k) View.VISIBLE else View.GONE
+        holder.plan1080p.visibility = if (plan.have1080 && !plan.have4k) View.VISIBLE else View.GONE
+        holder.plan720p.visibility = if (!plan.have1080 && !plan.have4k) View.VISIBLE else View.GONE
     }
 
-    override fun getItemCount(): Int = planList.size
+    override fun getItemCount(): Int = filteredPlanList.size
 }

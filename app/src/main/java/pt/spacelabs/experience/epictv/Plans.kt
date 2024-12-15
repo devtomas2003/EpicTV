@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.graphics.Color
 import android.os.Bundle
 import android.view.Window
+import android.widget.RadioGroup
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,6 +14,7 @@ import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import kotlinx.coroutines.selects.select
 import org.json.JSONArray
 import org.json.JSONException
 import pt.spacelabs.experience.epictv.Adapters.PlanAdapter
@@ -21,6 +23,8 @@ import pt.spacelabs.experience.epictv.utils.Constants
 
 
 class Plans : AppCompatActivity() {
+
+    private var selectedOption: String = "Mensal"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +38,8 @@ class Plans : AppCompatActivity() {
         val listRCPlans = findViewById<RecyclerView>(R.id.rvPlans);
         listRCPlans.layoutManager = LinearLayoutManager(this)
         listRCPlans.isNestedScrollingEnabled = false
+
+
 
         val requestQueue: RequestQueue = Volley.newRequestQueue(this)
 
@@ -54,14 +60,22 @@ class Plans : AppCompatActivity() {
                                 qtdProfiles = planData.getInt("qtdProfiles"),
                                 haveDownloads = planData.getBoolean("haveDownloads"),
                                 haveWatchShare = planData.getBoolean("haveWatchShare"),
-                                valueMonthly = planData.getDouble("valueMonthly"),
-                                valueYearly = planData.getDouble("valueYearly")
+                                value = planData.getDouble("value"),
+                                isYearly = planData.getBoolean("isYearly")
                             )
                             plansList.add(course)
                     }
 
-                    val adapter = PlanAdapter(plansList)
+                    val adapter = PlanAdapter(plansList, selectedOption)
                     listRCPlans.adapter = adapter
+                    findViewById<RadioGroup>(R.id.planPricing).setOnCheckedChangeListener { _,checkedId ->
+                        selectedOption = when (checkedId){
+                            R.id.radioMensal -> "Mensal"
+                            R.id.radioAnual -> "Anual"
+                            else -> selectedOption
+                        }
+                        (listRCPlans.adapter as? PlanAdapter)?.updateOption(selectedOption)
+                    }
                 } catch (e: JSONException) {
                     AlertDialog.Builder(this)
                         .setTitle("Falha de ligação")

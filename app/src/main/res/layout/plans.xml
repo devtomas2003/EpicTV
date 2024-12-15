@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#222">
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#000">
 
     <ImageView
         android:id="@+id/imageView2"
@@ -19,6 +19,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:src="@drawable/img_imagem_planos" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="21dp"
+        android:layout_marginTop="40dp"
+        android:src="@drawable/icon_arrow_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView4"
@@ -31,9 +40,10 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/imageView2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.612" />
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -50,9 +60,10 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/icon_blue_check" />
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@drawable/icon_blue_check"
+                android:layout_marginTop="3dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -69,9 +80,10 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/icon_blue_check" />
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@drawable/icon_blue_check"
+                android:layout_marginTop="3dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -88,9 +100,10 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/icon_blue_check" />
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@drawable/icon_blue_check"
+                android:layout_marginTop="3dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -104,14 +117,14 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="227dp"
+        android:layout_width="290dp"
         android:layout_height="71dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
 
         <RadioGroup
-            android:id="@+id/radioGroup"
+            android:id="@+id/planPricing"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
@@ -120,7 +133,7 @@
 
             <RadioButton
                 android:id="@+id/radioMensal"
-                android:layout_width="130dp"
+                android:layout_width="160dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="0dp"
                 android:layout_weight="1"
@@ -135,7 +148,7 @@
 
             <RadioButton
                 android:id="@+id/radioAnual"
-                android:layout_width="130dp"
+                android:layout_width="160dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="0dp"
                 android:layout_weight="1"
