@@ -40,4 +40,5 @@
     <string name="q4k_lbl">4K Ultra HD – Detalhes deslumbrantes para conquistar a tela.</string>
     <string name="watch_offline">Visualização de filmes offline</string>
     <string name="watch_2_lbl">Assista em tempo real com amigos</string>
+    <string name="plan_renewal_policy">Os planos renovam-se automaticamente todos os meses, a menos que sejam cancelados com 30 dias de antecedência.</string>
 </resources>

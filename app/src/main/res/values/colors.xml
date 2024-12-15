@@ -4,4 +4,5 @@
     <color name="button_background_color_inactive">#333336</color>
     <color name="app_color">#000</color>
     <color name="white">#FFF</color>
+    <color name="black">#000</color>
 </resources>
