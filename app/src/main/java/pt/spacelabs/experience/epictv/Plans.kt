@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.graphics.Color
 import android.os.Bundle
 import android.view.Window
+import android.widget.Button
 import android.widget.RadioGroup
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -35,11 +36,10 @@ class Plans : AppCompatActivity() {
         window.setNavigationBarColor(getResources().getColor(R.color.app_color))
 
         var plansList = mutableListOf<Plan>()
-        val listRCPlans = findViewById<RecyclerView>(R.id.rvPlans);
+        val listRCPlans = findViewById<RecyclerView>(R.id.rvPlans)
+        val btnGoPay = findViewById<Button>(R.id.btnGoPay)
         listRCPlans.layoutManager = LinearLayoutManager(this)
         listRCPlans.isNestedScrollingEnabled = false
-
-
 
         val requestQueue: RequestQueue = Volley.newRequestQueue(this)
 
@@ -66,7 +66,15 @@ class Plans : AppCompatActivity() {
                             plansList.add(course)
                     }
 
-                    val adapter = PlanAdapter(plansList, selectedOption)
+                    val adapter = PlanAdapter(plansList, selectedOption){ selectedPlan ->
+                        if (selectedPlan!!) {
+                            btnGoPay.isEnabled = true
+                            btnGoPay.setBackgroundResource(R.drawable.main_orange)
+                        } else {
+                            btnGoPay.isEnabled = false
+                            btnGoPay.setBackgroundResource(R.drawable.btn_disable)
+                        }
+                    }
                     listRCPlans.adapter = adapter
                     findViewById<RadioGroup>(R.id.planPricing).setOnCheckedChangeListener { _,checkedId ->
                         selectedOption = when (checkedId){

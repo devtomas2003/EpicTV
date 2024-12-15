@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/color_select_plan_mensal"
+    android:background="@drawable/plan_selector_border_cyan"
     android:orientation="vertical"
     android:layout_marginTop="15dp"
     android:padding="16dp"

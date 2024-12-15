@@ -40,7 +40,7 @@
             android:id="@+id/gradientBox"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@drawable/color_catalog_degrade"
+            android:background="@drawable/degrade"
             app:layout_constraintBottom_toTopOf="@+id/endOfGradient"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -79,7 +79,7 @@
             android:layout_weight="1"
             android:textSize="14sp"
             android:text="@string/aderir_lbl"
-            android:background="@drawable/btn_border_orange"
+            android:background="@drawable/main_orange"
             android:textColor="#fff"
             android:layout_marginTop="25dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -95,7 +95,7 @@
             android:text="@string/start_session_welcome"
             android:textColor="#fff"
             android:layout_marginTop="10dp"
-            android:background="@drawable/btn_welcome_cyan"
+            android:background="@drawable/btn_disable"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button_aderir"
@@ -112,19 +112,19 @@
             <View
                 android:layout_width="5dp"
                 android:layout_height="5dp"
-                android:background="@drawable/color_page_indicator_inactive"
+                android:background="@drawable/plan_selector_inactive"
                 android:layout_marginEnd="6dp">
             </View>
             <View
                 android:layout_width="5dp"
                 android:layout_height="5dp"
-                android:background="@drawable/color_page_indicator_inactive"
+                android:background="@drawable/plan_selector_inactive"
                 android:layout_marginEnd="6dp">
             </View>
             <View
                 android:layout_width="5dp"
                 android:layout_height="5dp"
-                android:background="@drawable/color_page_indicator_active"
+                android:background="@drawable/plan_selector_active"
                 >
             </View>
         </LinearLayout>

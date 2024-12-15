@@ -39,7 +39,7 @@
             android:id="@+id/gradientBox"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@drawable/color_catalog_degrade"
+            android:background="@drawable/degrade"
             app:layout_constraintBottom_toTopOf="@+id/endOfGradient"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -98,7 +98,7 @@
             android:layout_marginStart="15sp"
             android:paddingHorizontal="12sp"
             android:paddingVertical="3sp"
-            android:background="@drawable/btn_border_orange"
+            android:background="@drawable/main_orange"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/movieDescription" />
 

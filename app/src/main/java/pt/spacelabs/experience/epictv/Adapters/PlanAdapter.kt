@@ -1,21 +1,19 @@
 package pt.spacelabs.experience.epictv.Adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import pt.spacelabs.experience.epictv.R
 import pt.spacelabs.experience.epictv.entitys.Plan
 
-class PlanAdapter(private val planList: List<Plan>, private var selectedOption: String) :
+class PlanAdapter(private val planList: List<Plan>, private var selectedOption: String, private val onPlanSelected: (Boolean?) -> Unit) :
     RecyclerView.Adapter<PlanAdapter.PlanViewHolder>() {
 
     private val filteredPlanList = mutableListOf<Plan>()
+    private var selectedPosition: Int = RecyclerView.NO_POSITION
 
     init {
         updateFilteredList()
@@ -35,7 +33,9 @@ class PlanAdapter(private val planList: List<Plan>, private var selectedOption: 
     fun updateOption(newOption: String) {
         selectedOption = newOption
         updateFilteredList()
+        selectedPosition = -1
         notifyDataSetChanged()
+        onPlanSelected(false)
     }
 
     private fun updateFilteredList() {
@@ -68,9 +68,24 @@ class PlanAdapter(private val planList: List<Plan>, private var selectedOption: 
             "Conta com 1 utilizador"
         }
 
+        if (selectedPosition == position) {
+            holder.itemView.setBackgroundResource(R.drawable.plan_selector_border_orange)
+        } else {
+            holder.itemView.setBackgroundResource(R.drawable.plan_selector_border_cyan)
+        }
+
         holder.plan4k.visibility = if (plan.have4k) View.VISIBLE else View.GONE
         holder.plan1080p.visibility = if (plan.have1080 && !plan.have4k) View.VISIBLE else View.GONE
         holder.plan720p.visibility = if (!plan.have1080 && !plan.have4k) View.VISIBLE else View.GONE
+
+        holder.itemView.setOnClickListener {
+            val previousPosition = selectedPosition
+            selectedPosition = position
+
+            notifyItemChanged(previousPosition)
+            notifyItemChanged(selectedPosition)
+            onPlanSelected(true)
+        }
     }
 
     override fun getItemCount(): Int = filteredPlanList.size

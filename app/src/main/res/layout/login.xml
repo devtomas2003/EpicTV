@@ -62,7 +62,7 @@
                 android:id="@+id/buttonLogin"
                 android:layout_width="330dp"
                 android:layout_height="50dp"
-                android:background="@drawable/btn_border_orange"
+                android:background="@drawable/main_orange"
                 android:textColor="#fff"
                 android:layout_gravity="center_horizontal"
                 android:text="@string/btnLogin" />
@@ -73,7 +73,7 @@
                 android:layout_height="50dp"
                 android:textColor="#fff"
                 android:layout_gravity="center_horizontal"
-                android:background="@drawable/btn_border_transparent"
+                android:background="@drawable/main_white_border"
                 android:layout_marginTop="8dp"
                 android:text="@string/btnCreateAccount" />
 
