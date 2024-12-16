@@ -23,7 +23,7 @@
     <string name="monthly">Mensal</string>
     <string name="yearly">Anual</string>
     <string name="startWatching_signup">Assiste aos teus filmes e séries favoritos em qualquer lugar</string>
-    <string name="criar_conta_signup">Criar Conta</string>
+    <string name="criar_conta_signup">Aderir</string>
     <string name="required_char">*</string>
     <string name="profile_name">Nome do Perfil</string>
     <string name="repeat_pass_lbl">Repetir Password</string>
@@ -47,4 +47,12 @@
     <string name="credit_card">Cartão de Crédito/Débito</string>
     <string name="gift_card">Cartão Pré-Pago</string>
     <string name="text_payment">Os planos renovam-se automaticamente todos os meses, a menos que sejam cancelados com 30 dias de antecedência.</string>
+    <string name="subtitle_addcreditcard">Insira o cartão de crédito com que irá confirmar a sua adesão</string>
+    <string name="creditcard_btn">Adicionar Cartão</string>
+    <string name="creditcard_name">Nome no Cartão</string>
+    <string name="creditcard_number">Número do Cartão</string>
+    <string name="creditcard_data">Data de Validade</string>
+    <string name="creditcard_cvv">CVV</string>
+    <string name="creditcard_text">Ao adicionar um novo cartão, está automaticamente a aceitar as nossas Políticas de Segurança e Privacidade.</string>
+    <string name="creditcard_title">Adicionar Cartão</string>
 </resources>

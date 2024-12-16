@@ -34,92 +34,95 @@ class SignUp : ComponentActivity() {
         val phoneinp = findViewById<EditText>(R.id.phoneinp)
 
         findViewById<Button>(R.id.criarconta).setOnClickListener {
-            if(validateFields(name, email, pass, repass, nickname, phoneinp)){
-                val requestQueue: RequestQueue = Volley.newRequestQueue(this)
-
-                val stringRequest = object : StringRequest(
-                    Method.POST,
-                    Constants.baseURL + "/createAccount",
-                    Response.Listener { _ ->
-                        try {
-                            AlertDialog.Builder(this)
-                                .setTitle("Sucesso")
-                                .setMessage("Bem-vindo ${name.text}, a tua conta foi criada com sucesso!")
-                                .setPositiveButton("OK") { dialog, _ ->
-                                    dialog.dismiss()
-                                    val intent = Intent (this, PayMethod::class.java)
-                                    startActivity(intent)
-                                    finish()
-                                }
-                                .create()
-                                .show()
-                        } catch (e: JSONException) {
-                            email.setText("")
-                            name.setText("")
-                            pass.setText("")
-                            repass.setText("")
-                            nickname.setText("")
-                            phoneinp.setText("")
-                            AlertDialog.Builder(this)
-                                .setTitle("Falha de ligação")
-                                .setMessage("Ocorreu um erro com a resposta do servidor!")
-                                .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
-                                .create()
-                                .show()
-                        }
-                    },
-                    Response.ErrorListener { error ->
-                        try {
-                            val errorResponse =
-                                String(error.networkResponse.data, Charsets.UTF_8)
-                            val errorObject = JSONObject(errorResponse)
-                            if (errorObject.has("message")) {
-                                email.setText("")
-                                name.setText("")
-                                pass.setText("")
-                                repass.setText("")
-                                nickname.setText("")
-                                phoneinp.setText("")
-                                AlertDialog.Builder(this)
-                                    .setTitle("Ocorreu um erro")
-                                    .setMessage(errorObject.getString("message"))
-                                    .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
-                                    .create()
-                                    .show()
-                            }
-                        } catch (e: Exception) {
-                            email.setText("")
-                            name.setText("")
-                            pass.setText("")
-                            repass.setText("")
-                            nickname.setText("")
-                            phoneinp.setText("")
-                            AlertDialog.Builder(this)
-                                .setTitle("Falha de ligação")
-                                .setMessage("Para usares esta funcionalidade, verifica a tua ligação!")
-                                .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
-                                .create()
-                                .show()
-                        }
-                    }
-                ) {
-                    override fun getBody(): ByteArray {
-                        val body = JSONObject()
-                        body.put("nickname", nickname.text.toString())
-                        body.put("name", name.text.toString())
-                        body.put("telef", phoneinp.text.toString())
-                        body.put("password", pass.text.toString())
-                        body.put("planId", intent.getStringExtra("planId"))
-                        body.put("email", email.text.toString())
-                        return body.toString().toByteArray(Charsets.UTF_8)
-                    }
-
-                    override fun getBodyContentType(): String {
-                        return "application/json; charset=UTF-8"
-                    }
-                }
-                requestQueue.add(stringRequest)
-            }
+            val intent = Intent (this, PayMethod::class.java)
+            startActivity(intent)
+            finish()
+            //if(validateFields(name, email, pass, repass, nickname, phoneinp)){
+            //    val requestQueue: RequestQueue = Volley.newRequestQueue(this)
+//
+            //    val stringRequest = object : StringRequest(
+            //        Method.POST,
+            //        Constants.baseURL + "/createAccount",
+            //        Response.Listener { _ ->
+            //            try {
+            //                AlertDialog.Builder(this)
+            //                    .setTitle("Sucesso")
+            //                    .setMessage("Bem-vindo ${name.text}, a tua conta foi criada com sucesso!")
+            //                    .setPositiveButton("OK") { dialog, _ ->
+            //                        dialog.dismiss()
+            //                        val intent = Intent (this, PayMethod::class.java)
+            //                        startActivity(intent)
+            //                        finish()
+            //                    }
+            //                    .create()
+            //                    .show()
+            //            } catch (e: JSONException) {
+            //                email.setText("")
+            //                name.setText("")
+            //                pass.setText("")
+            //                repass.setText("")
+            //                nickname.setText("")
+            //                phoneinp.setText("")
+            //                AlertDialog.Builder(this)
+            //                    .setTitle("Falha de ligação")
+            //                    .setMessage("Ocorreu um erro com a resposta do servidor!")
+            //                    .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
+            //                    .create()
+            //                    .show()
+            //            }
+            //        },
+            //        Response.ErrorListener { error ->
+            //            try {
+            //                val errorResponse =
+            //                    String(error.networkResponse.data, Charsets.UTF_8)
+            //                val errorObject = JSONObject(errorResponse)
+            //                if (errorObject.has("message")) {
+            //                    email.setText("")
+            //                    name.setText("")
+            //                    pass.setText("")
+            //                    repass.setText("")
+            //                    nickname.setText("")
+            //                    phoneinp.setText("")
+            //                    AlertDialog.Builder(this)
+            //                        .setTitle("Ocorreu um erro")
+            //                        .setMessage(errorObject.getString("message"))
+            //                        .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
+            //                        .create()
+            //                        .show()
+            //                }
+            //            } catch (e: Exception) {
+            //                email.setText("")
+            //                name.setText("")
+            //                pass.setText("")
+            //                repass.setText("")
+            //                nickname.setText("")
+            //                phoneinp.setText("")
+            //                AlertDialog.Builder(this)
+            //                    .setTitle("Falha de ligação")
+            //                    .setMessage("Para usares esta funcionalidade, verifica a tua ligação!")
+            //                    .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
+            //                    .create()
+            //                    .show()
+            //            }
+            //        }
+            //    ) {
+            //        override fun getBody(): ByteArray {
+            //            val body = JSONObject()
+            //            body.put("nickname", nickname.text.toString())
+            //            body.put("name", name.text.toString())
+            //            body.put("telef", phoneinp.text.toString())
+            //            body.put("password", pass.text.toString())
+            //            body.put("planId", intent.getStringExtra("planId"))
+            //            body.put("email", email.text.toString())
+            //            return body.toString().toByteArray(Charsets.UTF_8)
+            //        }
+//
+            //        override fun getBodyContentType(): String {
+            //            return "application/json; charset=UTF-8"
+            //        }
+            //    }
+            //    requestQueue.add(stringRequest)
+            //}
         }
     }
 
