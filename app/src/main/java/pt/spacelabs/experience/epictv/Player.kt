@@ -8,7 +8,9 @@ import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.OptIn
+import androidx.media3.common.C
 import androidx.media3.common.MediaItem
+import androidx.media3.common.MimeTypes
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.datasource.DataSource
 import androidx.media3.datasource.DefaultDataSource
@@ -16,6 +18,7 @@ import androidx.media3.datasource.DefaultHttpDataSource
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.hls.HlsMediaSource
 import androidx.media3.ui.PlayerView
+import com.google.common.collect.ImmutableList
 import pt.spacelabs.experience.epictv.utils.Constants
 import pt.spacelabs.experience.epictv.utils.DBHelper
 import java.io.File
@@ -51,25 +54,39 @@ class Player : ComponentActivity() {
 //
         //    player.setMediaSource(hlsMediaSource)
         //}else{
-            val headers = mapOf(
-                "Authorization" to "Bearer " + DBHelper(this).getConfig("token")
-            )
-            val httpDataSourceFactory = DefaultHttpDataSource.Factory()
+        val headers = mapOf(
+            "Authorization" to "Bearer " + DBHelper(this).getConfig("token")
+        )
+        val httpDataSourceFactory = DefaultHttpDataSource.Factory()
             .setDefaultRequestProperties(headers)
 
         val dataSourceFactory: DataSource.Factory = DefaultDataSource.Factory(this, httpDataSourceFactory)
-            val mediaItem = MediaItem.fromUri( Constants.contentURLPrivate + "getManifest/" + intent.getStringExtra("manifestName"))
-            val hlsMediaSource = HlsMediaSource.Factory(dataSourceFactory).createMediaSource(mediaItem)
-            player.setMediaSource(hlsMediaSource)
+
+        val subtitle = MediaItem.SubtitleConfiguration.Builder(Uri.parse("https://vis-ipv-cda.epictv.spacelabs.pt/c44855b8-beaf-4ed3-b398-09a93606af80.vtt"))
+            .setLanguage("en")
+            .setId("1")
+            .setLabel("Portuguese")
+            .setMimeType(MimeTypes.TEXT_VTT)
+            .setSelectionFlags(C.SELECTION_FLAG_DEFAULT)
+            .build()
+
+        Log.d("testing", subtitle.uri.toString())
+
+        val mediaItemBuilder = MediaItem.Builder()
+            .setUri(Constants.contentURLPrivate + "getManifest/" + intent.getStringExtra("manifestName"))
+            .setSubtitleConfigurations(ImmutableList.of(subtitle))
+
+        val hlsMediaSource = HlsMediaSource.Factory(dataSourceFactory).createMediaSource(mediaItemBuilder.build())
+        player.setMediaSource(hlsMediaSource)
         //}
-
-
-
-
-
 
         player.prepare()
         player.play()
+
+        player.trackSelectionParameters = player.trackSelectionParameters
+            .buildUpon()
+            .setPreferredTextLanguage("en")
+            .build()
 
     }
 
