@@ -58,7 +58,7 @@ class Player : ComponentActivity() {
             .setDefaultRequestProperties(headers)
 
         val dataSourceFactory: DataSource.Factory = DefaultDataSource.Factory(this, httpDataSourceFactory)
-            val mediaItem = MediaItem.fromUri( Constants.contentURLPrivate + intent.getStringExtra("manifestName") + "/master.m3u8")
+            val mediaItem = MediaItem.fromUri( Constants.contentURLPrivate + "getManifest/" + intent.getStringExtra("manifestName"))
             val hlsMediaSource = HlsMediaSource.Factory(dataSourceFactory).createMediaSource(mediaItem)
             player.setMediaSource(hlsMediaSource)
         //}
