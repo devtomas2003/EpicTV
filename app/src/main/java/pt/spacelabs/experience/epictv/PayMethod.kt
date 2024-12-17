@@ -36,7 +36,7 @@ class PayMethod : ComponentActivity() {
         }
 
         findViewById<Button>(R.id.btnChosePayment).setOnClickListener {
-            val intent = Intent(this, AddCreditCard::class.java)
+            val intent = Intent(this, AddGiftCard::class.java)
             startActivity(intent)
             finish()
         }

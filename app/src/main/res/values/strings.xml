@@ -55,4 +55,8 @@
     <string name="creditcard_cvv">CVV</string>
     <string name="creditcard_text">Ao adicionar um novo cartão, está automaticamente a aceitar as nossas Políticas de Segurança e Privacidade.</string>
     <string name="creditcard_title">Adicionar Cartão</string>
+    <string name="giftcard_code">Código do Cartão Pré-Pago</string>
+    <string name="resgatar_code_btn">Resgatar Código</string>
+    <string name="ler_code_btn">Ler Código</string>
+    <string name="text_qr_code">Scan QR Code</string>
 </resources>
