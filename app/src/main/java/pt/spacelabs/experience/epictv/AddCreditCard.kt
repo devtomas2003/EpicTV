@@ -12,9 +12,5 @@ class AddCreditCard : ComponentActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.addcreditcard)
 
-        val arrowBack = findViewById<ImageView>(R.id.arrowpageback)
-        arrowBack.setOnClickListener {
-            finish()
-        }
     }
 }

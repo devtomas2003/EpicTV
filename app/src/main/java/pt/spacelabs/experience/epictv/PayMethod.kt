@@ -36,9 +36,16 @@ class PayMethod : ComponentActivity() {
         }
 
         findViewById<Button>(R.id.btnChosePayment).setOnClickListener {
-            val intent = Intent(this, AddGiftCard::class.java)
-            startActivity(intent)
-            finish()
+            val intent = when (selectedPosition) {
+                0 -> Intent(this, AddCreditCard::class.java)
+                1 -> Intent(this, AddGiftCard::class.java)
+                else -> null
+            }
+
+            intent?.let {
+                startActivity(it)
+                finish()
+            }
         }
     }
 
