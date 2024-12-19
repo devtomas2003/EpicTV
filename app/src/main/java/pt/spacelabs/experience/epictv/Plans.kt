@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.Window
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.RadioGroup
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -127,9 +128,14 @@ class Plans : AppCompatActivity() {
                 val intent = Intent(this, SignUp::class.java)
                 intent.putExtra("planId", planIdSelected);
                 startActivity(intent)
-                finish()
             }
 
+
+        }
+
+        val backIcon: ImageView = findViewById(R.id.arrowpageback)
+        backIcon.setOnClickListener {
+            onBackPressed()
         }
     }
 }

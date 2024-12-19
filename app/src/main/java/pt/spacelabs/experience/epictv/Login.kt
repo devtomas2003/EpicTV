@@ -115,7 +115,6 @@ class Login : AppCompatActivity() {
         findViewById<Button>(R.id.button_createaccount).setOnClickListener {
             val intent = Intent(this, Plans::class.java)
             startActivity(intent)
-            finish()
         }
     }
     private fun checkFields(txtMail: String, txtPassword: String): Boolean {

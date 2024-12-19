@@ -97,28 +97,28 @@
             app:layout_constraintStart_toStartOf="parent">
 
             <Button
-                android:id="@+id/dpwnloadMovieBtn"
-                android:layout_width="150dp"
-                android:layout_height="35dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/btn_disable"
-                android:paddingHorizontal="12sp"
-                android:text="Saber Mais"
-                android:textColor="#fff"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/movieDescription" />
-
-            <Button
                 android:id="@+id/startMovieBtn"
                 android:layout_width="150dp"
                 android:layout_height="35dp"
-                android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/main_orange"
                 android:paddingHorizontal="12sp"
                 android:text="Ver filme"
+                android:textColor="#fff"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/movieDescription" />
+
+            <Button
+                android:id="@+id/dpwnloadMovieBtn"
+                android:layout_width="150dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/btn_disable"
+                android:paddingHorizontal="12sp"
+                android:text="Saber Mais"
                 android:textColor="#fff"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/movieDescription" />

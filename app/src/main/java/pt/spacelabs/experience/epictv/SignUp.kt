@@ -7,6 +7,7 @@ import android.os.Handler
 import android.os.Looper
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
 import com.android.volley.RequestQueue
@@ -36,7 +37,6 @@ class SignUp : ComponentActivity() {
         findViewById<Button>(R.id.criarconta).setOnClickListener {
             val intent = Intent (this, PayMethod::class.java)
             startActivity(intent)
-            finish()
             //if(validateFields(name, email, pass, repass, nickname, phoneinp)){
             //    val requestQueue: RequestQueue = Volley.newRequestQueue(this)
 //
@@ -123,6 +123,11 @@ class SignUp : ComponentActivity() {
             //    }
             //    requestQueue.add(stringRequest)
             //}
+        }
+
+        val backIcon: ImageView = findViewById(R.id.arrowpageback)
+        backIcon.setOnClickListener {
+            onBackPressed()
         }
     }
 

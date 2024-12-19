@@ -44,7 +44,11 @@ class PayMethod : ComponentActivity() {
 
             intent?.let {
                 startActivity(it)
-                finish()
+            }
+
+            val backIcon: ImageView = findViewById(R.id.arrowpageback)
+            backIcon.setOnClickListener {
+                onBackPressed()
             }
         }
     }

@@ -12,5 +12,9 @@ class AddCreditCard : ComponentActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.addcreditcard)
 
+        val backIcon: ImageView = findViewById(R.id.arrowpageback)
+        backIcon.setOnClickListener {
+            onBackPressed()
+        }
     }
 }
