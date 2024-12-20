@@ -4,12 +4,10 @@
     android:viewportWidth="32"
     android:viewportHeight="32">
 
-    <!-- Fundo do círculo azul -->
     <path
         android:fillColor="#2196F3"
         android:pathData="M16,2C23.732,2 30,8.268 30,16C30,23.732 23.732,30 16,30C8.268,30 2,23.732 2,16C2,8.268 8.268,2 16,2Z"/>
 
-    <!-- Sinal de visto (checkmark) -->
     <path
         android:fillColor="#FFFFFF"
         android:pathData="M10,16.5L13.5,20L22,11.5L20.5,10L13.5,17L11.5,15Z"/>
