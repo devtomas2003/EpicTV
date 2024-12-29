@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.RequestQueue
@@ -114,6 +115,11 @@ class Login : AppCompatActivity() {
 
         findViewById<Button>(R.id.button_createaccount).setOnClickListener {
             val intent = Intent(this, Plans::class.java)
+            startActivity(intent)
+        }
+
+        findViewById<TextView>(R.id.link_recoverpassword).setOnClickListener {
+            val intent = Intent(this, RecoverPassword::class.java)
             startActivity(intent)
         }
     }

@@ -59,4 +59,16 @@
     <string name="resgatar_code_btn">Resgatar Código</string>
     <string name="ler_code_btn">Ler Código</string>
     <string name="text_qr_code">Scan QR Code</string>
+    <string name="recoverpass_title">Recuperar Password</string>
+    <string name="recoverpass_subtitle">Recupere a sua password e regresse ao melhor do entretenimento!</string>
+    <string name="recoverpass_btn">Recuperar Password</string>
+    <string name="numberverification_title">Verificação do Número</string>
+    <string name="numberverification_subtitle">Insira o código enviado para o seu telemóvel</string>
+    <string name="numberverification_btn">Verificar Codigo</string>
+    <string name="numberverification_warningtext">Certifique-se de não partilhar este código com ninguém.</string>
+    <string name="changepass_title">Alteração de Password</string>
+    <string name="changepass_subtitle">Insira uma nova password para garantir a segurança da sua conta</string>
+    <string name="changepass_input1">Nova Password</string>
+    <string name="changepass_input2">Repetir Nova Password</string>
+    <string name="changepass_btn">Alterar Password</string>
 </resources>

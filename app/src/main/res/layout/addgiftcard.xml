@@ -102,21 +102,21 @@
             android:id="@+id/resgatarcode"
             android:layout_width="150dp"
             android:layout_height="35dp"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="40dp"
-            android:layout_gravity="center_horizontal"
             android:background="@drawable/main_orange"
             android:text="@string/resgatar_code_btn"
             android:textColor="#FFFFFF"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp">
+            android:layout_marginBottom="16dp"
+            android:gravity="center"
+            android:orientation="horizontal">
 
             <!-- Primeira Linha -->
             <View
@@ -129,9 +129,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="OU"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
+                android:text="OU"
                 android:textColor="@android:color/white"
                 android:textSize="14sp"
                 android:textStyle="bold" />
@@ -147,29 +147,29 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/text_qr_code"
-            android:textColor="#FFFFFF"
-            android:gravity="center"
+            android:layout_marginTop="40dp"
             android:layout_marginBottom="20dp"
-            android:layout_marginTop="40dp"/>
+            android:gravity="center"
+            android:text="@string/text_qr_code"
+            android:textColor="#FFFFFF" />
 
         <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="@drawable/img_gift_card"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:src="@drawable/img_gift_card" />
 
         <Button
             android:id="@+id/ler_qr"
             android:layout_width="150dp"
             android:layout_height="35dp"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="80dp"
-            android:layout_gravity="center_horizontal"
             android:background="@drawable/main_orange"
             android:text="@string/ler_code_btn"
             android:textColor="#FFFFFF"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
     </LinearLayout>
 
 

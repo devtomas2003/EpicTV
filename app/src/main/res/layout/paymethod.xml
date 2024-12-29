@@ -92,7 +92,6 @@
             android:text="@string/next_lbl"
             android:textColor="#fff"
             android:textSize="14sp" />
-
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

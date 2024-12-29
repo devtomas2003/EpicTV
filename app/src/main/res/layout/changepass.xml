@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="21dp"
+        android:layout_marginRight="21dp"
+        android:layout_marginTop="40dp">
+
+        <ImageView
+            android:id="@+id/arrowpageback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:src="@drawable/icon_arrow_back" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/changepass_title"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginStart="39dp"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/subtitle"
+        android:layout_width="307dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50sp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="@string/changepass_subtitle"
+        android:textColor="#CCCCCC"
+        android:textSize="14sp"/>
+
+    <ImageView
+        android:layout_width="251dp"
+        android:layout_height="251dp"
+        android:src="@drawable/img_changepass"
+        android:layout_marginLeft="80dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/changepass_input1"
+            android:textColor="#FFFFFF"
+            android:layout_marginBottom="5dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/required_char"
+            android:textColor="#f37903"/>
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/firstpass"
+        android:layout_width="307dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/inputbox"
+        android:inputType="phone"
+        android:padding="12dp"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:layout_marginLeft="50dp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/changepass_input2"
+            android:textColor="#FFFFFF"
+            android:layout_marginBottom="5dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/required_char"
+            android:textColor="#f37903"/>
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/secundpass"
+        android:layout_width="307dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/inputbox"
+        android:inputType="phone"
+        android:padding="12dp"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:layout_marginLeft="50dp"/>
+
+    <LinearLayout
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:paddingBottom="80dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginLeft="90dp">
+
+        <Button
+            android:id="@+id/btnrecoverpass"
+            android:layout_width="0dp"
+            android:layout_height="28dp"
+            android:layout_weight="1"
+            android:background="@drawable/main_orange"
+            android:text="@string/changepass_btn"
+            android:textColor="#fff"
+            android:textSize="14sp" />
+    </LinearLayout>
+</LinearLayout>
