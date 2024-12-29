@@ -17,7 +17,6 @@ import com.android.volley.toolbox.Volley
 
 import com.squareup.picasso.Picasso
 import org.json.JSONObject
-import pt.spacelabs.experience.epictv.entitys.CatalogContent
 import pt.spacelabs.experience.epictv.utils.Constants
 
 class Catalog : AppCompatActivity() {
