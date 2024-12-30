@@ -83,19 +83,20 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/bgImage" />
 
+
         <TextView
             android:id="@+id/movieDescription"
             android:layout_width="300sp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5sp"
             android:text="MovieDescription"
             android:textColor="#fff"
-            app:layout_constraintBottom_toTopOf="@+id/linearLayout6"
+            app:layout_constraintBottom_toTopOf="@+id/homepagebtn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
+
         <LinearLayout
-            android:id="@+id/linearLayout6"
+            android:id="@+id/homepagebtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"

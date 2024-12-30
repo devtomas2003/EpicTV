@@ -73,6 +73,24 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".RecoverPassword"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.EpicTV">
+        </activity>
+        <activity
+            android:name=".NumberVerification"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.EpicTV">
+        </activity>
+        <activity
+            android:name=".ChangePassword"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.EpicTV">
+        </activity>
+        <activity
             android:name=".Catalog"
             android:exported="false"
             android:label="@string/title_activity_catalog"
