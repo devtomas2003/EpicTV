@@ -52,7 +52,7 @@ class RecoverPassword : AppCompatActivity() {
                     Response.Listener { response ->
                         try {
                             val intent = Intent(this, NumberVerification::class.java)
-                            intent.putExtra("phoneNumber", phoneInp.text)
+                            intent.putExtra("phoneNumber", phoneInp.text.toString())
                             startActivity(intent)
                         } catch (e: JSONException) {
                             alertDialog.hide()
