@@ -76,13 +76,15 @@ class Player : ComponentActivity() {
 
     override fun onStart() {
         super.onStart()
+        if (!player.isPlaying) {
+            player.prepare()
+        }
         player.playWhenReady = true
     }
 
     override fun onStop() {
         super.onStop()
         player.playWhenReady = false
-        player.release()
     }
 
     override fun onDestroy() {
