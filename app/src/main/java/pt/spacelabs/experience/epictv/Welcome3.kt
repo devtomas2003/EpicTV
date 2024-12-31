@@ -31,14 +31,14 @@ class Welcome3 : ComponentActivity() {
 
         findViewById<Button>(R.id.button_aderir).setOnClickListener {
             val intent = Intent (this, Plans::class.java)
+            handler.removeCallbacks(navigateRunnable)
             startActivity(intent)
-            finish()
         }
 
         findViewById<Button>(R.id.button_login).setOnClickListener {
             val intent = Intent (this, Login::class.java)
+            handler.removeCallbacks(navigateRunnable)
             startActivity(intent)
-            finish()
         }
     }
 

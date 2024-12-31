@@ -59,6 +59,7 @@ dependencies {
     implementation(libs.exoplayer.core)
     implementation(libs.picasso)
     implementation(libs.volley)
+    implementation(libs.com.journeyapps.zxing.android.embedded)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

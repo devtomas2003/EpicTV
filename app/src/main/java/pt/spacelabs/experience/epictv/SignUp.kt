@@ -3,25 +3,14 @@ package pt.spacelabs.experience.epictv
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
-import com.android.volley.RequestQueue
-import com.android.volley.Response
-import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
-import org.json.JSONException
-import org.json.JSONObject
-import pt.spacelabs.experience.epictv.utils.Constants
 
 class SignUp : ComponentActivity() {
-
-    private val handler = Handler(Looper.getMainLooper())
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -33,96 +22,21 @@ class SignUp : ComponentActivity() {
         val repass = findViewById<EditText>(R.id.reppass)
         val nickname = findViewById<EditText>(R.id.nickname)
         val phoneinp = findViewById<EditText>(R.id.phoneinp)
+        val chkTerms = findViewById<CheckBox>(R.id.ckbTerms)
+        val planId = intent.getStringExtra("planId")
 
         findViewById<Button>(R.id.criarconta).setOnClickListener {
-            val intent = Intent (this, PayMethod::class.java)
-            startActivity(intent)
-            //if(validateFields(name, email, pass, repass, nickname, phoneinp)){
-            //    val requestQueue: RequestQueue = Volley.newRequestQueue(this)
-//
-            //    val stringRequest = object : StringRequest(
-            //        Method.POST,
-            //        Constants.baseURL + "/createAccount",
-            //        Response.Listener { _ ->
-            //            try {
-            //                AlertDialog.Builder(this)
-            //                    .setTitle("Sucesso")
-            //                    .setMessage("Bem-vindo ${name.text}, a tua conta foi criada com sucesso!")
-            //                    .setPositiveButton("OK") { dialog, _ ->
-            //                        dialog.dismiss()
-            //                        val intent = Intent (this, PayMethod::class.java)
-            //                        startActivity(intent)
-            //                        finish()
-            //                    }
-            //                    .create()
-            //                    .show()
-            //            } catch (e: JSONException) {
-            //                email.setText("")
-            //                name.setText("")
-            //                pass.setText("")
-            //                repass.setText("")
-            //                nickname.setText("")
-            //                phoneinp.setText("")
-            //                AlertDialog.Builder(this)
-            //                    .setTitle("Falha de ligação")
-            //                    .setMessage("Ocorreu um erro com a resposta do servidor!")
-            //                    .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
-            //                    .create()
-            //                    .show()
-            //            }
-            //        },
-            //        Response.ErrorListener { error ->
-            //            try {
-            //                val errorResponse =
-            //                    String(error.networkResponse.data, Charsets.UTF_8)
-            //                val errorObject = JSONObject(errorResponse)
-            //                if (errorObject.has("message")) {
-            //                    email.setText("")
-            //                    name.setText("")
-            //                    pass.setText("")
-            //                    repass.setText("")
-            //                    nickname.setText("")
-            //                    phoneinp.setText("")
-            //                    AlertDialog.Builder(this)
-            //                        .setTitle("Ocorreu um erro")
-            //                        .setMessage(errorObject.getString("message"))
-            //                        .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
-            //                        .create()
-            //                        .show()
-            //                }
-            //            } catch (e: Exception) {
-            //                email.setText("")
-            //                name.setText("")
-            //                pass.setText("")
-            //                repass.setText("")
-            //                nickname.setText("")
-            //                phoneinp.setText("")
-            //                AlertDialog.Builder(this)
-            //                    .setTitle("Falha de ligação")
-            //                    .setMessage("Para usares esta funcionalidade, verifica a tua ligação!")
-            //                    .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
-            //                    .create()
-            //                    .show()
-            //            }
-            //        }
-            //    ) {
-            //        override fun getBody(): ByteArray {
-            //            val body = JSONObject()
-            //            body.put("nickname", nickname.text.toString())
-            //            body.put("name", name.text.toString())
-            //            body.put("telef", phoneinp.text.toString())
-            //            body.put("password", pass.text.toString())
-            //            body.put("planId", intent.getStringExtra("planId"))
-            //            body.put("email", email.text.toString())
-            //            return body.toString().toByteArray(Charsets.UTF_8)
-            //        }
-//
-            //        override fun getBodyContentType(): String {
-            //            return "application/json; charset=UTF-8"
-            //        }
-            //    }
-            //    requestQueue.add(stringRequest)
-            //}
+            if (validateFields(name, email, pass, repass, nickname, phoneinp, chkTerms)) {
+                val intent = Intent(this, PayMethod::class.java)
+                intent.putExtra("nickname", nickname.text.toString())
+                intent.putExtra("name", name.text.toString())
+                intent.putExtra("telef", phoneinp.text.toString())
+                intent.putExtra("password", pass.text.toString())
+                intent.putExtra("planId", planId)
+                intent.putExtra("email", email.text.toString())
+
+                startActivity(intent)
+            }
         }
 
         val backIcon: ImageView = findViewById(R.id.arrowpageback)
@@ -131,125 +45,74 @@ class SignUp : ComponentActivity() {
         }
     }
 
-    private fun validateFields(name: EditText, email: EditText, pass: EditText, repass: EditText, nickname: EditText, phoneinp: EditText): Boolean{
+    private fun resetValues() {
+        findViewById<EditText>(R.id.name).setText("")
+        findViewById<EditText>(R.id.email).setText("")
+        findViewById<EditText>(R.id.pass).setText("")
+        findViewById<EditText>(R.id.reppass).setText("")
+        findViewById<EditText>(R.id.nickname).setText("")
+        findViewById<EditText>(R.id.phoneinp).setText("")
+        findViewById<CheckBox>(R.id.ckbTerms).isChecked = false
+    }
+
+    private fun validateFields(
+        name: EditText,
+        email: EditText,
+        pass: EditText,
+        repass: EditText,
+        nickname: EditText,
+        phoneinp: EditText,
+        chkTerms: CheckBox
+    ): Boolean {
         if (name.text.isEmpty()) {
-            email.setText("")
-            pass.setText("")
-            repass.setText("")
-            nickname.setText("")
-            phoneinp.setText("")
-            AlertDialog.Builder(this)
-                .setTitle("Erro")
-                .setMessage("Por favor, coloque o seu nome!")
-                .setPositiveButton("OK") { dialog, _ ->
-                    dialog.dismiss()
-                }
-                .create()
-                .show()
-            return false;
+            resetValues()
+            showAlert("Erro", "Por favor, coloque o seu nome!")
+            return false
         }
         if (email.text.isEmpty() || !email.text.contains("@")) {
-            email.setText("")
-            name.setText("")
-            pass.setText("")
-            repass.setText("")
-            nickname.setText("")
-            phoneinp.setText("")
-            AlertDialog.Builder(this)
-                .setTitle("Erro")
-                .setMessage("Por favor, coloque o seu email!")
-                .setPositiveButton("OK") { dialog, _ ->
-                    dialog.dismiss()
-                }
-                .create()
-                .show()
+            resetValues()
+            showAlert("Erro", "Por favor, coloque o seu email!")
             return false
         }
         if (pass.text.length < 8) {
-            email.setText("")
-            name.setText("")
-            pass.setText("")
-            repass.setText("")
-            nickname.setText("")
-            phoneinp.setText("")
-            AlertDialog.Builder(this)
-                .setTitle("Erro")
-                .setMessage("Por favor, crie uma password com pelo menos 8 caracteres!")
-                .setPositiveButton("OK") { dialog, _ ->
-                    dialog.dismiss()
-                }
-                .create()
-                .show()
+            resetValues()
+            showAlert("Erro", "Por favor, crie uma password com pelo menos 8 caracteres!")
             return false
         }
         if (pass.text.toString() != repass.text.toString()) {
-            email.setText("")
-            name.setText("")
-            pass.setText("")
-            repass.setText("")
-            nickname.setText("")
-            phoneinp.setText("")
-            AlertDialog.Builder(this)
-                .setTitle("Erro")
-                .setMessage("As passwords não correspondem!")
-                .setPositiveButton("OK") { dialog, _ ->
-                    dialog.dismiss()
-                }
-                .create()
-                .show()
+            resetValues()
+            showAlert("Erro", "As passwords não correspondem!")
             return false
         }
-        if(phoneinp.text.length !== 9) {
-            name.setText("")
-            email.setText("")
-            pass.setText("")
-            repass.setText("")
-            nickname.setText("")
-            phoneinp.setText("")
-            AlertDialog.Builder(this)
-                .setTitle("Erro")
-                .setMessage("Por favor, coloque um telemovel válido!")
-                .setPositiveButton("OK") { dialog, _ ->
-                    dialog.dismiss()
-                }
-                .create()
-                .show()
+        if (phoneinp.text.length != 9) {
+            resetValues()
+            showAlert("Erro", "Por favor, coloque um telemovel válido!")
             return false
         }
-        if(nickname.text.isEmpty()) {
-            name.setText("")
-            email.setText("")
-            pass.setText("")
-            repass.setText("")
-            nickname.setText("")
-            phoneinp.setText("")
-            AlertDialog.Builder(this)
-                .setTitle("Erro")
-                .setMessage("Por favor, crie um nickname!")
-                .setPositiveButton("OK") { dialog, _ ->
-                    dialog.dismiss()
-                }
-                .create()
-                .show()
+        if (nickname.text.isEmpty()) {
+            resetValues()
+            showAlert("Erro", "Por favor, crie um nickname!")
             return false
         }
-        if(nickname.text.length > 8) {
-            name.setText("")
-            email.setText("")
-            pass.setText("")
-            repass.setText("")
-            nickname.setText("")
-            phoneinp.setText("")
-            AlertDialog.Builder(this)
-                .setTitle("Erro")
-                .setMessage("O nickname devera ter até 8 caracteres!")
-                .setPositiveButton("OK") { dialog, _ ->
-                    dialog.dismiss()
-                }
-                .create()
-                .show()
+        if (nickname.text.length > 8) {
+            resetValues()
+            showAlert("Erro", "O nickname devera ter até 8 caracteres!")
+            return false
+        }
+        if (!chkTerms.isChecked) {
+            resetValues()
+            showAlert("Erro", "Para avançar, por favor aceito os termos e condições!")
             return false
         }
         return true
+    }
+
+    private fun showAlert(title: String, message: String) {
+        AlertDialog.Builder(this)
+            .setTitle(title)
+            .setMessage(message)
+            .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
+            .create()
+            .show()
     }
 }

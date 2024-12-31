@@ -242,20 +242,25 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="45dp"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="20dp">
 
             <CheckBox
+                android:id="@+id/ckbTerms"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#FFFFFF" />
+                android:scaleX="1"
+                android:scaleY="1"
+                android:buttonTint="@color/orange"
+                android:textColor="#FFFFFF"
+                android:layout_gravity="center_vertical" />
 
             <TextView
-                android:layout_width="340dp"
-                android:layout_height="45dp"
-                android:layout_marginTop="-5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:text="@string/legal_lbl"
                 android:textColor="#FFFFFF"
+                android:layout_marginStart="5dp"
                 android:textSize="11sp" />
         </LinearLayout>
 
