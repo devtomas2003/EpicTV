@@ -9,5 +9,6 @@ class ConfirmSubscription : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.confirmsubscription)
+
     }
 }

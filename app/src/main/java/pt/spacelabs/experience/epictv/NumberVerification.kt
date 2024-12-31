@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
+import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 
@@ -36,6 +37,11 @@ class NumberVerification : AppCompatActivity() {
                 }
                 override fun afterTextChanged(s: Editable?) {}
             })
+        }
+
+        val backIcon: ImageView = findViewById(R.id.arrowpageback)
+        backIcon.setOnClickListener {
+            onBackPressed()
         }
     }
 }

@@ -16,7 +16,7 @@
             android:layout_weight="1" />
 
         <ImageView
-            android:id="@+id/homapage"
+            android:id="@+id/homepage_menu"
             android:layout_width="38dp"
             android:layout_height="38dp"
             android:src="@drawable/icon_menu_home" />
@@ -27,7 +27,7 @@
             android:layout_weight="1" />
 
         <ImageView
-            android:id="@+id/search"
+            android:id="@+id/search_menu"
             android:layout_width="38dp"
             android:layout_height="38dp"
             android:src="@drawable/icon_menu_search" />
@@ -38,7 +38,7 @@
             android:layout_weight="1" />
 
         <ImageView
-            android:id="@+id/download"
+            android:id="@+id/download_menu"
             android:layout_width="38dp"
             android:layout_height="38dp"
             android:src="@drawable/baseline_file_download_24" />
@@ -49,7 +49,7 @@
             android:layout_weight="1" />
 
         <ImageView
-            android:id="@+id/personpage"
+            android:id="@+id/personpage_menu"
             android:layout_width="38dp"
             android:layout_height="38dp"
             android:src="@drawable/icon_menu_person" />

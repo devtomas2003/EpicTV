@@ -76,20 +76,22 @@
             android:name=".RecoverPassword"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.EpicTV">
-        </activity>
+            android:theme="@style/Theme.EpicTV"/>
         <activity
             android:name=".NumberVerification"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.EpicTV">
-        </activity>
+            android:theme="@style/Theme.EpicTV"/>
         <activity
             android:name=".ChangePassword"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.EpicTV">
-        </activity>
+            android:theme="@style/Theme.EpicTV"/>
+        <activity
+            android:name=".Menu"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.EpicTV"/>
         <activity
             android:name=".Catalog"
             android:exported="false"
@@ -104,6 +106,11 @@
             android:theme="@style/Theme.EpicTV" />
         <activity
             android:name=".Login"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.EpicTV" />
+        <activity
+            android:name=".Perfil"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.EpicTV" />
