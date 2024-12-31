@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.view.View
 import android.view.Window
 import android.widget.Button
 import android.widget.ImageView
@@ -45,6 +46,13 @@ class Plans : AppCompatActivity() {
         listRCPlans.isNestedScrollingEnabled = false
 
         val requestQueue: RequestQueue = Volley.newRequestQueue(this)
+
+        val dialogBuilder: AlertDialog.Builder = AlertDialog.Builder(this)
+        val inflater = this.layoutInflater
+        val dialogView: View = inflater.inflate(R.layout.loading, null)
+        dialogBuilder.setView(dialogView)
+        val alertDialog: AlertDialog = dialogBuilder.create()
+        alertDialog.show()
 
         val requestPlans = object : StringRequest(
             Method.GET,
@@ -89,7 +97,9 @@ class Plans : AppCompatActivity() {
                         }
                         (listRCPlans.adapter as? PlanAdapter)?.updateOption(selectedOption)
                     }
+                    alertDialog.hide()
                 } catch (e: JSONException) {
+                    alertDialog.hide()
                     AlertDialog.Builder(this)
                         .setTitle("Falha de ligação")
                         .setMessage("Ocorreu um erro com a resposta do servidor!")
@@ -99,6 +109,7 @@ class Plans : AppCompatActivity() {
                 }
             },
             Response.ErrorListener { error ->
+                alertDialog.hide()
                 AlertDialog.Builder(this)
                     .setTitle("Ocorreu um erro")
                     .setMessage("Verifica a tua ligação com a internet!")
@@ -129,8 +140,6 @@ class Plans : AppCompatActivity() {
                 intent.putExtra("planId", planIdSelected);
                 startActivity(intent)
             }
-
-
         }
 
         val backIcon: ImageView = findViewById(R.id.arrowpageback)

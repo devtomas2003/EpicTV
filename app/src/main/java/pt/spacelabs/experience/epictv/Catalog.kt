@@ -36,6 +36,13 @@ class Catalog : AppCompatActivity() {
 
         val queue = Volley.newRequestQueue(this)
 
+        val dialogBuilder: android.app.AlertDialog.Builder = android.app.AlertDialog.Builder(this)
+        val inflater = this.layoutInflater
+        val dialogView: View = inflater.inflate(R.layout.loading, null)
+        dialogBuilder.setView(dialogView)
+        val alertDialog: android.app.AlertDialog = dialogBuilder.create()
+        alertDialog.show()
+
         val getRandomContent = StringRequest(Request.Method.GET, Constants.baseURL + "/getRandomContent", { response ->
             val contentObject = JSONObject(response)
 
@@ -50,6 +57,8 @@ class Catalog : AppCompatActivity() {
                 .fit()
                 .centerCrop()
                 .into(bgImage)
+
+            alertDialog.hide()
 
             startMovieBtn.setOnClickListener {
                 val intent = Intent (this, Player::class.java)
@@ -69,6 +78,7 @@ class Catalog : AppCompatActivity() {
 
         },
             { error ->
+                alertDialog.hide()
                 AlertDialog.Builder(this)
                     .setTitle("Error")
                     .setMessage("Erro ao fazer request: ${error.message}")

@@ -7,6 +7,7 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Base64
 import android.view.MotionEvent
+import android.view.View
 import android.widget.Button
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
@@ -40,6 +41,13 @@ class Welcome1 : ComponentActivity() {
         if(DBHelper(this).getConfig("token") != "none"){
             val requestQueue: RequestQueue = Volley.newRequestQueue(this)
 
+            val dialogBuilder: AlertDialog.Builder = AlertDialog.Builder(this)
+            val inflater = this.layoutInflater
+            val dialogView: View = inflater.inflate(R.layout.loading, null)
+            dialogBuilder.setView(dialogView)
+            val alertDialog: AlertDialog = dialogBuilder.create()
+            alertDialog.show()
+
             val stringRequest = object : StringRequest(
                 Method.GET,
                 Constants.baseURL + "/checkAuth",
@@ -53,6 +61,7 @@ class Welcome1 : ComponentActivity() {
                             finish()
                         }
                     } catch (e: JSONException) {
+                        alertDialog.hide()
                         AlertDialog.Builder(this)
                             .setTitle("Falha de ligação")
                             .setMessage("Ocorreu um erro com a resposta do servidor!")
@@ -68,7 +77,10 @@ class Welcome1 : ComponentActivity() {
                         if(errorObject.has("message")){
                             DBHelper(this).clearConfig("token");
                         }
-                    } catch (e: Exception) {  }
+                        alertDialog.hide()
+                    } catch (e: Exception) {
+                        alertDialog.hide()
+                    }
                 }
             ) {
                 override fun getHeaders(): Map<String, String> {

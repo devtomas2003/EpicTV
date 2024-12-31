@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
@@ -102,6 +103,13 @@ class AddGiftCard : ComponentActivity() {
     fun CreateAccount(giftCard: String){
         val requestQueue: RequestQueue = Volley.newRequestQueue(this)
 
+        val dialogBuilder: AlertDialog.Builder = AlertDialog.Builder(this)
+        val inflater = this.layoutInflater
+        val dialogView: View = inflater.inflate(R.layout.loading, null)
+        dialogBuilder.setView(dialogView)
+        val alertDialog: AlertDialog = dialogBuilder.create()
+        alertDialog.show()
+
         val stringRequest = object : StringRequest(
             Method.POST,
             Constants.baseURL + "/createAccount",
@@ -119,6 +127,7 @@ class AddGiftCard : ComponentActivity() {
                         .create()
                         .show()
                 } catch (e: JSONException) {
+                    alertDialog.hide()
                     AlertDialog.Builder(this)
                         .setTitle("Falha de ligação")
                         .setMessage("Ocorreu um erro com a resposta do servidor!")
@@ -129,6 +138,7 @@ class AddGiftCard : ComponentActivity() {
             },
             Response.ErrorListener { error ->
                 try {
+                    alertDialog.hide()
                     val errorResponse =
                         String(error.networkResponse.data, Charsets.UTF_8)
                     val errorObject = JSONObject(errorResponse)
@@ -141,6 +151,7 @@ class AddGiftCard : ComponentActivity() {
                             .show()
                     }
                 } catch (e: Exception) {
+                    alertDialog.hide()
                     AlertDialog.Builder(this)
                         .setTitle("Falha de ligação")
                         .setMessage("Para usares esta funcionalidade, verifica a tua ligação!")

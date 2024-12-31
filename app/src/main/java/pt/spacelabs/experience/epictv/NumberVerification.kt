@@ -1,8 +1,10 @@
 package pt.spacelabs.experience.epictv
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
@@ -42,6 +44,17 @@ class NumberVerification : AppCompatActivity() {
         val backIcon: ImageView = findViewById(R.id.arrowpageback)
         backIcon.setOnClickListener {
             onBackPressed()
+        }
+
+        val phoneNumber = intent.getStringExtra("phoneNumber")
+
+        findViewById<Button>(R.id.btnrecoverpass).setOnClickListener {
+            val code = inputs.joinToString("") { it.text.toString() }
+
+            val intent = Intent(this, ChangePassword::class.java)
+            intent.putExtra("phoneNumber", phoneNumber)
+            intent.putExtra("tempCode", code)
+            startActivity(intent)
         }
     }
 }

@@ -36,6 +36,13 @@ class Login : AppCompatActivity() {
             if(checkFields(inpEmail.text.toString(), inpPass.text.toString())){
                 val requestQueue: RequestQueue = Volley.newRequestQueue(this)
 
+                val dialogBuilder: AlertDialog.Builder = AlertDialog.Builder(this)
+                val inflater = this.layoutInflater
+                val dialogView: View = inflater.inflate(R.layout.loading, null)
+                dialogBuilder.setView(dialogView)
+                val alertDialog: AlertDialog = dialogBuilder.create()
+                alertDialog.show()
+
                 val stringRequest = object : StringRequest(
                     Method.GET,
                     Constants.baseURL + "/login",
@@ -60,6 +67,7 @@ class Login : AppCompatActivity() {
                             startActivity(intent)
                             finish()
                         } catch (e: JSONException) {
+                            alertDialog.hide()
                             inpEmail.setText("")
                             inpPass.setText("")
                             AlertDialog.Builder(this)
@@ -72,6 +80,7 @@ class Login : AppCompatActivity() {
                     },
                     Response.ErrorListener { error ->
                         try {
+                            alertDialog.hide()
                             val errorResponse = String(error.networkResponse.data, Charsets.UTF_8)
                             val errorObject = JSONObject(errorResponse)
                             inpEmail.setText("")
@@ -84,6 +93,7 @@ class Login : AppCompatActivity() {
                                 .show()
 
                         } catch (e: Exception) {
+                            alertDialog.hide()
                             inpEmail.setText("")
                             inpPass.setText("")
                             AlertDialog.Builder(this)
