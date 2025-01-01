@@ -112,7 +112,6 @@
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/main_orange"
                 android:paddingHorizontal="12sp"
-                android:text="Ver filme"
                 android:textColor="#fff"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/movieDescription" />

@@ -64,8 +64,7 @@ class Player : ComponentActivity() {
         val dataSourceFactory: DataSource.Factory = DefaultDataSource.Factory(this, httpDataSourceFactory)
 
         val mediaItemBuilder = MediaItem.Builder()
-            .setUri(Constants.contentURLPrivate + "getManifest/" + intent.getStringExtra("manifestName"))
-
+            .setUri(Constants.contentURLPrivate + "getManifest/" + intent.getStringExtra("manifestName") + "/" + intent.getStringExtra("contentType"))
         val hlsMediaSource = HlsMediaSource.Factory(dataSourceFactory).createMediaSource(mediaItemBuilder.build())
         player.setMediaSource(hlsMediaSource)
         //}

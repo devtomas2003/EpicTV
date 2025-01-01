@@ -1,5 +1,6 @@
 package pt.spacelabs.experience.epictv
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -21,6 +22,7 @@ import org.json.JSONObject
 import pt.spacelabs.experience.epictv.utils.Constants
 
 class Catalog : AppCompatActivity() {
+    @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +50,12 @@ class Catalog : AppCompatActivity() {
 
             movieDescription.text = contentObject.getString("description")
 
+            if(contentObject.getBoolean("isSerie")){
+                startMovieBtn.text = "Ver Trailer";
+            }else{
+                startMovieBtn.text = "Ver Filme";
+            }
+
             Picasso.with(this)
                 .load(Constants.contentURLPublic + contentObject.getString("miniPoster"))
                 .into(movieLogo)
@@ -63,6 +71,11 @@ class Catalog : AppCompatActivity() {
             startMovieBtn.setOnClickListener {
                 val intent = Intent (this, Player::class.java)
                 intent.putExtra("manifestName", contentObject.getString("manifestName"))
+                if(contentObject.getBoolean("isSerie")) {
+                    intent.putExtra("contentType", "serieTrailer")
+                }else{
+                    intent.putExtra("contentType", "movie")
+                }
                 startActivity(intent)
             }
 
