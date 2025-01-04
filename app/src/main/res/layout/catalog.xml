@@ -1,195 +1,142 @@
-<androidx.constraintlayout.widget.ConstraintLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000">
 
-    <!-- Conteúdo rolável -->
-    <ScrollView
-        android:id="@+id/contentScrollView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginBottom="63dp"
-        app:layout_constraintTop_toTopOf="parent">
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/startOfGradient"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_begin="600dp" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/endOfGradient"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_begin="700dp" />
-
-        <ImageView
-            android:id="@+id/bgImage"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:scaleType="centerCrop"
-            app:layout_constraintBottom_toTopOf="@id/endOfGradient"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <View
-            android:id="@+id/gradientBox"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="@drawable/degrade"
-            app:layout_constraintBottom_toTopOf="@+id/endOfGradient"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/startOfGradient" />
-
-        <View
-            android:id="@+id/opacity"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="#80222222"
-            app:layout_constraintBottom_toTopOf="@+id/endOfGradient"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
-
-        <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="150sp"
-            android:layout_height="match_parent"
-            android:src="@drawable/img_epictv_logo"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/movieLogo"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:scaleType="centerCrop"
-            app:layout_constraintBottom_toTopOf="@+id/movieDescription"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/bgImage" />
-
-
-        <TextView
-            android:id="@+id/movieDescription"
-            android:layout_width="300sp"
-            android:layout_height="wrap_content"
-            android:text="MovieDescription"
-            android:textColor="#fff"
-            app:layout_constraintBottom_toTopOf="@+id/homepagebtn"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-
-        <LinearLayout
-            android:id="@+id/homepagebtn"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            app:layout_constraintBottom_toTopOf="@+id/startOfGradient"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <Button
-                android:id="@+id/startMovieBtn"
-                android:layout_width="150dp"
-                android:layout_height="35dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/main_orange"
-                android:paddingHorizontal="12sp"
-                android:text="Ver filme"
-                android:textColor="#fff"
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/startOfGradient"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="600dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/endOfGradient"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="700dp" />
+
+            <ImageView
+                android:id="@+id/bgImage"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toTopOf="@id/endOfGradient"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/movieDescription" />
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
-                android:id="@+id/dpwnloadMovieBtn"
-                android:layout_width="150dp"
-                android:layout_height="35dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:layout_marginStart="20dp"
-                android:background="@drawable/btn_disable"
-                android:paddingHorizontal="12sp"
-                android:text="Saber Mais"
-                android:textColor="#fff"
+            <View
+                android:id="@+id/gradientBox"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/degrade"
+                app:layout_constraintBottom_toTopOf="@id/endOfGradient"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/movieDescription" />
-        </LinearLayout>
+                app:layout_constraintTop_toTopOf="@id/startOfGradient" />
 
-        <LinearLayout
-            android:id="@+id/linearLayout7"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@+id/gradientBox">
+            <View
+                android:id="@+id/opacity"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="#80222222"
+                app:layout_constraintBottom_toTopOf="@id/endOfGradient"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        </LinearLayout>
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="150dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/img_epictv_logo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <LinearLayout
+            <ImageView
+                android:id="@+id/movieLogo"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toTopOf="@+id/movieDescription"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/movieDescription"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:text="MovieDescription"
+                android:textColor="#fff"
+                app:layout_constraintBottom_toTopOf="@+id/homepagebtn"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/homepagebtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                app:layout_constraintBottom_toTopOf="@+id/startOfGradient"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <Button
+                    android:id="@+id/startMovieBtn"
+                    android:layout_width="150dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/main_orange"
+                    android:text="Ver Filme"
+                    android:textColor="#fff" />
+
+                <Button
+                    android:id="@+id/downloadMovieBtn"
+                    android:layout_width="150dp"
+                    android:layout_height="35dp"
+                    android:layout_marginStart="20dp"
+                    android:background="@drawable/btn_disable"
+                    android:text="Saber Mais"
+                    android:textColor="#fff" />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/categorias"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_marginLeft="21dp"
-            android:layout_marginRight="21dp"
+            android:layout_height="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/linearLayout7">
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="categotia1"
-                android:textColor="#FFFFFF" />
+        <LinearLayout
+            android:id="@+id/linearLayout12"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/categorias"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="100dp"
-                android:text="categotia1"
-                android:textColor="#FFFFFF" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="100dp"
-                android:text="categotia1"
-                android:textColor="#FFFFFF" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="100dp"
-                android:layout_marginBottom="100dp"
-                android:text="categotia1"
-                android:textColor="#FFFFFF" />
-        </LinearLayout>
+            <include layout="@layout/menu" />
+    </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/contentScrollView"
-        app:layout_constraintEnd_toEndOf="@+id/contentScrollView"
-        app:layout_constraintStart_toStartOf="@+id/contentScrollView">
-
-        <include layout="@layout/menu" />
-    </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>

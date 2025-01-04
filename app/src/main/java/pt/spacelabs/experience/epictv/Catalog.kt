@@ -1,5 +1,6 @@
 package pt.spacelabs.experience.epictv
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -12,15 +13,21 @@ import androidx.annotation.RequiresApi
 
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 
 import com.squareup.picasso.Picasso
+import org.json.JSONArray
 import org.json.JSONObject
+import pt.spacelabs.experience.epictv.Adapters.CategoryAdapter
+import pt.spacelabs.experience.epictv.entitys.Category
 import pt.spacelabs.experience.epictv.utils.Constants
 
 class Catalog : AppCompatActivity() {
+    @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,17 +43,27 @@ class Catalog : AppCompatActivity() {
 
         val queue = Volley.newRequestQueue(this)
 
-        val dialogBuilder: android.app.AlertDialog.Builder = android.app.AlertDialog.Builder(this)
+        val dialogBuilder: AlertDialog.Builder = AlertDialog.Builder(this)
         val inflater = this.layoutInflater
         val dialogView: View = inflater.inflate(R.layout.loading, null)
         dialogBuilder.setView(dialogView)
-        val alertDialog: android.app.AlertDialog = dialogBuilder.create()
+        val alertDialog: AlertDialog = dialogBuilder.create()
         alertDialog.show()
+
+        val recyclerView: RecyclerView = findViewById(R.id.categorias)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        var categoriesList = mutableListOf<Category>()
 
         val getRandomContent = StringRequest(Request.Method.GET, Constants.baseURL + "/getRandomContent", { response ->
             val contentObject = JSONObject(response)
 
             movieDescription.text = contentObject.getString("description")
+
+            if(contentObject.getBoolean("isSerie")){
+                startMovieBtn.text = "Ver Trailer";
+            }else{
+                startMovieBtn.text = "Ver Filme";
+            }
 
             Picasso.with(this)
                 .load(Constants.contentURLPublic + contentObject.getString("miniPoster"))
@@ -63,6 +80,11 @@ class Catalog : AppCompatActivity() {
             startMovieBtn.setOnClickListener {
                 val intent = Intent (this, Player::class.java)
                 intent.putExtra("manifestName", contentObject.getString("manifestName"))
+                if(contentObject.getBoolean("isSerie")) {
+                    intent.putExtra("contentType", "serieTrailer")
+                }else{
+                    intent.putExtra("contentType", "movie")
+                }
                 startActivity(intent)
             }
 
@@ -85,7 +107,32 @@ class Catalog : AppCompatActivity() {
                     .show()
             })
 
+        val getCategories = StringRequest(Request.Method.GET, Constants.baseURL + "/catalog", { response ->
+            val categories = JSONArray(response)
+
+            for(index in 0 until categories.length()){
+                val cateogoryObject = categories.getJSONObject(index)
+                val category = Category(
+                    id = cateogoryObject.getString("id"),
+                    name = cateogoryObject.getString("name")
+                )
+                categoriesList.add(category)
+            }
+
+
+            val adapter = CategoryAdapter(categoriesList)
+            recyclerView.adapter = adapter
+        },
+            { error ->
+                alertDialog.hide()
+                AlertDialog.Builder(this)
+                    .setTitle("Error")
+                    .setMessage("Erro ao fazer request: ${error.message}")
+                    .show()
+            })
+
         queue.add(getRandomContent);
+        queue.add(getCategories);
     }
 
     private fun enableImmersiveMode() {
