@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
@@ -24,6 +25,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 import pt.spacelabs.experience.epictv.Adapters.CategoryAdapter
 import pt.spacelabs.experience.epictv.entitys.Category
+import pt.spacelabs.experience.epictv.entitys.Content
 import pt.spacelabs.experience.epictv.utils.Constants
 
 class Catalog : AppCompatActivity() {
@@ -38,7 +40,6 @@ class Catalog : AppCompatActivity() {
 
         val bgImage = findViewById<ImageView>(R.id.bgImage)
         val movieLogo = findViewById<ImageView>(R.id.movieLogo)
-        val movieDescription = findViewById<TextView>(R.id.movieDescription)
         val startMovieBtn = findViewById<Button>(R.id.startMovieBtn)
 
         val queue = Volley.newRequestQueue(this)
@@ -52,12 +53,11 @@ class Catalog : AppCompatActivity() {
 
         val recyclerView: RecyclerView = findViewById(R.id.categorias)
         recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.isNestedScrollingEnabled = false
         var categoriesList = mutableListOf<Category>()
 
         val getRandomContent = StringRequest(Request.Method.GET, Constants.baseURL + "/getRandomContent", { response ->
             val contentObject = JSONObject(response)
-
-            movieDescription.text = contentObject.getString("description")
 
             if(contentObject.getBoolean("isSerie")){
                 startMovieBtn.text = "Ver Trailer";
@@ -74,8 +74,6 @@ class Catalog : AppCompatActivity() {
                 .fit()
                 .centerCrop()
                 .into(bgImage)
-
-            alertDialog.hide()
 
             startMovieBtn.setOnClickListener {
                 val intent = Intent (this, Player::class.java)
@@ -109,12 +107,27 @@ class Catalog : AppCompatActivity() {
 
         val getCategories = StringRequest(Request.Method.GET, Constants.baseURL + "/catalog", { response ->
             val categories = JSONArray(response)
+            alertDialog.hide()
 
             for(index in 0 until categories.length()){
-                val cateogoryObject = categories.getJSONObject(index)
+                val categoryObject = categories.getJSONObject(index)
+                val listContentApi = categoryObject.getJSONArray("Content")
+                var contentList = mutableListOf<Content>()
+
+                for (a in 0 until listContentApi.length()) {
+                    val contentObject = listContentApi.getJSONObject(a)
+
+                    val content = Content(
+                        id = contentObject.getString("id"),
+                        poster = contentObject.getString("poster")
+                    )
+                    contentList.add(content)
+                }
+
                 val category = Category(
-                    id = cateogoryObject.getString("id"),
-                    name = cateogoryObject.getString("name")
+                    id = categoryObject.getString("id"),
+                    name = categoryObject.getString("name"),
+                    contents = contentList
                 )
                 categoriesList.add(category)
             }
