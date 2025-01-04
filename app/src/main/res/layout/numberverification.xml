@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000"
-    android:orientation="vertical">
+    android:background="#000">
 
     <LinearLayout
+        android:id="@+id/linearLayout15"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="21dp"
-        android:layout_marginRight="21dp"
-        android:layout_marginTop="40dp">
+        android:layout_marginTop="40dp"
+        android:paddingStart="21dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/arrowpageback"
@@ -23,37 +27,45 @@
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="35dp"
             android:text="@string/numberverification_title"
             android:textColor="#FFFFFF"
             android:textSize="24sp"
-            android:textStyle="bold"
-            android:layout_marginStart="35dp"/>
+            android:textStyle="bold" />
     </LinearLayout>
 
     <TextView
         android:id="@+id/subtitle"
         android:layout_width="307dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50sp"
         android:layout_marginTop="10dp"
         android:gravity="center"
         android:text="@string/numberverification_subtitle"
         android:textColor="#CCCCCC"
-        android:textSize="14sp"/>
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout15" />
 
     <ImageView
+        android:id="@+id/imageView6"
         android:layout_width="251dp"
         android:layout_height="251dp"
+        android:layout_marginTop="40dp"
         android:src="@drawable/img_sendmessage"
-        android:layout_marginLeft="80dp"
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="20dp"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/subtitle" />
 
     <LinearLayout
+        android:id="@+id/linearLayout14"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView6">
 
-        <include layout="@layout/numberverification_input"/>
+        <include layout="@layout/numberverification_input" />
     </LinearLayout>
 
     <TextView
@@ -62,14 +74,17 @@
         android:text="@string/numberverification_warningtext"
         android:textColor="#FFFFFF"
         android:textSize="10dp"
-        android:layout_marginLeft="82dp"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout14" />
 
     <LinearLayout
         android:layout_width="230dp"
         android:layout_height="wrap_content"
         android:paddingBottom="80dp"
-        android:layout_marginTop="148dp"
-        android:layout_marginLeft="90dp">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <Button
             android:id="@+id/btnrecoverpass"
@@ -81,4 +96,4 @@
             android:textColor="#fff"
             android:textSize="14sp" />
     </LinearLayout>
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

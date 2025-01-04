@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000"
-    android:orientation="vertical">
+    android:background="#000">
 
     <LinearLayout
+        android:id="@+id/linearLayout16"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="21dp"
-        android:layout_marginRight="21dp"
-        android:layout_marginTop="40dp">
+        android:layout_marginTop="40dp"
+        android:paddingStart="21dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/arrowpageback"
@@ -23,67 +27,82 @@
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="53dp"
             android:text="@string/recoverpass_title"
             android:textColor="#FFFFFF"
             android:textSize="24sp"
-            android:textStyle="bold"
-            android:layout_marginStart="53dp"/>
+            android:textStyle="bold" />
     </LinearLayout>
 
     <TextView
         android:id="@+id/subtitle"
         android:layout_width="307dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50sp"
         android:layout_marginTop="10dp"
         android:gravity="center"
         android:text="@string/recoverpass_subtitle"
         android:textColor="#CCCCCC"
-        android:textSize="14sp"/>
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout16" />
 
     <ImageView
+        android:id="@+id/imageView7"
         android:layout_width="251dp"
         android:layout_height="251dp"
         android:src="@drawable/img_recoverpass"
-        android:layout_marginLeft="80dp"
-        android:layout_marginTop="20dp"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/subtitle" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:id="@+id/linearLayout9"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="50dp">
-        <TextView
+        android:layout_marginLeft="21dp"
+        android:layout_marginRight="21dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView7">
+
+        <LinearLayout
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:text="@string/phone_number_lbl"
+                android:textColor="#FFFFFF" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/required_char"
+                android:textColor="#f37903" />
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/phoneinp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/phone_number_lbl"
+            android:background="@drawable/inputbox"
+            android:inputType="phone"
+            android:padding="12dp"
             android:textColor="#FFFFFF"
-            android:layout_marginBottom="5dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/required_char"
-            android:textColor="#f37903"/>
+            android:textSize="16sp" />
     </LinearLayout>
-
-    <EditText
-        android:id="@+id/phoneinp"
-        android:layout_width="307dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        android:background="@drawable/inputbox"
-        android:inputType="phone"
-        android:padding="12dp"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp"
-        android:layout_marginLeft="50dp"/>
 
     <LinearLayout
         android:layout_width="230dp"
         android:layout_height="wrap_content"
         android:paddingBottom="80dp"
-        android:layout_marginTop="151dp"
-        android:layout_marginLeft="90dp">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <Button
             android:id="@+id/btnrecoverpass"
@@ -95,4 +114,4 @@
             android:textColor="#fff"
             android:textSize="14sp" />
     </LinearLayout>
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
