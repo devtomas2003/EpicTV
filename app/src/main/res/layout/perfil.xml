@@ -16,6 +16,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
+                android:orientation="horizontal"
                 android:paddingStart="21dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -30,13 +31,20 @@
 
                 <TextView
                     android:id="@+id/title"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingStart="128dp"
+                    android:paddingEnd="128dp"
                     android:text="@string/perfil_title"
                     android:textColor="#FFFFFF"
                     android:textSize="24sp"
                     android:textStyle="bold" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:src="@drawable/icon_logout"/>
             </LinearLayout>
 
             <TextView
@@ -259,56 +267,68 @@
             app:layout_constraintStart_toStartOf="parent" />
     </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/linearLayout11"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="60dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="60dp"
-                android:gravity="center"
-                android:orientation="vertical"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout9">
+    <LinearLayout
+        android:id="@+id/linearLayout11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="60dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="60dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout9">
 
-                <androidx.appcompat.widget.SwitchCompat
-                    android:id="@+id/switchButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="false" />
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switchButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/perfil_title_child"
-                    android:textColor="#FFFFFF"
-                    android:textStyle="bold" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/perfil_title_child"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="230dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/perfil_subtitle_child"
-                    android:textColor="#FFFFFF"
-                    android:textSize="11sp" />
+        <TextView
+            android:layout_width="230dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/perfil_subtitle_child"
+            android:textColor="#FFFFFF"
+            android:textSize="11sp" />
 
-                <LinearLayout
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="80dp"
-                    android:layout_marginTop="20dp">
+        <LinearLayout
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:paddingBottom="80dp"
+            android:layout_marginTop="20dp">
 
-                    <Button
-                        android:id="@+id/btnSaveInfo"
-                        android:layout_width="0dp"
-                        android:layout_height="28dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/main_orange"
-                        android:text="@string/next_lbl"
-                        android:textColor="#fff"
-                        android:textSize="14sp" />
-                </LinearLayout>
-            </LinearLayout>
+            <Button
+                android:id="@+id/btnSaveInfo"
+                android:layout_width="0dp"
+                android:layout_height="28dp"
+                android:layout_weight="1"
+                android:background="@drawable/main_orange"
+                android:text="@string/next_lbl"
+                android:textColor="#fff"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout12"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <include layout="@layout/menu" />
+    </LinearLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
