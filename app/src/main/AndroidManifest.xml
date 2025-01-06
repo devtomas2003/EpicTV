@@ -30,11 +30,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.EpicTV" />
         <activity
-            android:name=".ConfirmSubscription"
-            android:exported="false"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.EpicTV" />
-        <activity
             android:name=".QrCodeReader"
             android:exported="false"
             android:screenOrientation="portrait"
