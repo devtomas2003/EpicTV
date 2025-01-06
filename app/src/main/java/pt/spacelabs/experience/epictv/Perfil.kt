@@ -52,6 +52,16 @@ class Perfil : AppCompatActivity() {
             }
         }
 
+        val logoutButton: ImageView = findViewById(R.id.logout_icon)
+        //funciona mal
+        logoutButton.setOnClickListener {
+            clearUserSession()
+
+            val intent = Intent(this, Login::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+        }
+
         val backIcon: ImageView = findViewById(R.id.arrowpageback)
         backIcon.setOnClickListener {
             onBackPressed()
@@ -201,6 +211,13 @@ class Perfil : AppCompatActivity() {
         )
 
         requestQueue.add(requestPlans)
+    }
+
+    private fun clearUserSession() {
+        val sharedPreferences = getSharedPreferences("UserSession", MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.clear()
+        editor.apply()
     }
 
     private fun resetValues() {
