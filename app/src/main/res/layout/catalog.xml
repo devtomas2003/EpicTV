@@ -109,7 +109,7 @@
                         android:layout_width="150dp"
                         android:layout_height="35dp"
                         android:layout_marginStart="20dp"
-                        android:background="@drawable/btn_disable"
+                        android:background="@drawable/btn_secundary"
                         android:text="Saber Mais"
                         android:textColor="#fff" />
                 </LinearLayout>
@@ -139,11 +139,12 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+
     <LinearLayout
         android:id="@+id/linearLayout12"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/categorias"
+        app:layout_constraintTop_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
