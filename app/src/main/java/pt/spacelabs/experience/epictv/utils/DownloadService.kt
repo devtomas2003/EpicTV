@@ -12,18 +12,15 @@ import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import pt.spacelabs.experience.epictv.R
-import pt.spacelabs.experience.epictv.utils.Constants
-import pt.spacelabs.experience.epictv.utils.DBHelper
 import java.io.BufferedInputStream
 import java.io.InputStream
 import java.net.HttpURLConnection
 import java.net.URL
 
-class OfflinePlayback : Service() {
+class DownloadService : Service() {
     private var notificationManager: NotificationManager? = null
     private var totalFiles = 0
     private var downloadedFiles = 0
@@ -45,21 +42,23 @@ class OfflinePlayback : Service() {
         val requestQueue: RequestQueue = Volley.newRequestQueue(this)
 
         val stringRequest = object : StringRequest(
-                Method.POST,
-                Constants.baseURL + "/offlinePlayback",
+                Method.GET,
+                Constants.baseURL + "/offlineChunks?manifestName=" + intent.getStringExtra("manifestName") + "&isSerie=false",
                 Response.Listener { response ->
             try {
                 val jo = JSONObject(response)
                 val chunks = mutableListOf<String>()
+                var streamQuality = ""
+                var movieId = ""
                 val chunksArr = jo.getJSONArray("chunks")
+                streamQuality = jo.getString("quality")
+                movieId = jo.getString("movieId")
 
                 for (i in 0 until chunksArr.length()) {
                     val jsonObject = chunksArr.getJSONObject(i)
                     val chunk = jsonObject.getString("chunk")
                     chunks.add(chunk)
                 }
-
-                val streamName = jo.getString("quality")
 
                 chunks.add(intent.getStringExtra("manifestName") + ".m3u8")
                 val fileUrls = chunks.toTypedArray()
@@ -69,19 +68,18 @@ class OfflinePlayback : Service() {
 
                 Thread {
                     try {
-                        val manifestName = intent.getStringExtra("manifestName")
                         val dbh = DBHelper(this)
                         for (fileUrl in fileUrls) {
                             try {
-                                downloadFile("https://vis-ipv-cda.epictv.spacelabs.pt/$manifestName/$streamName/$fileUrl");
+                                downloadFile("https://vis-ipv-cda.epictv.spacelabs.pt/$movieId/$streamQuality/$fileUrl");
                                 downloadedFiles++
                                 updateNotification(intent.getStringExtra("contentName"), downloadedFiles, totalFiles)
                                 intent.getStringExtra("manifestName")?.let { manifestName ->
                                     val modifiedFileUrl = if (fileUrl.length > 3) fileUrl.dropLast(3) else fileUrl
                                     dbh.createChunk(
                                         modifiedFileUrl,
-                                        if (intent.getBooleanExtra("IsSerie", false)) "" else manifestName,
-                                        if (intent.getBooleanExtra("IsSerie", false)) manifestName else "",
+                                        "nothing",
+                                        manifestName,
                                         fileUrl
                                     )
                                 }
@@ -142,12 +140,11 @@ class OfflinePlayback : Service() {
         ) {
             override fun getBody(): ByteArray {
                 val body = JSONObject()
-                body.put("ClassId", intent.getStringExtra("classId"))
                 return body.toString().toByteArray(Charsets.UTF_8)
             }
             override fun getHeaders(): Map<String, String> {
                 val headers = HashMap<String, String>()
-                val auth = "Bearer " + DBHelper(this@OfflinePlayback).getConfig("auth")
+                val auth = "Bearer " + DBHelper(this@DownloadService).getConfig("token")
                 headers["Authorization"] = auth
                 return headers
             }
@@ -165,7 +162,7 @@ class OfflinePlayback : Service() {
     private fun downloadFile(fileUrl: String) {
         val url = URL(fileUrl)
         val connection = url.openConnection() as HttpURLConnection
-        connection.setRequestProperty("Authorization", "Bearer " + DBHelper(this@OfflinePlayback).getConfig("auth"))
+        connection.setRequestProperty("Authorization", "Bearer " + DBHelper(this@DownloadService).getConfig("token"))
         connection.connect()
 
         if (connection.responseCode != HttpURLConnection.HTTP_OK) {

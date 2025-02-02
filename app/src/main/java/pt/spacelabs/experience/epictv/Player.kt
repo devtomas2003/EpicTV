@@ -3,8 +3,10 @@ package pt.spacelabs.experience.epictv
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
@@ -17,10 +19,10 @@ import androidx.media3.datasource.DefaultDataSource
 import androidx.media3.datasource.DefaultHttpDataSource
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.hls.HlsMediaSource
-import androidx.media3.exoplayer.trackselection.DefaultTrackSelector
 import androidx.media3.ui.PlayerView
 import pt.spacelabs.experience.epictv.utils.Constants
 import pt.spacelabs.experience.epictv.utils.DBHelper
+import java.io.File
 
 
 class Player : ComponentActivity() {
@@ -53,21 +55,36 @@ class Player : ComponentActivity() {
 
         playerItem.player = player
 
-        val dbHelper = DBHelper(this)
+        val chunks: List<String>? = intent.getStringExtra("manifestName")
+            ?.let { DBHelper(this).getChunksByMovieId(it) }
 
-        val headers = mapOf(
-            "Authorization" to "Bearer " + DBHelper(this).getConfig("token")
-        )
-        val httpDataSourceFactory = DefaultHttpDataSource.Factory()
-            .setDefaultRequestProperties(headers)
+        if (chunks != null) {
+            if(chunks.isEmpty()){
+                val headers = mapOf(
+                    "Authorization" to "Bearer " + DBHelper(this).getConfig("token")
+                )
+                val httpDataSourceFactory = DefaultHttpDataSource.Factory()
+                    .setDefaultRequestProperties(headers)
 
-        val dataSourceFactory: DataSource.Factory = DefaultDataSource.Factory(this, httpDataSourceFactory)
+                val dataSourceFactory: DataSource.Factory = DefaultDataSource.Factory(this, httpDataSourceFactory)
+                val mediaItemBuilder = MediaItem.Builder()
+                    .setUri(Constants.contentURLPrivate + "getManifest/" + intent.getStringExtra("manifestName") + "/" + intent.getStringExtra("contentType"))
+                val hlsMediaSource = HlsMediaSource.Factory(dataSourceFactory).createMediaSource(mediaItemBuilder.build())
+                player.setMediaSource(hlsMediaSource)
+            }else{
+                val m3u8Item = chunks.find { it.endsWith(".m3u8", ignoreCase = true) }
 
-        val mediaItemBuilder = MediaItem.Builder()
-            .setUri(Constants.contentURLPrivate + "getManifest/" + intent.getStringExtra("manifestName") + "/" + intent.getStringExtra("contentType"))
-        val hlsMediaSource = HlsMediaSource.Factory(dataSourceFactory).createMediaSource(mediaItemBuilder.build())
-        player.setMediaSource(hlsMediaSource)
-        //}
+                val manifestPath = "$filesDir/${m3u8Item}"
+                val uri = Uri.fromFile(File(manifestPath))
+
+                val dataSourceFactory: DataSource.Factory = DefaultDataSource.Factory(this)
+
+                val mediaItem = MediaItem.fromUri(uri)
+                val hlsMediaSource = HlsMediaSource.Factory(dataSourceFactory).createMediaSource(mediaItem)
+
+                player.setMediaSource(hlsMediaSource)
+            }
+        }
 
         player.prepare()
         player.play()

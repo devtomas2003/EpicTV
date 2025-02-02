@@ -4,13 +4,11 @@ import ItemSpacingDecoration
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import pt.spacelabs.experience.epictv.R
 import pt.spacelabs.experience.epictv.entitys.Category
-import pt.spacelabs.experience.epictv.entitys.Plan
 
 class CategoryAdapter(private val categoriesList: List<Category>) : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
 
@@ -30,7 +28,7 @@ override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
 
     holder.categoryName.text = category.name
 
-    val spacing = 16 // set the desired spacing in pixels
+    val spacing = 16
     val layoutManager = LinearLayoutManager(holder.itemView.context, LinearLayoutManager.HORIZONTAL, false)
     holder.contentRC.layoutManager = layoutManager
     holder.contentRC.addItemDecoration(ItemSpacingDecoration(spacing))

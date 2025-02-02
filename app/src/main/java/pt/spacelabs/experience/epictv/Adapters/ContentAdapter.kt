@@ -1,19 +1,17 @@
 package pt.spacelabs.experience.epictv.Adapters
 
-import android.util.Log
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import pt.spacelabs.experience.epictv.R
-import pt.spacelabs.experience.epictv.entitys.Category
 import pt.spacelabs.experience.epictv.entitys.Content
-import pt.spacelabs.experience.epictv.entitys.Plan
 import pt.spacelabs.experience.epictv.utils.Constants
+import pt.spacelabs.experience.epictv.utils.DBHelper
+import pt.spacelabs.experience.epictv.utils.DownloadService
 
 class ContentAdapter(private val contentList: List<Content>) : RecyclerView.Adapter<ContentAdapter.ContentViewHolder>() {
 
@@ -35,6 +33,13 @@ override fun onBindViewHolder(holder: ContentViewHolder, position: Int) {
         .fit()
         .centerCrop()
         .into(holder.poster)
+
+    holder.poster.setOnClickListener {
+        val downloadIntent = Intent(holder.itemView.context, DownloadService::class.java)
+        downloadIntent.putExtra("manifestName", content.id)
+        DBHelper(holder.itemView.context).createMovie(content.id, content.name, content.time, content.description, content.poster)
+        holder.itemView.context.startForegroundService(downloadIntent)
+    }
 
 }
 

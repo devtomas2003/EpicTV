@@ -7,11 +7,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
-import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.RadioGroup
-import android.widget.Switch
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SwitchCompat
@@ -21,11 +18,8 @@ import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
-import pt.spacelabs.experience.epictv.Adapters.PlanAdapter
-import pt.spacelabs.experience.epictv.entitys.Plan
 import pt.spacelabs.experience.epictv.utils.Constants
 import pt.spacelabs.experience.epictv.utils.DBHelper
 

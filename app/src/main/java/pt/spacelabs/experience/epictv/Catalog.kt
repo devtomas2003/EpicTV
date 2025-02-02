@@ -4,11 +4,9 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 
@@ -89,16 +87,19 @@ class Catalog : AppCompatActivity() {
             findViewById<ImageView>(R.id.homepage_menu).setOnClickListener{
                 val intent = Intent(this, Catalog::class.java)
                 startActivity(intent)
+                finish()
             }
 
             findViewById<ImageView>(R.id.personpage_menu).setOnClickListener{
                 val intent = Intent(this, Perfil::class.java)
                 startActivity(intent)
+                finish()
             }
 
             findViewById<ImageView>(R.id.download_menu).setOnClickListener{
-                val intent = Intent(this, Perfil::class.java)
+                val intent = Intent(this, Downloads::class.java)
                 startActivity(intent)
+                finish()
             }
 
         },
@@ -124,7 +125,10 @@ class Catalog : AppCompatActivity() {
 
                     val content = Content(
                         id = contentObject.getString("id"),
-                        poster = contentObject.getString("poster")
+                        poster = contentObject.getString("poster"),
+                        description = contentObject.getString("description"),
+                        time = contentObject.getInt("duration"),
+                        name = contentObject.getString("name")
                     )
                     contentList.add(content)
                 }

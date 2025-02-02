@@ -40,6 +40,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.EpicTV" />
         <activity
+            android:name=".Downloads"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.EpicTV" />
+        <activity
             android:name=".PayMethod"
             android:exported="false"
             android:screenOrientation="portrait"
