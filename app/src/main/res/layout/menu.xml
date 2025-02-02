@@ -5,8 +5,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="63dp"
-        android:background="#000"
+        android:layout_height="48dp"
+        android:background="@drawable/color_menu"
         android:layout_gravity="bottom"
         android:gravity="center">
 
@@ -17,8 +17,8 @@
 
         <ImageView
             android:id="@+id/homepage_menu"
-            android:layout_width="38dp"
-            android:layout_height="38dp"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
             android:src="@drawable/icon_menu_home" />
 
         <View
@@ -28,8 +28,8 @@
 
         <ImageView
             android:id="@+id/search_menu"
-            android:layout_width="38dp"
-            android:layout_height="38dp"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
             android:src="@drawable/icon_menu_search" />
 
         <View
@@ -39,8 +39,8 @@
 
         <ImageView
             android:id="@+id/download_menu"
-            android:layout_width="38dp"
-            android:layout_height="38dp"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
             android:src="@drawable/baseline_file_download_24" />
 
         <View
@@ -50,8 +50,8 @@
 
         <ImageView
             android:id="@+id/personpage_menu"
-            android:layout_width="38dp"
-            android:layout_height="38dp"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
             android:src="@drawable/icon_menu_person" />
 
         <View

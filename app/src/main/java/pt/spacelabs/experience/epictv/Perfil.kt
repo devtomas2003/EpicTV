@@ -52,6 +52,31 @@ class Perfil : AppCompatActivity() {
             }
         }
 
+        val logoutButton: ImageView = findViewById(R.id.logout_icon)
+        //funciona mal
+        logoutButton.setOnClickListener {
+            clearUserSession()
+
+            val intent = Intent(this, Login::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+        }
+
+        findViewById<ImageView>(R.id.homepage_menu).setOnClickListener{
+            val intent = Intent(this, Catalog::class.java)
+            startActivity(intent)
+        }
+
+        findViewById<ImageView>(R.id.personpage_menu).setOnClickListener{
+            val intent = Intent(this, Perfil::class.java)
+            startActivity(intent)
+        }
+
+        findViewById<ImageView>(R.id.download_menu).setOnClickListener{
+            val intent = Intent(this, Perfil::class.java)
+            startActivity(intent)
+        }
+
         val backIcon: ImageView = findViewById(R.id.arrowpageback)
         backIcon.setOnClickListener {
             onBackPressed()
@@ -203,6 +228,13 @@ class Perfil : AppCompatActivity() {
         requestQueue.add(requestPlans)
     }
 
+    private fun clearUserSession() {
+        val sharedPreferences = getSharedPreferences("UserSession", MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.clear()
+        editor.apply()
+    }
+
     private fun resetValues() {
         findViewById<EditText>(R.id.inp_email_perfil).setText(phoneinpOld)
         findViewById<EditText>(R.id.inp_password_perfil).setText("")
@@ -258,5 +290,20 @@ class Perfil : AppCompatActivity() {
             .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
             .create()
             .show()
+    }
+
+    private fun enableImmersiveMode() {
+        window.decorView.systemUiVisibility = (
+                View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
+                        View.SYSTEM_UI_FLAG_FULLSCREEN or
+                        View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                )
+    }
+
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        if (hasFocus) {
+            enableImmersiveMode()
+        }
     }
 }
