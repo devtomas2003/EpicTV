@@ -80,4 +80,5 @@
     <string name="perfil_title_child">Perfil Criança</string>
     <string name="perfil_subtitle_child">Feito para crianças com 12 anos ou menos, mas os pais têm controlo</string>
     <string name="lbl_loading">A processar...</string>
+    <string name="downloads_title">Downloads</string>
 </resources>

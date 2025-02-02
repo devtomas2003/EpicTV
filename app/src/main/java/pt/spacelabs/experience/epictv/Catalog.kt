@@ -96,6 +96,11 @@ class Catalog : AppCompatActivity() {
                 startActivity(intent)
             }
 
+            findViewById<ImageView>(R.id.download_menu).setOnClickListener{
+                val intent = Intent(this, Perfil::class.java)
+                startActivity(intent)
+            }
+
         },
             { error ->
                 alertDialog.hide()

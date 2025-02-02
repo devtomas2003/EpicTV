@@ -72,6 +72,11 @@ class Perfil : AppCompatActivity() {
             startActivity(intent)
         }
 
+        findViewById<ImageView>(R.id.download_menu).setOnClickListener{
+            val intent = Intent(this, Perfil::class.java)
+            startActivity(intent)
+        }
+
         val backIcon: ImageView = findViewById(R.id.arrowpageback)
         backIcon.setOnClickListener {
             onBackPressed()
