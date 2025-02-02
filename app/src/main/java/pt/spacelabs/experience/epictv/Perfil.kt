@@ -182,7 +182,6 @@ class Perfil : AppCompatActivity() {
 
                     alertDialog.hide()
                 } catch (e: JSONException) {
-                    Log.d("errorInfo", e.toString())
                     alertDialog.hide()
                     AlertDialog.Builder(this)
                         .setTitle("Falha de ligação")

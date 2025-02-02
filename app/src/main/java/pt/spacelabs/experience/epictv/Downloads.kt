@@ -25,6 +25,7 @@ class Downloads : AppCompatActivity() {
 
         val recyclerView: RecyclerView = findViewById(R.id.offlineItems)
         recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.isNestedScrollingEnabled = false
 
         val movies: List<Content> = DBHelper(this).getMovies()
 
