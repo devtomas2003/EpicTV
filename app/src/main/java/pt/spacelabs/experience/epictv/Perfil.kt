@@ -67,7 +67,7 @@ class Perfil : AppCompatActivity() {
         }
 
         findViewById<ImageView>(R.id.download_menu).setOnClickListener{
-            val intent = Intent(this, Perfil::class.java)
+            val intent = Intent(this, Downloads::class.java)
             startActivity(intent)
         }
 

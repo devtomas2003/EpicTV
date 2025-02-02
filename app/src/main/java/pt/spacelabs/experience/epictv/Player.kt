@@ -73,6 +73,7 @@ class Player : ComponentActivity() {
                 player.setMediaSource(hlsMediaSource)
             }else{
                 val m3u8Item = chunks.find { it.endsWith(".m3u8", ignoreCase = true) }
+                Log.d("test", m3u8Item.toString())
 
                 val manifestPath = "$filesDir/${m3u8Item}"
                 val uri = Uri.fromFile(File(manifestPath))

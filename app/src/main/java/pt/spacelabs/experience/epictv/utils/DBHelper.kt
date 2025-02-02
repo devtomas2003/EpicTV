@@ -5,6 +5,7 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.util.Log
 import pt.spacelabs.experience.epictv.entitys.Content
 
 class DBHelper(context: Context?) :
@@ -13,7 +14,7 @@ class DBHelper(context: Context?) :
     override fun onCreate(epicTV: SQLiteDatabase) {
         epicTV.execSQL("CREATE TABLE configs(configType TEXT PRIMARY KEY, value TEXT)")
         epicTV.execSQL("CREATE TABLE offlinePlayback(id TEXT PRIMARY KEY, episodeId TEXT, movieId TEXT, chunk TEXT)")
-        epicTV.execSQL("CREATE TABLE movies(id TEXT PRIMARY KEY, name TEXT, time INT, description TEXT, poster TEXT)")
+        epicTV.execSQL("CREATE TABLE movies(id TEXT PRIMARY KEY, name TEXT, time INTEGER, description TEXT, poster TEXT)")
     }
 
     override fun onUpgrade(epicTV: SQLiteDatabase, i: Int, i1: Int) {

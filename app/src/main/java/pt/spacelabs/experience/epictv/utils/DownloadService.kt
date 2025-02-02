@@ -60,7 +60,6 @@ class DownloadService : Service() {
                     chunks.add(chunk)
                 }
 
-                chunks.add(intent.getStringExtra("manifestName") + ".m3u8")
                 val fileUrls = chunks.toTypedArray()
 
                 totalFiles = fileUrls.size

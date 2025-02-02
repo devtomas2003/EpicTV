@@ -1,7 +1,10 @@
 package pt.spacelabs.experience.epictv
 
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -25,6 +28,7 @@ class Welcome1 : ComponentActivity() {
     private var x1: Float = 0f
     private var y1: Float = 0f
     private val handler = Handler(Looper.getMainLooper())
+    private lateinit var connectivityManager: ConnectivityManager
     private val navigateRunnable = Runnable {
         val intent = Intent(this, Welcome2::class.java)
         startActivity(intent)
@@ -37,63 +41,70 @@ class Welcome1 : ComponentActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.welcome1)
 
+        connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
         if(DBHelper(this).getConfig("token") != "none"){
-            val requestQueue: RequestQueue = Volley.newRequestQueue(this)
+            if(isNetworkAvailable()){
+                val requestQueue: RequestQueue = Volley.newRequestQueue(this)
 
-            val dialogBuilder: AlertDialog.Builder = AlertDialog.Builder(this)
-            val inflater = this.layoutInflater
-            val dialogView: View = inflater.inflate(R.layout.loading, null)
-            dialogBuilder.setView(dialogView)
-            val alertDialog: AlertDialog = dialogBuilder.create()
-            alertDialog.show()
+                val dialogBuilder: AlertDialog.Builder = AlertDialog.Builder(this)
+                val inflater = this.layoutInflater
+                val dialogView: View = inflater.inflate(R.layout.loading, null)
+                dialogBuilder.setView(dialogView)
+                val alertDialog: AlertDialog = dialogBuilder.create()
+                alertDialog.show()
 
-            val stringRequest = object : StringRequest(
-                Method.GET,
-                Constants.baseURL + "/checkAuth",
-                Response.Listener { response ->
-                    try {
-                        val jsonObject = JSONObject(response)
-                        val status = jsonObject.getString("message")
-                        if(status == "ok"){
-                            val intent = Intent(this, Catalog::class.java)
-                            startActivity(intent)
-                            finish()
+                val stringRequest = object : StringRequest(
+                    Method.GET,
+                    Constants.baseURL + "/checkAuth",
+                    Response.Listener { response ->
+                        try {
+                            val jsonObject = JSONObject(response)
+                            val status = jsonObject.getString("message")
+                            if(status == "ok"){
+                                val intent = Intent(this, Catalog::class.java)
+                                startActivity(intent)
+                                finish()
+                            }
+                        } catch (e: JSONException) {
+                            alertDialog.hide()
+                            AlertDialog.Builder(this)
+                                .setTitle("Falha de ligação")
+                                .setMessage("Ocorreu um erro com a resposta do servidor!")
+                                .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
+                                .create()
+                                .show()
                         }
-                    } catch (e: JSONException) {
-                        alertDialog.hide()
-                        AlertDialog.Builder(this)
-                            .setTitle("Falha de ligação")
-                            .setMessage("Ocorreu um erro com a resposta do servidor!")
-                            .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
-                            .create()
-                            .show()
-                    }
-                },
-                Response.ErrorListener { error ->
-                    try {
-                        val errorResponse = String(error.networkResponse.data, Charsets.UTF_8)
-                        val errorObject = JSONObject(errorResponse)
-                        if(errorObject.has("message")){
-                            DBHelper(this).clearConfig("token");
+                    },
+                    Response.ErrorListener { error ->
+                        try {
+                            val errorResponse = String(error.networkResponse.data, Charsets.UTF_8)
+                            val errorObject = JSONObject(errorResponse)
+                            if(errorObject.has("message")){
+                                DBHelper(this).clearConfig("token");
+                            }
+                            alertDialog.hide()
+                        } catch (e: Exception) {
+                            alertDialog.hide()
                         }
-                        alertDialog.hide()
-                    } catch (e: Exception) {
-                        alertDialog.hide()
+                    }
+                ) {
+                    override fun getHeaders(): Map<String, String> {
+                        val headers = HashMap<String, String>()
+                        val auth = "Bearer " + DBHelper(this@Welcome1).getConfig("token")
+                        headers["Authorization"] = auth
+                        return headers
+                    }
+                    override fun getBodyContentType(): String {
+                        return "text/plain; charset=UTF-8"
                     }
                 }
-            ) {
-                override fun getHeaders(): Map<String, String> {
-                    val headers = HashMap<String, String>()
-                    val auth = "Bearer " + DBHelper(this@Welcome1).getConfig("token")
-                    headers["Authorization"] = auth
-                    return headers
-                }
-                override fun getBodyContentType(): String {
-                    return "text/plain; charset=UTF-8"
-                }
+                requestQueue.add(stringRequest)
+            }else{
+                val intent = Intent(this, Downloads::class.java)
+                startActivity(intent)
+                finish()
             }
-
-            requestQueue.add(stringRequest)
         }else{
             handler.postDelayed(navigateRunnable, 5000)
             findViewById<Button>(R.id.button_aderir).setOnClickListener {
@@ -108,6 +119,12 @@ class Welcome1 : ComponentActivity() {
                 startActivity(intent)
             }
         }
+    }
+
+    fun isNetworkAvailable(): Boolean {
+        val activeNetwork = connectivityManager.activeNetwork
+        val capabilities = connectivityManager.getNetworkCapabilities(activeNetwork)
+        return capabilities != null && capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {

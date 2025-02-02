@@ -35,10 +35,14 @@ override fun onBindViewHolder(holder: ContentViewHolder, position: Int) {
         .into(holder.poster)
 
     holder.poster.setOnClickListener {
-        val downloadIntent = Intent(holder.itemView.context, DownloadService::class.java)
-        downloadIntent.putExtra("manifestName", content.id)
-        DBHelper(holder.itemView.context).createMovie(content.id, content.name, content.time, content.description, content.poster)
-        holder.itemView.context.startForegroundService(downloadIntent)
+        val chunks = DBHelper(holder.itemView.context).getChunksByMovieId(content.id)
+        if(chunks.isEmpty()){
+            val downloadIntent = Intent(holder.itemView.context, DownloadService::class.java)
+            downloadIntent.putExtra("manifestName", content.id)
+            downloadIntent.putExtra("contentName", content.name)
+            DBHelper(holder.itemView.context).createMovie(content.id, content.name, content.time, content.description, content.poster)
+            holder.itemView.context.startForegroundService(downloadIntent)
+        }
     }
 
 }
