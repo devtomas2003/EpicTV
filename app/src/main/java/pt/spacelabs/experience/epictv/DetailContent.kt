@@ -1,6 +1,9 @@
 package pt.spacelabs.experience.epictv
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -10,23 +13,21 @@ import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.squareup.picasso.Picasso
-import org.json.JSONArray
 import org.json.JSONObject
-import pt.spacelabs.experience.epictv.Adapters.CategoryAdapter
-import pt.spacelabs.experience.epictv.Adapters.OfflineItems
-import pt.spacelabs.experience.epictv.entitys.Category
-import pt.spacelabs.experience.epictv.entitys.Content
 import pt.spacelabs.experience.epictv.utils.Constants
 import pt.spacelabs.experience.epictv.utils.DBHelper
 import pt.spacelabs.experience.epictv.utils.DownloadService
 
 class DetailContent : AppCompatActivity() {
+    private var currentMovie: JSONObject? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -43,22 +44,18 @@ class DetailContent : AppCompatActivity() {
         val alertDialog: AlertDialog = dialogBuilder.create()
 
         findViewById<ImageView>(R.id.homepage_menu).setOnClickListener{
-            val intent = Intent(this, Catalog::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, Catalog::class.java))
         }
 
         findViewById<ImageView>(R.id.personpage_menu).setOnClickListener{
-            val intent = Intent(this, Perfil::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, Perfil::class.java))
         }
 
         findViewById<ImageView>(R.id.download_menu).setOnClickListener{
-            val intent = Intent(this, Downloads::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, Downloads::class.java))
         }
 
-        val backIcon: ImageView = findViewById(R.id.arrowpageback)
-        backIcon.setOnClickListener {
+        findViewById<ImageView>(R.id.arrowpageback).setOnClickListener {
             onBackPressed()
         }
 
@@ -66,55 +63,43 @@ class DetailContent : AppCompatActivity() {
         val titlo = findViewById<TextView>(R.id.titlo)
         val description = findViewById<TextView>(R.id.descricao)
         val detail = findViewById<TextView>(R.id.detail)
-        val movieBtn = findViewById<Button>(R.id.startMovie)
         val downloadBtn = findViewById<Button>(R.id.downloadBtn)
 
         val isAvailableOffline = intent.getStringExtra("movieId")
             ?.let { DBHelper(this).checkIfIsAvailableOffline(it) }
 
-        if(!isAvailableOffline!! or !DBHelper(this).getConfig("haveDownloads").toBoolean()){
+        if (!isAvailableOffline!! || !DBHelper(this).getConfig("haveDownloads").toBoolean()) {
             downloadBtn.visibility = View.INVISIBLE
         }
 
         val getMovieInfo = StringRequest(
             Request.Method.GET, Constants.baseURL + "/movieDetail?movieId=" + intent.getStringExtra("movieId"), { response ->
-            val movie = JSONObject(response)
-            alertDialog.hide()
+                val movie = JSONObject(response)
+                alertDialog.hide()
+                currentMovie = JSONObject(response)
 
-            imgPoster.setOnClickListener {
-                val intent = Intent(this, Player::class.java)
-                intent.putExtra("manifestName", movie.getString("manifestName"))
-                intent.putExtra("contentType", "movie")
-                intent.putExtra("movieId", movie.getString("id"))
-                startActivity(intent)
-            }
+                imgPoster.setOnClickListener {
+                    val intent = Intent(this, Player::class.java)
+                    intent.putExtra("manifestName", movie.getString("manifestName"))
+                    intent.putExtra("contentType", "movie")
+                    intent.putExtra("movieId", movie.getString("id"))
+                    startActivity(intent)
+                }
 
-            titlo.setOnClickListener {
-                val downloadIntent = Intent(this, DownloadService::class.java)
-                downloadIntent.putExtra("manifestName", intent.getStringExtra("movieId"))
-                downloadIntent.putExtra("contentName", movie.getString("name"))
-                DBHelper(this).createMovie(intent.getStringExtra("movieId"), movie.getString("name"), movie.getInt("duration"), movie.getString("description"), movie.getString("poster"), 0)
-                startForegroundService(downloadIntent)
-            }
+                titlo.setOnClickListener {
+                    checkNotificationPermissionAndStartService(movie)
+                }
 
-            titlo.text = movie.getString("name")
-            description.text = movie.getString("description")
-            detail.text = buildString {
-                append(movie.getString("year"))
-                append(" | ")
-                append(movie.getString("age"))
-                append("+ | ")
-                append(movie.getString("duration"))
-                append(" mins | ")
-                append(movie.getString("categories"))
-            }
+                titlo.text = movie.getString("name")
+                description.text = movie.getString("description")
+                detail.text = "${movie.getString("year")} | ${movie.getString("age")}+ | ${movie.getString("duration")} mins | ${movie.getString("categories")}"
 
                 Picasso.with(this)
                     .load(Constants.contentURLPublic + movie.getString("poster"))
                     .fit()
                     .centerCrop()
                     .into(imgPoster)
-        },
+            },
             { error ->
                 alertDialog.hide()
                 AlertDialog.Builder(this)
@@ -123,7 +108,7 @@ class DetailContent : AppCompatActivity() {
                     .show()
             })
 
-        queue.add(getMovieInfo);
+        queue.add(getMovieInfo)
     }
 
     private fun enableImmersiveMode() {
@@ -132,5 +117,48 @@ class DetailContent : AppCompatActivity() {
                         View.SYSTEM_UI_FLAG_FULLSCREEN or
                         View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
                 )
+    }
+
+    private fun checkNotificationPermissionAndStartService(movie: JSONObject) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) { // Android 13+
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+                startDownloadService(movie)
+            } else {
+                requestPermissions(arrayOf(Manifest.permission.POST_NOTIFICATIONS), REQUEST_CODE_NOTIFICATIONS)
+            }
+        } else {
+            startDownloadService(movie)
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == REQUEST_CODE_NOTIFICATIONS) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                currentMovie?.let { startDownloadService(it) }
+            }
+        }
+    }
+
+    private fun startDownloadService(movie: JSONObject) {
+        val downloadIntent = Intent(this, DownloadService::class.java).apply {
+            putExtra("manifestName", movie.getString("id"))
+            putExtra("contentName", movie.getString("name"))
+        }
+
+        DBHelper(this).createMovie(
+            intent.getStringExtra("movieId") ?: "",
+            movie.getString("name"),
+            movie.optInt("duration", 0),
+            movie.getString("description"),
+            movie.getString("poster"),
+            0
+        )
+
+        startForegroundService(downloadIntent)
+    }
+
+    companion object {
+        private const val REQUEST_CODE_NOTIFICATIONS = 1001
     }
 }
