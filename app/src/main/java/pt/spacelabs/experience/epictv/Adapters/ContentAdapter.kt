@@ -44,7 +44,5 @@ override fun onBindViewHolder(holder: ContentViewHolder, position: Int) {
 
 }
 
-
-
 override fun getItemCount(): Int = contentList.size
 }

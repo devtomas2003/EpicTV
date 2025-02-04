@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -27,7 +28,7 @@ class Downloads : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.isNestedScrollingEnabled = false
 
-        val movies: List<Content> = DBHelper(this).getMovies()
+        val movies: MutableList<Content> = DBHelper(this).getMovies()
 
         val adapter = OfflineItems(movies)
         recyclerView.adapter = adapter

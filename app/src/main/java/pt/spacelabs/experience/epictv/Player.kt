@@ -55,7 +55,7 @@ class Player : ComponentActivity() {
 
         playerItem.player = player
 
-        val isAvailable = intent.getStringExtra("manifestName")
+        val isAvailable = intent.getStringExtra("movieId")
             ?.let { DBHelper(this).checkIfIsAvailableOffline(it) }
 
         if(!isAvailable!!){
@@ -71,7 +71,7 @@ class Player : ComponentActivity() {
             val hlsMediaSource = HlsMediaSource.Factory(dataSourceFactory).createMediaSource(mediaItemBuilder.build())
             player.setMediaSource(hlsMediaSource)
         }else{
-            val chunks: List<String>? = intent.getStringExtra("manifestName")
+            val chunks: List<String>? = intent.getStringExtra("movieId")
                 ?.let { DBHelper(this).getChunksByMovieId(it) }
 
             val m3u8Item = chunks?.find { it.endsWith(".m3u8", ignoreCase = true) }

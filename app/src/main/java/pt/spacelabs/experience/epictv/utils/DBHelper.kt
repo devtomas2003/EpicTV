@@ -81,9 +81,9 @@ class DBHelper(context: Context?) :
         epicTV.insert("movies", null, contentValues)
     }
 
-    fun getMovies(): List<Content> {
+    fun getMovies(): MutableList<Content> {
         val movies = mutableListOf<Content>()
-        val query = "SELECT id, name, time, description, poster FROM movies"
+        val query = "SELECT id, name, time, description, poster FROM movies WHERE isDone = 1"
         val cursor: Cursor = this.writableDatabase.rawQuery(query, null)
 
         if (cursor.moveToFirst()) {
@@ -140,6 +140,12 @@ class DBHelper(context: Context?) :
         }
         cursor.close()
         return playbacks
+    }
+
+    fun deleteMovieLocal(movieId: String){
+        val leanifyDB = this.writableDatabase
+        leanifyDB.execSQL("DELETE FROM movies WHERE id = ?", arrayOf(movieId))
+        leanifyDB.execSQL("DELETE FROM offlinePlayback WHERE movieId = ?", arrayOf(movieId))
     }
 
     companion object {

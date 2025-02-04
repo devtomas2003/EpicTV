@@ -72,7 +72,7 @@ class DetailContent : AppCompatActivity() {
         val isAvailableOffline = intent.getStringExtra("movieId")
             ?.let { DBHelper(this).checkIfIsAvailableOffline(it) }
 
-        if(!isAvailableOffline!!){
+        if(!isAvailableOffline!! or !DBHelper(this).getConfig("haveDownloads").toBoolean()){
             downloadBtn.visibility = View.INVISIBLE
         }
 
@@ -81,18 +81,19 @@ class DetailContent : AppCompatActivity() {
             val movie = JSONObject(response)
             alertDialog.hide()
 
-            movieBtn.setOnClickListener {
+            imgPoster.setOnClickListener {
                 val intent = Intent(this, Player::class.java)
                 intent.putExtra("manifestName", movie.getString("manifestName"))
                 intent.putExtra("contentType", "movie")
+                intent.putExtra("movieId", movie.getString("id"))
                 startActivity(intent)
             }
 
-            downloadBtn.setOnClickListener {
+            titlo.setOnClickListener {
                 val downloadIntent = Intent(this, DownloadService::class.java)
-                downloadIntent.putExtra("manifestName", movie.getString("manifestName"))
+                downloadIntent.putExtra("manifestName", intent.getStringExtra("movieId"))
                 downloadIntent.putExtra("contentName", movie.getString("name"))
-                DBHelper(this).createMovie(intent.getStringExtra("movieId"), movie.getString("name"), movie.getInt("duration"), movie.getString("duration"), movie.getString("poster"), 0)
+                DBHelper(this).createMovie(intent.getStringExtra("movieId"), movie.getString("name"), movie.getInt("duration"), movie.getString("description"), movie.getString("poster"), 0)
                 startForegroundService(downloadIntent)
             }
 
@@ -104,7 +105,7 @@ class DetailContent : AppCompatActivity() {
                 append(movie.getString("age"))
                 append("+ | ")
                 append(movie.getString("duration"))
-                append("mins | ")
+                append(" mins | ")
                 append(movie.getString("categories"))
             }
 

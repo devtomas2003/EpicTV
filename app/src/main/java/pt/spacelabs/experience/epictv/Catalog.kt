@@ -39,6 +39,7 @@ class Catalog : AppCompatActivity() {
         val bgImage = findViewById<ImageView>(R.id.bgImage)
         val movieLogo = findViewById<ImageView>(R.id.movieLogo)
         val startMovieBtn = findViewById<Button>(R.id.startMovieBtn)
+        val detailMovieBtn = findViewById<Button>(R.id.detailMovieBtn)
 
         val queue = Volley.newRequestQueue(this)
 
@@ -81,6 +82,13 @@ class Catalog : AppCompatActivity() {
                 }else{
                     intent.putExtra("contentType", "movie")
                 }
+                intent.putExtra("movieId", contentObject.getString("id"))
+                startActivity(intent)
+            }
+
+            detailMovieBtn.setOnClickListener {
+                val intent = Intent(this, DetailContent::class.java)
+                intent.putExtra("movieId", contentObject.getString("id"))
                 startActivity(intent)
             }
         },
