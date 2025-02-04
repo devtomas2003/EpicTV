@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
+import pt.spacelabs.experience.epictv.DetailContent
+import pt.spacelabs.experience.epictv.Player
 import pt.spacelabs.experience.epictv.R
 import pt.spacelabs.experience.epictv.entitys.Content
 import pt.spacelabs.experience.epictv.utils.Constants
@@ -35,14 +37,9 @@ override fun onBindViewHolder(holder: ContentViewHolder, position: Int) {
         .into(holder.poster)
 
     holder.poster.setOnClickListener {
-        val chunks = DBHelper(holder.itemView.context).getChunksByMovieId(content.id)
-        if(chunks.isEmpty()){
-            val downloadIntent = Intent(holder.itemView.context, DownloadService::class.java)
-            downloadIntent.putExtra("manifestName", content.id)
-            downloadIntent.putExtra("contentName", content.name)
-            DBHelper(holder.itemView.context).createMovie(content.id, content.name, content.time, content.description, content.poster)
-            holder.itemView.context.startForegroundService(downloadIntent)
-        }
+        val intent = Intent(holder.itemView.context, DetailContent::class.java)
+        intent.putExtra("movieId", content.id)
+        holder.itemView.context.startActivity(intent)
     }
 
 }

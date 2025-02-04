@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -14,13 +15,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.squareup.picasso.Picasso
 import org.json.JSONArray
+import org.json.JSONObject
 import pt.spacelabs.experience.epictv.Adapters.CategoryAdapter
 import pt.spacelabs.experience.epictv.Adapters.OfflineItems
 import pt.spacelabs.experience.epictv.entitys.Category
 import pt.spacelabs.experience.epictv.entitys.Content
 import pt.spacelabs.experience.epictv.utils.Constants
 import pt.spacelabs.experience.epictv.utils.DBHelper
+import pt.spacelabs.experience.epictv.utils.DownloadService
 
 class DetailContent : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,11 +41,6 @@ class DetailContent : AppCompatActivity() {
         val dialogView: View = inflater.inflate(R.layout.loading, null)
         dialogBuilder.setView(dialogView)
         val alertDialog: AlertDialog = dialogBuilder.create()
-
-        val recyclerView: RecyclerView = findViewById(R.id.categorias)
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.isNestedScrollingEnabled = false
-        var categoriesList = mutableListOf<Category>()
 
         findViewById<ImageView>(R.id.homepage_menu).setOnClickListener{
             val intent = Intent(this, Catalog::class.java)
@@ -63,40 +62,57 @@ class DetailContent : AppCompatActivity() {
             onBackPressed()
         }
 
-        val getCategories = StringRequest(
-            Request.Method.GET, Constants.baseURL + "/catalog", { response ->
-            val categories = JSONArray(response)
+        val imgPoster = findViewById<ImageView>(R.id.imgPoster)
+        val titlo = findViewById<TextView>(R.id.titlo)
+        val description = findViewById<TextView>(R.id.descricao)
+        val detail = findViewById<TextView>(R.id.detail)
+        val movieBtn = findViewById<Button>(R.id.startMovie)
+        val downloadBtn = findViewById<Button>(R.id.downloadBtn)
+
+        val isAvailableOffline = intent.getStringExtra("movieId")
+            ?.let { DBHelper(this).checkIfIsAvailableOffline(it) }
+
+        if(!isAvailableOffline!!){
+            downloadBtn.visibility = View.INVISIBLE
+        }
+
+        val getMovieInfo = StringRequest(
+            Request.Method.GET, Constants.baseURL + "/movieDetail?movieId=" + intent.getStringExtra("movieId"), { response ->
+            val movie = JSONObject(response)
             alertDialog.hide()
 
-            for(index in 0 until categories.length()){
-                val categoryObject = categories.getJSONObject(index)
-                val listContentApi = categoryObject.getJSONArray("Content")
-                var contentList = mutableListOf<Content>()
-
-                for (a in 0 until listContentApi.length()) {
-                    val contentObject = listContentApi.getJSONObject(a)
-
-                    val content = Content(
-                        id = contentObject.getString("id"),
-                        poster = contentObject.getString("poster"),
-                        description = contentObject.getString("description"),
-                        time = contentObject.getInt("duration"),
-                        name = contentObject.getString("name")
-                    )
-                    contentList.add(content)
-                }
-
-                val category = Category(
-                    id = categoryObject.getString("id"),
-                    name = categoryObject.getString("name"),
-                    contents = contentList
-                )
-                categoriesList.add(category)
+            movieBtn.setOnClickListener {
+                val intent = Intent(this, Player::class.java)
+                intent.putExtra("manifestName", movie.getString("manifestName"))
+                intent.putExtra("contentType", "movie")
+                startActivity(intent)
             }
 
+            downloadBtn.setOnClickListener {
+                val downloadIntent = Intent(this, DownloadService::class.java)
+                downloadIntent.putExtra("manifestName", movie.getString("manifestName"))
+                downloadIntent.putExtra("contentName", movie.getString("name"))
+                DBHelper(this).createMovie(intent.getStringExtra("movieId"), movie.getString("name"), movie.getInt("duration"), movie.getString("duration"), movie.getString("poster"), 0)
+                startForegroundService(downloadIntent)
+            }
 
-            val adapter = CategoryAdapter(categoriesList)
-            recyclerView.adapter = adapter
+            titlo.text = movie.getString("name")
+            description.text = movie.getString("description")
+            detail.text = buildString {
+                append(movie.getString("year"))
+                append(" | ")
+                append(movie.getString("age"))
+                append("+ | ")
+                append(movie.getString("duration"))
+                append("mins | ")
+                append(movie.getString("categories"))
+            }
+
+                Picasso.with(this)
+                    .load(Constants.contentURLPublic + movie.getString("poster"))
+                    .fit()
+                    .centerCrop()
+                    .into(imgPoster)
         },
             { error ->
                 alertDialog.hide()
@@ -106,8 +122,7 @@ class DetailContent : AppCompatActivity() {
                     .show()
             })
 
-        /*queue.add(getRandomContent); depois mete isto a dar sff*/
-        queue.add(getCategories);
+        queue.add(getMovieInfo);
     }
 
     private fun enableImmersiveMode() {

@@ -91,6 +91,9 @@ class DownloadService : Service() {
                             }
                         }
 
+                        intent.getStringExtra("manifestName")
+                            ?.let { DBHelper(this).updateMovie(it) }
+
                         showNotification("Download Complete", "All files downloaded.", 100)
                     } catch (e: Exception) {
                         Log.e(

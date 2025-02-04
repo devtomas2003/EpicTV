@@ -14,7 +14,7 @@ class DBHelper(context: Context?) :
     override fun onCreate(epicTV: SQLiteDatabase) {
         epicTV.execSQL("CREATE TABLE configs(configType TEXT PRIMARY KEY, value TEXT)")
         epicTV.execSQL("CREATE TABLE offlinePlayback(id TEXT PRIMARY KEY, episodeId TEXT, movieId TEXT, chunk TEXT)")
-        epicTV.execSQL("CREATE TABLE movies(id TEXT PRIMARY KEY, name TEXT, time INTEGER, description TEXT, poster TEXT)")
+        epicTV.execSQL("CREATE TABLE movies(id TEXT PRIMARY KEY, name TEXT, time INTEGER, description TEXT, poster TEXT, isDone INTEGER)")
     }
 
     override fun onUpgrade(epicTV: SQLiteDatabase, i: Int, i1: Int) {
@@ -69,7 +69,7 @@ class DBHelper(context: Context?) :
         epicTV.insert("offlinePlayback", null, contentValues)
     }
 
-    fun createMovie(id: String?, name: String?, time: Int?, description: String?, poster: String?) {
+    fun createMovie(id: String?, name: String?, time: Int?, description: String?, poster: String?, isDone: Int?) {
         val epicTV = this.writableDatabase
         val contentValues = ContentValues()
         contentValues.put("id", id)
@@ -77,6 +77,7 @@ class DBHelper(context: Context?) :
         contentValues.put("time", time)
         contentValues.put("description", description)
         contentValues.put("poster", poster)
+        contentValues.put("isDone", isDone)
         epicTV.insert("movies", null, contentValues)
     }
 
@@ -98,6 +99,31 @@ class DBHelper(context: Context?) :
         }
         cursor.close()
         return movies
+    }
+
+    fun checkIfIsAvailableOffline(movieId: String): Boolean {
+        val epicTV = this.readableDatabase
+        val cursor = epicTV.rawQuery(
+            "SELECT isDone FROM movies WHERE id = ?",
+            arrayOf(movieId)
+        )
+
+        var result = false
+        if (cursor.moveToFirst()) {
+            if(cursor.getInt(cursor.getColumnIndexOrThrow("isDone")) == 1){
+                result = true
+            }
+        }
+
+        cursor.close()
+        return result
+    }
+
+    fun updateMovie(movieId: String) {
+        val epicTV = this.readableDatabase
+        val con = ContentValues()
+        con.put("isDone", 1)
+        epicTV.update("movies", con, "id = ?", arrayOf(movieId))
     }
 
     fun getChunksByMovieId(movieId: String): List<String> {
