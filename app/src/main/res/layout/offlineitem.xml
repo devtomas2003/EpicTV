@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="106dp"
+            android:layout_marginRight="56dp"
             android:orientation="vertical">
 
             <TextView
@@ -46,5 +46,5 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="35dp"
-            android:src="@drawable/icon_playvideo" />
+            android:src="@drawable/icon_delete" />
     </LinearLayout>

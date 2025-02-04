@@ -1,15 +1,12 @@
 package pt.spacelabs.experience.epictv
 
-import android.annotation.SuppressLint
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
-import androidx.annotation.RequiresApi
-
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,28 +14,21 @@ import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-
-import com.squareup.picasso.Picasso
 import org.json.JSONArray
-import org.json.JSONObject
 import pt.spacelabs.experience.epictv.Adapters.CategoryAdapter
+import pt.spacelabs.experience.epictv.Adapters.OfflineItems
 import pt.spacelabs.experience.epictv.entitys.Category
 import pt.spacelabs.experience.epictv.entitys.Content
 import pt.spacelabs.experience.epictv.utils.Constants
+import pt.spacelabs.experience.epictv.utils.DBHelper
 
-class Catalog : AppCompatActivity() {
-    @SuppressLint("SetTextI18n")
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+class DetailContent : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.catalog)
+        setContentView(R.layout.detailcontent)
 
         enableImmersiveMode()
-
-        val bgImage = findViewById<ImageView>(R.id.bgImage)
-        val movieLogo = findViewById<ImageView>(R.id.movieLogo)
-        val startMovieBtn = findViewById<Button>(R.id.startMovieBtn)
 
         val queue = Volley.newRequestQueue(this)
 
@@ -47,52 +37,34 @@ class Catalog : AppCompatActivity() {
         val dialogView: View = inflater.inflate(R.layout.loading, null)
         dialogBuilder.setView(dialogView)
         val alertDialog: AlertDialog = dialogBuilder.create()
-        alertDialog.show()
 
         val recyclerView: RecyclerView = findViewById(R.id.categorias)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.isNestedScrollingEnabled = false
         var categoriesList = mutableListOf<Category>()
 
-        val getRandomContent = StringRequest(Request.Method.GET, Constants.baseURL + "/getRandomContent", { response ->
-            val contentObject = JSONObject(response)
+        findViewById<ImageView>(R.id.homepage_menu).setOnClickListener{
+            val intent = Intent(this, Catalog::class.java)
+            startActivity(intent)
+        }
 
-            if(contentObject.getBoolean("isSerie")){
-                startMovieBtn.text = "Ver Trailer";
-            }else{
-                startMovieBtn.text = "Ver Filme";
-            }
+        findViewById<ImageView>(R.id.personpage_menu).setOnClickListener{
+            val intent = Intent(this, Perfil::class.java)
+            startActivity(intent)
+        }
 
-            Picasso.with(this)
-                .load(Constants.contentURLPublic + contentObject.getString("miniPoster"))
-                .into(movieLogo)
+        findViewById<ImageView>(R.id.download_menu).setOnClickListener{
+            val intent = Intent(this, Downloads::class.java)
+            startActivity(intent)
+        }
 
-            Picasso.with(this)
-                .load(Constants.contentURLPublic + contentObject.getString("poster"))
-                .fit()
-                .centerCrop()
-                .into(bgImage)
+        val backIcon: ImageView = findViewById(R.id.arrowpageback)
+        backIcon.setOnClickListener {
+            onBackPressed()
+        }
 
-            startMovieBtn.setOnClickListener {
-                val intent = Intent (this, Player::class.java)
-                intent.putExtra("manifestName", contentObject.getString("manifestName"))
-                if(contentObject.getBoolean("isSerie")) {
-                    intent.putExtra("contentType", "serieTrailer")
-                }else{
-                    intent.putExtra("contentType", "movie")
-                }
-                startActivity(intent)
-            }
-        },
-            { error ->
-                alertDialog.hide()
-                AlertDialog.Builder(this)
-                    .setTitle("Error")
-                    .setMessage("Erro ao fazer request: ${error.message}")
-                    .show()
-            })
-
-        val getCategories = StringRequest(Request.Method.GET, Constants.baseURL + "/catalog", { response ->
+        val getCategories = StringRequest(
+            Request.Method.GET, Constants.baseURL + "/catalog", { response ->
             val categories = JSONArray(response)
             alertDialog.hide()
 
@@ -134,23 +106,8 @@ class Catalog : AppCompatActivity() {
                     .show()
             })
 
-        queue.add(getRandomContent);
+        /*queue.add(getRandomContent); depois mete isto a dar sff*/
         queue.add(getCategories);
-
-        findViewById<ImageView>(R.id.homepage_menu).setOnClickListener{
-            val intent = Intent(this, Catalog::class.java)
-            startActivity(intent)
-        }
-
-        findViewById<ImageView>(R.id.personpage_menu).setOnClickListener{
-            val intent = Intent(this, Perfil::class.java)
-            startActivity(intent)
-        }
-
-        findViewById<ImageView>(R.id.download_menu).setOnClickListener{
-            val intent = Intent(this, Downloads::class.java)
-            startActivity(intent)
-        }
     }
 
     private fun enableImmersiveMode() {
@@ -159,12 +116,5 @@ class Catalog : AppCompatActivity() {
                         View.SYSTEM_UI_FLAG_FULLSCREEN or
                         View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
                 )
-    }
-
-    override fun onWindowFocusChanged(hasFocus: Boolean) {
-        super.onWindowFocusChanged(hasFocus)
-        if (hasFocus) {
-            enableImmersiveMode()
-        }
     }
 }

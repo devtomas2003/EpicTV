@@ -35,19 +35,16 @@ class Downloads : AppCompatActivity() {
         findViewById<ImageView>(R.id.homepage_menu).setOnClickListener{
             val intent = Intent(this, Catalog::class.java)
             startActivity(intent)
-            finish()
         }
 
         findViewById<ImageView>(R.id.personpage_menu).setOnClickListener{
             val intent = Intent(this, Perfil::class.java)
             startActivity(intent)
-            finish()
         }
 
-        findViewById<ImageView>(R.id.download_menu).setOnClickListener{
-            val intent = Intent(this, Downloads::class.java)
-            startActivity(intent)
-            finish()
+        val backIcon: ImageView = findViewById(R.id.arrowpageback)
+        backIcon.setOnClickListener {
+            onBackPressed()
         }
     }
     private fun enableImmersiveMode() {

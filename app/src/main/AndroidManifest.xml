@@ -124,6 +124,11 @@
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.EpicTV" />
+        <activity
+            android:name=".DetailContent"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.EpicTV"/>
 
         <service
             android:name=".utils.DownloadService"
