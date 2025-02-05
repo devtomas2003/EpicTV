@@ -1,7 +1,12 @@
 package pt.spacelabs.experience.epictv
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.Network
+import android.net.NetworkCapabilities
+import android.net.NetworkRequest
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -14,32 +19,33 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
+import com.android.volley.RequestQueue
+import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 
 import com.squareup.picasso.Picasso
 import org.json.JSONArray
+import org.json.JSONException
 import org.json.JSONObject
 import pt.spacelabs.experience.epictv.Adapters.CategoryAdapter
 import pt.spacelabs.experience.epictv.entitys.Category
 import pt.spacelabs.experience.epictv.entitys.Content
 import pt.spacelabs.experience.epictv.utils.Constants
+import pt.spacelabs.experience.epictv.utils.DBHelper
 
 class Catalog : AppCompatActivity() {
-    @SuppressLint("SetTextI18n")
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    private lateinit var connectivityManager: ConnectivityManager
+    private var networkCallback: ConnectivityManager.NetworkCallback? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.catalog)
 
         enableImmersiveMode()
-
-        val bgImage = findViewById<ImageView>(R.id.bgImage)
-        val movieLogo = findViewById<ImageView>(R.id.movieLogo)
-        val startMovieBtn = findViewById<Button>(R.id.startMovieBtn)
-        val detailMovieBtn = findViewById<Button>(R.id.detailMovieBtn)
 
         val queue = Volley.newRequestQueue(this)
 
@@ -49,6 +55,83 @@ class Catalog : AppCompatActivity() {
         dialogBuilder.setView(dialogView)
         val alertDialog: AlertDialog = dialogBuilder.create()
         alertDialog.show()
+
+        connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        registerNetworkCallback()
+
+        val localMovies = DBHelper(this).getMovies()
+        localMovies.forEach { movieLocal ->
+            val getMovieInfo = StringRequest(
+                Request.Method.GET, Constants.baseURL + "/movieDetail?movieId=" + movieLocal.id, { response ->
+                    val movieDB = JSONObject(response)
+                    DBHelper(this).updateMovieData(movieLocal.id, movieDB.getString("name"), movieDB.getInt("duration"), movieDB.getString("description"), movieDB.getString("poster"))
+                },
+                { error ->
+                    alertDialog.hide()
+                    AlertDialog.Builder(this)
+                        .setTitle("Error")
+                        .setMessage("Erro ao fazer request: ${error.message}")
+                        .show()
+                })
+
+            queue.add(getMovieInfo)
+        }
+
+        val profileReq = object : StringRequest(
+            Method.GET,
+            Constants.baseURL + "/profile",
+            Response.Listener { response ->
+                try {
+                    val profileInfo = JSONObject(response)
+
+                    DBHelper(this).createConfig("email", profileInfo.getString("email"))
+                    DBHelper(this).createConfig("name", profileInfo.getString("name"))
+                    DBHelper(this).createConfig("telef", profileInfo.getString("telef"))
+
+                    alertDialog.hide()
+                } catch (e: JSONException) {
+                    alertDialog.hide()
+                    android.app.AlertDialog.Builder(this)
+                        .setTitle("Falha de ligação")
+                        .setMessage("Ocorreu um erro com a resposta do servidor!")
+                        .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
+                        .create()
+                        .show()
+                }
+            },
+            Response.ErrorListener { error ->
+                alertDialog.hide()
+                android.app.AlertDialog.Builder(this)
+                    .setTitle("Ocorreu um erro")
+                    .setMessage("Verifica a tua ligação com a internet!")
+                    .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
+                    .create()
+                    .show()
+            }
+        ) {
+            override fun getHeaders(): Map<String, String> {
+                val headers = HashMap<String, String>()
+                val auth = "Bearer " + DBHelper(this@Catalog).getConfig("token")
+                headers["Authorization"] = auth
+                return headers
+            }
+            override fun getBodyContentType(): String {
+                return "application/json; charset=UTF-8"
+            }
+        }
+
+        profileReq.retryPolicy = DefaultRetryPolicy(
+            2000,
+            2,
+            1.0f
+        )
+
+        queue.add(profileReq)
+
+        val bgImage = findViewById<ImageView>(R.id.bgImage)
+        val movieLogo = findViewById<ImageView>(R.id.movieLogo)
+        val startMovieBtn = findViewById<Button>(R.id.startMovieBtn)
+        val detailMovieBtn = findViewById<Button>(R.id.detailMovieBtn)
 
         val recyclerView: RecyclerView = findViewById(R.id.categorias)
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -145,19 +228,16 @@ class Catalog : AppCompatActivity() {
         queue.add(getRandomContent);
         queue.add(getCategories);
 
-        findViewById<ImageView>(R.id.homepage_menu).setOnClickListener{
-            val intent = Intent(this, Catalog::class.java)
-            startActivity(intent)
-        }
-
         findViewById<ImageView>(R.id.personpage_menu).setOnClickListener{
             val intent = Intent(this, Perfil::class.java)
             startActivity(intent)
+            finish()
         }
 
         findViewById<ImageView>(R.id.download_menu).setOnClickListener{
             val intent = Intent(this, Downloads::class.java)
             startActivity(intent)
+            finish()
         }
     }
 
@@ -173,6 +253,88 @@ class Catalog : AppCompatActivity() {
         super.onWindowFocusChanged(hasFocus)
         if (hasFocus) {
             enableImmersiveMode()
+        }
+    }
+
+    private fun registerNetworkCallback() {
+        val request = NetworkRequest.Builder()
+            .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+            .build()
+
+        networkCallback = object : ConnectivityManager.NetworkCallback() {
+            override fun onAvailable(network: Network) {
+                super.onAvailable(network)
+                runOnUiThread {
+                    updateBehind()
+                }
+            }
+        }
+
+        connectivityManager.registerNetworkCallback(request, networkCallback!!)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        networkCallback?.let {
+            connectivityManager.unregisterNetworkCallback(it)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        updateBehind()
+    }
+
+    fun updateBehind(){
+        if(DBHelper(this).getConfig("haveToUpdateProfile") == "yes") {
+            val requestQueue: RequestQueue = Volley.newRequestQueue(this)
+
+            val stringRequest = object : StringRequest(
+                Method.POST,
+                Constants.baseURL + "/updateProfile",
+                Response.Listener { response ->
+                    try {
+                        val jsonObject = JSONObject(response)
+                        val status = jsonObject.getString("message")
+                        if (status != "ok") {
+                            android.app.AlertDialog.Builder(this)
+                                .setTitle("Ocorreu um erro")
+                                .setMessage(jsonObject.getString("Message"))
+                                .setPositiveButton("OK") { dialog, _ ->
+                                    dialog.dismiss()
+                                }
+                                .create()
+                                .show()
+                        }else{
+                            DBHelper(this).clearConfig("haveToUpdateProfile")
+                        }
+                    } catch (e: JSONException) {
+                    }
+                },
+                Response.ErrorListener { }
+            ) {
+                override fun getBody(): ByteArray {
+                    val body = JSONObject()
+                    body.put("nickname", DBHelper(this@Catalog).getConfig("name"))
+                    body.put("telef", DBHelper(this@Catalog).getConfig("telef"))
+                    body.put("email", DBHelper(this@Catalog).getConfig("email"))
+                    body.put("pass", "")
+                    return body.toString().toByteArray(Charsets.UTF_8)
+                }
+
+                override fun getHeaders(): Map<String, String> {
+                    val headers = HashMap<String, String>()
+                    val auth = "Bearer " + DBHelper(this@Catalog).getConfig("token")
+                    headers["Authorization"] = auth
+                    return headers
+                }
+
+                override fun getBodyContentType(): String {
+                    return "application/json; charset=UTF-8"
+                }
+            }
+
+            requestQueue.add(stringRequest)
         }
     }
 }

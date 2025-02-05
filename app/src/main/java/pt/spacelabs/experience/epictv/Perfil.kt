@@ -1,8 +1,13 @@
 package pt.spacelabs.experience.epictv
 
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
+import android.net.ConnectivityManager
+import android.net.Network
+import android.net.NetworkCapabilities
+import android.net.NetworkRequest
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -28,11 +33,16 @@ class Perfil : AppCompatActivity() {
     private var emailOld = "";
     private var nicknameOld = "";
     private var phoneinpOld = "";
+    private lateinit var connectivityManager: ConnectivityManager
+    private var networkCallback: ConnectivityManager.NetworkCallback? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.perfil)
+
+        connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        registerNetworkCallback()
 
         val switchButton = findViewById<SwitchCompat>(R.id.switchButton)
 
@@ -47,28 +57,34 @@ class Perfil : AppCompatActivity() {
         }
 
         val logoutButton: ImageView = findViewById(R.id.logout_icon)
-        //funciona mal
+
         logoutButton.setOnClickListener {
-            clearUserSession()
+            DBHelper(this).clearConfig("token")
 
             val intent = Intent(this, Login::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
+            finish()
         }
 
         findViewById<ImageView>(R.id.homepage_menu).setOnClickListener{
-            val intent = Intent(this, Catalog::class.java)
-            startActivity(intent)
-        }
-
-        findViewById<ImageView>(R.id.personpage_menu).setOnClickListener{
-            val intent = Intent(this, Perfil::class.java)
-            startActivity(intent)
+            if(isNetworkAvailable()){
+                val intent = Intent(this, Catalog::class.java)
+                startActivity(intent)
+                finish()
+            }else{
+                AlertDialog.Builder(this)
+                    .setTitle("Aviso")
+                    .setMessage("Para usares esta funcionalidade, verifica a tua ligação!")
+                    .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
+                    .create()
+                    .show()
+            }
         }
 
         findViewById<ImageView>(R.id.download_menu).setOnClickListener{
             val intent = Intent(this, Downloads::class.java)
             startActivity(intent)
+            finish()
         }
 
         val backIcon: ImageView = findViewById(R.id.arrowpageback)
@@ -91,141 +107,117 @@ class Perfil : AppCompatActivity() {
         val dialogView: View = inflater.inflate(R.layout.loading, null)
         dialogBuilder.setView(dialogView)
         val alertDialog: AlertDialog = dialogBuilder.create()
-        alertDialog.show()
 
         btnSaveInfo.setOnClickListener {
             if(validateFields(email, pass, repass, nickname, phoneinp)){
-                val stringRequest = object : StringRequest(
-                    Method.POST,
-                    Constants.baseURL + "/updateProfile",
-                    Response.Listener { _ ->
-                        try {
-                            AlertDialog.Builder(this)
-                                .setTitle("Sucesso")
-                                .setMessage("Bem-vindo ${intent.getStringExtra("name")}, a tua conta foi atualizada com sucesso!")
-                                .setPositiveButton("OK") { dialog, _ ->
-                                    dialog.dismiss()
-                                    alertDialog.hide()
-                                }
-                                .create()
-                                .show()
-                        } catch (e: JSONException) {
-                            alertDialog.hide()
-                            AlertDialog.Builder(this)
-                                .setTitle("Falha de ligação")
-                                .setMessage("Ocorreu um erro com a resposta do servidor!")
-                                .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
-                                .create()
-                                .show()
-                        }
-                    },
-                    Response.ErrorListener { error ->
-                        try {
-                            alertDialog.hide()
-                            val errorResponse =
-                                String(error.networkResponse.data, Charsets.UTF_8)
-                            val errorObject = JSONObject(errorResponse)
-                            if (errorObject.has("message")) {
+                if(isNetworkAvailable()){
+                    alertDialog.show()
+                    val stringRequest = object : StringRequest(
+                        Method.POST,
+                        Constants.baseURL + "/updateProfile",
+                        Response.Listener { _ ->
+                            try {
+                                DBHelper(this).updateConfig("email", email.text.toString())
+                                DBHelper(this).updateConfig("name", nickname.text.toString())
+                                DBHelper(this).updateConfig("telef", phoneinp.text.toString())
+
                                 AlertDialog.Builder(this)
-                                    .setTitle("Ocorreu um erro")
-                                    .setMessage(errorObject.getString("message"))
+                                    .setTitle("Sucesso")
+                                    .setMessage("A tua conta foi atualizada com sucesso!")
+                                    .setPositiveButton("OK") { dialog, _ ->
+                                        dialog.dismiss()
+                                        alertDialog.hide()
+                                    }
+                                    .create()
+                                    .show()
+                            } catch (e: JSONException) {
+                                alertDialog.hide()
+                                AlertDialog.Builder(this)
+                                    .setTitle("Falha de ligação")
+                                    .setMessage("Ocorreu um erro com a resposta do servidor!")
                                     .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
                                     .create()
                                     .show()
                             }
-                        } catch (e: Exception) {
-                            alertDialog.hide()
-                            AlertDialog.Builder(this)
-                                .setTitle("Falha de ligação")
-                                .setMessage("Para usares esta funcionalidade, verifica a tua ligação!")
-                                .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
-                                .create()
-                                .show()
+                        },
+                        Response.ErrorListener { error ->
+                            try {
+                                alertDialog.hide()
+                                val errorResponse =
+                                    String(error.networkResponse.data, Charsets.UTF_8)
+                                val errorObject = JSONObject(errorResponse)
+                                if (errorObject.has("message")) {
+                                    AlertDialog.Builder(this)
+                                        .setTitle("Ocorreu um erro")
+                                        .setMessage(errorObject.getString("message"))
+                                        .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
+                                        .create()
+                                        .show()
+                                }
+                            } catch (e: Exception) {
+                                alertDialog.hide()
+                                AlertDialog.Builder(this)
+                                    .setTitle("Falha de ligação")
+                                    .setMessage("Para usares esta funcionalidade, verifica a tua ligação!")
+                                    .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
+                                    .create()
+                                    .show()
+                            }
+                        }
+                    ) {
+                        override fun getBody(): ByteArray {
+                            val body = JSONObject()
+                            body.put("nickname", nickname.text.toString())
+                            body.put("telef", phoneinp.text.toString())
+                            body.put("email", email.text.toString())
+                            body.put("pass", pass.text.toString())
+                            return body.toString().toByteArray(Charsets.UTF_8)
+                        }
+                        override fun getHeaders(): Map<String, String> {
+                            val headers = HashMap<String, String>()
+                            val auth = "Bearer " + DBHelper(this@Perfil).getConfig("token")
+                            headers["Authorization"] = auth
+                            return headers
+                        }
+                        override fun getBodyContentType(): String {
+                            return "application/json; charset=UTF-8"
                         }
                     }
-                ) {
-                    override fun getBody(): ByteArray {
-                        val body = JSONObject()
-                        body.put("nickname", nickname.text.toString())
-                        body.put("telef", phoneinp.text.toString())
-                        body.put("email", email.text.toString())
-                        body.put("pass", pass.text.toString())
-                        return body.toString().toByteArray(Charsets.UTF_8)
-                    }
-                    override fun getHeaders(): Map<String, String> {
-                        val headers = HashMap<String, String>()
-                        val auth = "Bearer " + DBHelper(this@Perfil).getConfig("token")
-                        headers["Authorization"] = auth
-                        return headers
-                    }
-                    override fun getBodyContentType(): String {
-                        return "application/json; charset=UTF-8"
+                    requestQueue.add(stringRequest)
+                }else{
+                    if(pass.text.isNotEmpty()){
+                        AlertDialog.Builder(this)
+                            .setTitle("Falha de ligação")
+                            .setMessage("Para alterares a tua password, verifica a tua ligação!")
+                            .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
+                            .create()
+                            .show()
+                    }else{
+                        DBHelper(this).updateConfig("email", email.text.toString())
+                        DBHelper(this).updateConfig("name", nickname.text.toString())
+                        DBHelper(this).updateConfig("telef", phoneinp.text.toString())
+                        DBHelper(this).createConfig("haveToUpdateProfile", "yes")
+
+                        AlertDialog.Builder(this)
+                            .setTitle("Sucesso")
+                            .setMessage("A tua conta foi atualizada com sucesso!")
+                            .setPositiveButton("OK") { dialog, _ ->
+                                dialog.dismiss()
+                                alertDialog.hide()
+                            }
+                            .create()
+                            .show()
                     }
                 }
-                requestQueue.add(stringRequest)
             }
         }
 
-        val requestPlans = object : StringRequest(
-            Method.GET,
-            Constants.baseURL + "/profile",
-            Response.Listener { response ->
-                try {
-                    val profileInfo = JSONObject(response)
-
-                    emailOld = profileInfo.getString("email");
-                    email.setText(emailOld)
-                    nicknameOld = profileInfo.getString("name");
-                    nickname.setText(nicknameOld)
-                    phoneinpOld = profileInfo.getString("telef");
-                    phoneinp.setText(phoneinpOld)
-
-                    alertDialog.hide()
-                } catch (e: JSONException) {
-                    alertDialog.hide()
-                    AlertDialog.Builder(this)
-                        .setTitle("Falha de ligação")
-                        .setMessage("Ocorreu um erro com a resposta do servidor!")
-                        .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
-                        .create()
-                        .show()
-                }
-            },
-            Response.ErrorListener { error ->
-                alertDialog.hide()
-                AlertDialog.Builder(this)
-                    .setTitle("Ocorreu um erro")
-                    .setMessage("Verifica a tua ligação com a internet!")
-                    .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
-                    .create()
-                    .show()
-            }
-        ) {
-            override fun getHeaders(): Map<String, String> {
-                val headers = HashMap<String, String>()
-                val auth = "Bearer " + DBHelper(this@Perfil).getConfig("token")
-                headers["Authorization"] = auth
-                return headers
-            }
-            override fun getBodyContentType(): String {
-                return "application/json; charset=UTF-8"
-            }
-        }
-
-        requestPlans.retryPolicy = DefaultRetryPolicy(
-            2000,
-            2,
-            1.0f
-        )
-
-        requestQueue.add(requestPlans)
-    }
-
-    private fun clearUserSession() {
-        val sharedPreferences = getSharedPreferences("UserSession", MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
-        editor.clear()
-        editor.apply()
+        emailOld = DBHelper(this).getConfig("email")
+        email.setText(emailOld)
+        nicknameOld = DBHelper(this).getConfig("name")
+        nickname.setText(nicknameOld)
+        phoneinpOld = DBHelper(this).getConfig("telef")
+        phoneinp.setText(phoneinpOld)
     }
 
     private fun resetValues() {
@@ -297,6 +289,94 @@ class Perfil : AppCompatActivity() {
         super.onWindowFocusChanged(hasFocus)
         if (hasFocus) {
             enableImmersiveMode()
+        }
+    }
+
+    private fun registerNetworkCallback() {
+        val request = NetworkRequest.Builder()
+            .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+            .build()
+
+        networkCallback = object : ConnectivityManager.NetworkCallback() {
+            override fun onAvailable(network: Network) {
+                super.onAvailable(network)
+                runOnUiThread {
+                    updateBehind()
+                }
+            }
+        }
+
+        connectivityManager.registerNetworkCallback(request, networkCallback!!)
+    }
+
+    private fun isNetworkAvailable(): Boolean {
+        val activeNetwork = connectivityManager.activeNetwork
+        val capabilities = connectivityManager.getNetworkCapabilities(activeNetwork)
+        return capabilities != null && capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        networkCallback?.let {
+            connectivityManager.unregisterNetworkCallback(it)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        updateBehind()
+    }
+
+    fun updateBehind(){
+        if(DBHelper(this).getConfig("haveToUpdateProfile") == "yes") {
+            val requestQueue: RequestQueue = Volley.newRequestQueue(this)
+
+            val stringRequest = object : StringRequest(
+                Method.POST,
+                Constants.baseURL + "/updateProfile",
+                Response.Listener { response ->
+                    try {
+                        val jsonObject = JSONObject(response)
+                        val status = jsonObject.getString("message")
+                        if (status != "ok") {
+                            AlertDialog.Builder(this@Perfil)
+                                .setTitle("Ocorreu um erro")
+                                .setMessage(jsonObject.getString("Message"))
+                                .setPositiveButton("OK") { dialog, _ ->
+                                    dialog.dismiss()
+                                }
+                                .create()
+                                .show()
+                        }else{
+                            DBHelper(this@Perfil).clearConfig("haveToUpdateProfile")
+                        }
+                    } catch (e: JSONException) {
+                    }
+                },
+                Response.ErrorListener { }
+            ) {
+                override fun getBody(): ByteArray {
+                    val body = JSONObject()
+                    body.put("nickname", DBHelper(this@Perfil).getConfig("name"))
+                    body.put("telef", DBHelper(this@Perfil).getConfig("telef"))
+                    body.put("email", DBHelper(this@Perfil).getConfig("email"))
+                    body.put("pass", "")
+                    return body.toString().toByteArray(Charsets.UTF_8)
+                }
+
+                override fun getHeaders(): Map<String, String> {
+                    val headers = HashMap<String, String>()
+                    val auth = "Bearer " + DBHelper(this@Perfil).getConfig("token")
+                    headers["Authorization"] = auth
+                    return headers
+                }
+
+                override fun getBodyContentType(): String {
+                    return "application/json; charset=UTF-8"
+                }
+            }
+
+            requestQueue.add(stringRequest)
         }
     }
 }

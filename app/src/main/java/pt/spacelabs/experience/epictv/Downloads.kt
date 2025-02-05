@@ -1,6 +1,10 @@
 package pt.spacelabs.experience.epictv
 
+import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -17,10 +21,14 @@ import pt.spacelabs.experience.epictv.entitys.Content
 import pt.spacelabs.experience.epictv.utils.DBHelper
 
 class Downloads : AppCompatActivity() {
+    private lateinit var connectivityManager: ConnectivityManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.downloads_page)
+
+        connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
         enableImmersiveMode()
 
@@ -34,13 +42,24 @@ class Downloads : AppCompatActivity() {
         recyclerView.adapter = adapter
 
         findViewById<ImageView>(R.id.homepage_menu).setOnClickListener{
-            val intent = Intent(this, Catalog::class.java)
-            startActivity(intent)
+            if(isNetworkAvailable()){
+                val intent = Intent(this, Catalog::class.java)
+                startActivity(intent)
+                finish()
+            }else{
+                AlertDialog.Builder(this)
+                    .setTitle("Aviso")
+                    .setMessage("Para usares esta funcionalidade, verifica a tua ligação!")
+                    .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
+                    .create()
+                    .show()
+            }
         }
 
         findViewById<ImageView>(R.id.personpage_menu).setOnClickListener{
             val intent = Intent(this, Perfil::class.java)
             startActivity(intent)
+            finish()
         }
 
         val backIcon: ImageView = findViewById(R.id.arrowpageback)
@@ -54,5 +73,11 @@ class Downloads : AppCompatActivity() {
                         View.SYSTEM_UI_FLAG_FULLSCREEN or
                         View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
                 )
+    }
+
+    private fun isNetworkAvailable(): Boolean {
+        val activeNetwork = connectivityManager.activeNetwork
+        val capabilities = connectivityManager.getNetworkCapabilities(activeNetwork)
+        return capabilities != null && capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
     }
 }

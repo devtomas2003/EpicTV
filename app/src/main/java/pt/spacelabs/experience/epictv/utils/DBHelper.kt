@@ -126,6 +126,17 @@ class DBHelper(context: Context?) :
         epicTV.update("movies", con, "id = ?", arrayOf(movieId))
     }
 
+    fun updateMovieData(movieId: String?, name: String?, time: Int?, description: String?, poster: String?) {
+        val epicTV = this.readableDatabase
+        val con = ContentValues()
+        con.put("name", name)
+        con.put("time", time)
+        con.put("description", description)
+        con.put("poster", poster)
+
+        epicTV.update("movies", con, "id = ?", arrayOf(movieId))
+    }
+
     fun getChunksByMovieId(movieId: String): List<String> {
         val playbacks = mutableListOf<String>()
         val query = "SELECT chunk FROM offlinePlayback WHERE movieId = ?"
