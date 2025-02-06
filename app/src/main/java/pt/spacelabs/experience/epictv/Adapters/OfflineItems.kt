@@ -53,6 +53,7 @@ class OfflineItems(private val offlineList: MutableList<Content>) : RecyclerView
             intent.putExtra("manifestName", content.id)
             intent.putExtra("contentType", "movie")
             intent.putExtra("movieId", content.id)
+            intent.putExtra("movieName", content.name)
             holder.itemView.context.startActivity(intent)
         }
 

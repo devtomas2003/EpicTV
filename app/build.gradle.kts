@@ -60,6 +60,7 @@ dependencies {
     implementation(libs.picasso)
     implementation(libs.volley)
     implementation(libs.com.journeyapps.zxing.android.embedded)
+    implementation(libs.glide.v4160)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

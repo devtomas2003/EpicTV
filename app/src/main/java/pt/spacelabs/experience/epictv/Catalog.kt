@@ -166,6 +166,7 @@ class Catalog : AppCompatActivity() {
                     intent.putExtra("contentType", "movie")
                 }
                 intent.putExtra("movieId", contentObject.getString("id"))
+                intent.putExtra("movieName", contentObject.getString("name"))
                 startActivity(intent)
             }
 

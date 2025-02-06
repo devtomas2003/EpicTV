@@ -5,13 +5,18 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.Service
 import android.content.Intent
+import android.graphics.Bitmap
+import android.os.Handler
 import android.os.IBinder
+import android.os.Looper
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.FutureTarget
 import org.json.JSONException
 import org.json.JSONObject
 import pt.spacelabs.experience.epictv.R
@@ -24,6 +29,8 @@ class DownloadService : Service() {
     private var notificationManager: NotificationManager? = null
     private var totalFiles = 0
     private var downloadedFiles = 0
+    private var fileUrl = ""
+    private var futureTarget: FutureTarget<Bitmap>? = null;
 
     override fun onCreate() {
         super.onCreate()
@@ -34,7 +41,7 @@ class DownloadService : Service() {
     private fun updateNotification(manifestName: String?, downloadedFiles: Int, totalFiles: Int) {
         val progress = ((downloadedFiles / totalFiles.toFloat()) * 100).toInt()
         if (manifestName != null) {
-            showNotification(manifestName, "Descarregado: $progress%", progress)
+            showNotification(manifestName, "Descarregado: $progress%", progress, fileUrl)
         }
     }
 
@@ -63,7 +70,10 @@ class DownloadService : Service() {
                 val fileUrls = chunks.toTypedArray()
 
                 totalFiles = fileUrls.size
-                showNotification("Download Started", "Downloading files...", 0)
+                intent.getStringExtra("imageUrl")
+                    ?.let { showNotification("Download Started", "Downloading files...", 0, it) }
+
+                fileUrl = intent.getStringExtra("imageUrl").toString()
 
                 Thread {
                     try {
@@ -94,14 +104,14 @@ class DownloadService : Service() {
                         intent.getStringExtra("manifestName")
                             ?.let { DBHelper(this).updateMovie(it) }
 
-                        showNotification("Download Complete", "All files downloaded.", 100)
+                        showNotification("Download Complete", "All files downloaded.", 100, fileUrl)
                     } catch (e: Exception) {
                         Log.e(
                                 TAG,
                                 "Download process failed",
                                 e
                         )
-                        showNotification("Download Failed", "Error occurred during download.", 0)
+                        showNotification("Download Failed", "Error occurred during download.", 0, fileUrl)
                     } finally {
                         stopSelf()
                     }
@@ -186,7 +196,7 @@ class DownloadService : Service() {
         input.close()
     }
 
-    private fun showNotification(title: String, message: String, progress: Int) {
+    private fun showNotification(title: String, message: String, progress: Int, path: String) {
         val notification = NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle(title)
                 .setContentText(message)
@@ -194,9 +204,30 @@ class DownloadService : Service() {
                 .setPriority(NotificationCompat.PRIORITY_LOW)
                 .setProgress(100, progress, false)
                 .setOngoing(true)
-                .build()
 
-        startForeground(1, notification)
+            Thread {
+                try {
+                    if(futureTarget == null){
+                        futureTarget = Glide.with(this)
+                            .asBitmap()
+                            .load(Constants.contentURLPublic + path)
+                            .submit()
+                    }
+
+                    val bitmap = futureTarget!!.get()
+
+                    Handler(Looper.getMainLooper()).post {
+                        notification.setLargeIcon(bitmap)
+                        notificationManager?.notify(1, notification.build())
+                    }
+
+                    Glide.with(this).clear(futureTarget)
+                } catch (e: Exception) {
+                    Log.e(TAG, "Erro ao carregar imagem com Glide", e)
+                }
+            }.start()
+
+        startForeground(1, notification.build())
     }
 
     private fun createNotificationChannel() {

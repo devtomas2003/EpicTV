@@ -83,6 +83,7 @@ class DetailContent : AppCompatActivity() {
                     intent.putExtra("manifestName", movie.getString("manifestName"))
                     intent.putExtra("contentType", "movie")
                     intent.putExtra("movieId", movie.getString("id"))
+                    intent.putExtra("movieName", movie.getString("name"))
                     startActivity(intent)
                 }
 
@@ -120,7 +121,7 @@ class DetailContent : AppCompatActivity() {
     }
 
     private fun checkNotificationPermissionAndStartService(movie: JSONObject) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) { // Android 13+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
                 startDownloadService(movie)
             } else {
@@ -144,6 +145,7 @@ class DetailContent : AppCompatActivity() {
         val downloadIntent = Intent(this, DownloadService::class.java).apply {
             putExtra("manifestName", movie.getString("id"))
             putExtra("contentName", movie.getString("name"))
+            putExtra("imageUrl", movie.getString("poster"))
         }
 
         DBHelper(this).createMovie(

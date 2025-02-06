@@ -9,6 +9,8 @@ import android.provider.Settings
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.OptIn
@@ -52,8 +54,18 @@ class Player : ComponentActivity() {
 
         player = ExoPlayer.Builder(this).build()
         val playerItem = findViewById<PlayerView>(R.id.playerItem)
+        val movieTitleView = findViewById<TextView>(R.id.movieTitle)
+        val backBtn = findViewById<ImageView>(R.id.backBtn)
+
+        movieTitleView.text = intent.getStringExtra("movieName")
+
+        playerItem.setControllerVisibilityListener(PlayerView.ControllerVisibilityListener { visibility -> movieTitleView.visibility = if (visibility == View.VISIBLE) View.VISIBLE else View.INVISIBLE; backBtn.visibility = if (visibility == View.VISIBLE) View.VISIBLE else View.INVISIBLE })
 
         playerItem.player = player
+
+        backBtn.setOnClickListener {
+            onBackPressed()
+        }
 
         val isAvailable = intent.getStringExtra("movieId")
             ?.let { DBHelper(this).checkIfIsAvailableOffline(it) }
