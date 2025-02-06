@@ -21,6 +21,8 @@ import androidx.media3.datasource.DefaultDataSource
 import androidx.media3.datasource.DefaultHttpDataSource
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.hls.HlsMediaSource
+import androidx.media3.ui.AspectRatioFrameLayout.RESIZE_MODE_FIT
+import androidx.media3.ui.AspectRatioFrameLayout.RESIZE_MODE_ZOOM
 import androidx.media3.ui.PlayerView
 import pt.spacelabs.experience.epictv.utils.Constants
 import pt.spacelabs.experience.epictv.utils.DBHelper
@@ -29,6 +31,7 @@ import java.io.File
 
 class Player : ComponentActivity() {
     private lateinit var player : ExoPlayer
+    var statusShow = false;
 
     @OptIn(UnstableApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,15 +59,27 @@ class Player : ComponentActivity() {
         val playerItem = findViewById<PlayerView>(R.id.playerItem)
         val movieTitleView = findViewById<TextView>(R.id.movieTitle)
         val backBtn = findViewById<ImageView>(R.id.backBtn)
+        val resizeBtn = findViewById<ImageView>(R.id.resizeBtn)
 
         movieTitleView.text = intent.getStringExtra("movieName")
 
-        playerItem.setControllerVisibilityListener(PlayerView.ControllerVisibilityListener { visibility -> movieTitleView.visibility = if (visibility == View.VISIBLE) View.VISIBLE else View.INVISIBLE; backBtn.visibility = if (visibility == View.VISIBLE) View.VISIBLE else View.INVISIBLE })
+        playerItem.setControllerVisibilityListener(PlayerView.ControllerVisibilityListener { visibility -> movieTitleView.visibility = if (visibility == View.VISIBLE) View.VISIBLE else View.INVISIBLE; backBtn.visibility = if (visibility == View.VISIBLE) View.VISIBLE else View.INVISIBLE; resizeBtn.visibility = if (visibility == View.VISIBLE) View.VISIBLE else View.INVISIBLE })
 
         playerItem.player = player
 
         backBtn.setOnClickListener {
             onBackPressed()
+        }
+
+        resizeBtn.setOnClickListener {
+            if(statusShow){
+                statusShow = false;
+                playerItem.resizeMode = RESIZE_MODE_FIT;
+            }else{
+                statusShow = true
+                playerItem.resizeMode = RESIZE_MODE_ZOOM;
+            }
+
         }
 
             val isAvailable = intent.getStringExtra("movieId")
