@@ -168,12 +168,13 @@ class Catalog : AppCompatActivity() {
                 val intent = Intent (this, Player::class.java)
                 intent.putExtra("manifestName", contentObject.getString("manifestName"))
                 if(contentObject.getBoolean("isSerie")) {
+                    intent.putExtra("movieName", "Trailer - " + contentObject.getString("name"))
                     intent.putExtra("contentType", "serieTrailer")
                 }else{
                     intent.putExtra("contentType", "movie")
+                    intent.putExtra("movieName", contentObject.getString("name"))
                 }
                 intent.putExtra("movieId", contentObject.getString("id"))
-                intent.putExtra("movieName", contentObject.getString("name"))
                 startActivity(intent)
             }
 

@@ -67,37 +67,38 @@ class Player : ComponentActivity() {
             onBackPressed()
         }
 
-        val isAvailable = intent.getStringExtra("movieId")
-            ?.let { DBHelper(this).checkIfIsAvailableOffline(it) }
+            val isAvailable = intent.getStringExtra("movieId")
+                ?.let { DBHelper(this).checkIfIsAvailableOffline(it) }
 
-        if(!isAvailable!!){
-            val headers = mapOf(
-                "Authorization" to "Bearer " + DBHelper(this).getConfig("token")
-            )
-            val httpDataSourceFactory = DefaultHttpDataSource.Factory()
-                .setDefaultRequestProperties(headers)
+            if(!isAvailable!!){
+                val headers = mapOf(
+                    "Authorization" to "Bearer " + DBHelper(this).getConfig("token")
+                )
+                val httpDataSourceFactory = DefaultHttpDataSource.Factory()
+                    .setDefaultRequestProperties(headers)
 
-            val dataSourceFactory: DataSource.Factory = DefaultDataSource.Factory(this, httpDataSourceFactory)
-            val mediaItemBuilder = MediaItem.Builder()
-                .setUri(Constants.contentURLPrivate + "getManifest/" + intent.getStringExtra("manifestName") + "/" + intent.getStringExtra("contentType"))
-            val hlsMediaSource = HlsMediaSource.Factory(dataSourceFactory).createMediaSource(mediaItemBuilder.build())
-            player.setMediaSource(hlsMediaSource)
-        }else{
-            val chunks: List<String>? = intent.getStringExtra("movieId")
-                ?.let { DBHelper(this).getChunksByMovieId(it) }
+                val dataSourceFactory: DataSource.Factory = DefaultDataSource.Factory(this, httpDataSourceFactory)
+                val mediaItemBuilder = MediaItem.Builder()
+                    .setUri(Constants.contentURLPrivate + "getManifest/" + intent.getStringExtra("manifestName") + "/" + intent.getStringExtra("contentType"))
+                val hlsMediaSource = HlsMediaSource.Factory(dataSourceFactory).createMediaSource(mediaItemBuilder.build())
+                player.setMediaSource(hlsMediaSource)
+            }else{
+                val chunks: List<String>? = intent.getStringExtra("movieId")
+                    ?.let { DBHelper(this).getChunksByMovieId(it) }
 
-            val m3u8Item = chunks?.find { it.endsWith(".m3u8", ignoreCase = true) }
+                val m3u8Item = chunks?.find { it.endsWith(".m3u8", ignoreCase = true) }
 
-            val manifestPath = "$filesDir/${m3u8Item}"
-            val uri = Uri.fromFile(File(manifestPath))
+                val manifestPath = "$filesDir/${m3u8Item}"
+                val uri = Uri.fromFile(File(manifestPath))
 
-            val dataSourceFactory: DataSource.Factory = DefaultDataSource.Factory(this)
+                val dataSourceFactory: DataSource.Factory = DefaultDataSource.Factory(this)
 
-            val mediaItem = MediaItem.fromUri(uri)
-            val hlsMediaSource = HlsMediaSource.Factory(dataSourceFactory).createMediaSource(mediaItem)
+                val mediaItem = MediaItem.fromUri(uri)
+                val hlsMediaSource = HlsMediaSource.Factory(dataSourceFactory).createMediaSource(mediaItem)
 
-            player.setMediaSource(hlsMediaSource)
-        }
+                player.setMediaSource(hlsMediaSource)
+            }
+
 
         player.prepare()
         player.play()

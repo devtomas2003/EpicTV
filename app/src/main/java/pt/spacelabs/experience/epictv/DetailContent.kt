@@ -91,6 +91,15 @@ class DetailContent : AppCompatActivity() {
                     checkNotificationPermissionAndStartService(movie)
                 }
 
+                description.setOnClickListener {
+                    val intent = Intent(this, Player::class.java)
+                    intent.putExtra("manifestName", movie.getString("trailerManifest"))
+                    intent.putExtra("movieId", movie.getString("trailerManifest"))
+                    intent.putExtra("contentType", "trailer")
+                    intent.putExtra("movieName", "Trailer - " + movie.getString("name"))
+                    startActivity(intent)
+                }
+
                 titlo.text = movie.getString("name")
                 description.text = movie.getString("description")
                 detail.text = "${movie.getString("year")} | ${movie.getString("age")}+ | ${movie.getString("duration")} mins | ${movie.getString("categories")}"
