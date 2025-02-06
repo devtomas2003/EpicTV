@@ -142,22 +142,34 @@ class DetailContent : AppCompatActivity() {
     }
 
     private fun startDownloadService(movie: JSONObject) {
-        val downloadIntent = Intent(this, DownloadService::class.java).apply {
-            putExtra("manifestName", movie.getString("id"))
-            putExtra("contentName", movie.getString("name"))
-            putExtra("imageUrl", movie.getString("poster"))
+        if(DBHelper(this).getConfig("downloadUnderway") == "none") {
+            DBHelper(this).createConfig("downloadUnderway", "true")
+
+            val downloadIntent = Intent(this, DownloadService::class.java).apply {
+                putExtra("manifestName", movie.getString("id"))
+                putExtra("contentName", movie.getString("name"))
+                putExtra("imageUrl", movie.getString("poster"))
+            }
+
+            DBHelper(this).createMovie(
+                intent.getStringExtra("movieId") ?: "",
+                movie.getString("name"),
+                movie.optInt("duration", 0),
+                movie.getString("description"),
+                movie.getString("poster"),
+                0,
+                movie.getBoolean("isActive")
+            )
+
+            startForegroundService(downloadIntent)
+        }else{
+            android.app.AlertDialog.Builder(this)
+                .setTitle("Aviso")
+                .setMessage("Não podes ter varios downloads em simultaneo!")
+                .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
+                .create()
+                .show()
         }
-
-        DBHelper(this).createMovie(
-            intent.getStringExtra("movieId") ?: "",
-            movie.getString("name"),
-            movie.optInt("duration", 0),
-            movie.getString("description"),
-            movie.getString("poster"),
-            0
-        )
-
-        startForegroundService(downloadIntent)
     }
 
     companion object {

@@ -3,8 +3,12 @@ package pt.spacelabs.experience.epictv.utils
 import android.app.AlertDialog
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.app.Service
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.graphics.Bitmap
 import android.os.Handler
 import android.os.IBinder
@@ -20,6 +24,7 @@ import com.bumptech.glide.request.FutureTarget
 import org.json.JSONException
 import org.json.JSONObject
 import pt.spacelabs.experience.epictv.R
+import pt.spacelabs.experience.epictv.entitys.Content
 import java.io.BufferedInputStream
 import java.io.InputStream
 import java.net.HttpURLConnection
@@ -27,21 +32,24 @@ import java.net.URL
 
 class DownloadService : Service() {
     private var notificationManager: NotificationManager? = null
+    private val CANCEL_ACTION = "pt.spacelabs.experience.epictv.utils.CANCEL_DOWNLOAD"
     private var totalFiles = 0
     private var downloadedFiles = 0
     private var fileUrl = ""
-    private var futureTarget: FutureTarget<Bitmap>? = null;
+    private var cachedBitmap: Bitmap? = null
+    private var isCancelled = false;
 
     override fun onCreate() {
         super.onCreate()
         notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         createNotificationChannel()
+        registerReceiver(cancelReceiver, IntentFilter(CANCEL_ACTION), RECEIVER_NOT_EXPORTED);
     }
 
     private fun updateNotification(manifestName: String?, downloadedFiles: Int, totalFiles: Int) {
         val progress = ((downloadedFiles / totalFiles.toFloat()) * 100).toInt()
         if (manifestName != null) {
-            showNotification(manifestName, "Descarregado: $progress%", progress, fileUrl)
+            showNotification(manifestName, "O teu filme está a chegar: $progress%", progress, fileUrl)
         }
     }
 
@@ -71,7 +79,7 @@ class DownloadService : Service() {
 
                 totalFiles = fileUrls.size
                 intent.getStringExtra("imageUrl")
-                    ?.let { showNotification("Download Started", "Downloading files...", 0, it) }
+                    ?.let { showNotification("Download Iniciado", "A preparar para descarregar...", 0, it) }
 
                 fileUrl = intent.getStringExtra("imageUrl").toString()
 
@@ -101,10 +109,26 @@ class DownloadService : Service() {
                             }
                         }
 
-                        intent.getStringExtra("manifestName")
-                            ?.let { DBHelper(this).updateMovie(it) }
+                        DBHelper(this).clearConfig("downloadUnderway")
 
-                        showNotification("Download Complete", "All files downloaded.", 100, fileUrl)
+                        if(!isCancelled){
+                            intent.getStringExtra("manifestName")
+                                ?.let { DBHelper(this).updateMovie(it) }
+                            showSuccessNotification("Download Terminado", "O teu filme está pronto para veres offline.")
+                        }else{
+                            intent.getStringExtra("manifestName")
+                                ?.let {
+                                    DBHelper(this).deleteMovieLocal(it)
+                                    val chunksList = DBHelper(this).getChunksByMovieId(it)
+
+                                    chunksList.forEach { chunkData ->
+                                        deleteFile(chunkData)
+                                    }
+                                }
+                        }
+
+                        stopForeground(true)
+                        stopSelf()
                     } catch (e: Exception) {
                         Log.e(
                                 TAG,
@@ -172,13 +196,18 @@ class DownloadService : Service() {
 
     @Throws(Exception::class)
     private fun downloadFile(fileUrl: String) {
+        if (isCancelled) return;
+
         val url = URL(fileUrl)
         val connection = url.openConnection() as HttpURLConnection
         connection.setRequestProperty("Authorization", "Bearer " + DBHelper(this@DownloadService).getConfig("token"))
+        connection.connectTimeout = 30000
+        connection.readTimeout = 60000
         connection.connect()
 
-        if (connection.responseCode != HttpURLConnection.HTTP_OK) {
-            throw Exception("Server returned HTTP " + connection.responseCode + " " + connection.responseMessage)
+        if (connection.responseCode != HttpURLConnection.HTTP_OK || isCancelled) {
+            connection.disconnect();
+            return;
         }
 
         val input: InputStream = BufferedInputStream(connection.inputStream)
@@ -186,48 +215,72 @@ class DownloadService : Service() {
         val output = openFileOutput(fileName, MODE_PRIVATE)
 
         val data = ByteArray(4096)
-        var count: Int
-        while ((input.read(data).also { count = it }) != -1) {
+        var count: Int = 0
+        while (!isCancelled && (input.read(data).also { count = it }) != -1) {
             output.write(data, 0, count)
         }
 
         output.flush()
         output.close()
         input.close()
+
+        if (isCancelled) {
+            deleteFile(fileName);
+        }
     }
 
+    private val cancelReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            isCancelled = true;
+            stopForeground(true);
+            notificationManager?.cancelAll();
+            stopSelf();
+        }
+    };
+
     private fun showNotification(title: String, message: String, progress: Int, path: String) {
+        if (isCancelled) return;
+
+        val cancelIntent = Intent(CANCEL_ACTION)
+        val cancelPendingIntent = PendingIntent.getBroadcast(
+            this, 0, cancelIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
         val notification = NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle(title)
-                .setContentText(message)
-                .setSmallIcon(R.drawable.ic_launcher_background)
-                .setPriority(NotificationCompat.PRIORITY_LOW)
-                .setProgress(100, progress, false)
-                .setOngoing(true)
+            .setContentTitle(title)
+            .setContentText(message)
+            .setSmallIcon(R.drawable.ic_launcher_background)
+            .setPriority(NotificationCompat.PRIORITY_LOW)
+            .setProgress(100, progress, false)
+            .addAction(R.drawable.icon_delete, "Cancelar", cancelPendingIntent)
+            .setOngoing(true)
+
+        if (cachedBitmap == null) {
+            val futureTarget = Glide.with(this)
+                .asBitmap()
+                .load(Constants.contentURLPublic + path)
+                .submit()
 
             Thread {
                 try {
-                    if(futureTarget == null){
-                        futureTarget = Glide.with(this)
-                            .asBitmap()
-                            .load(Constants.contentURLPublic + path)
-                            .submit()
-                    }
-
-                    val bitmap = futureTarget!!.get()
-
+                    cachedBitmap = futureTarget.get()
                     Handler(Looper.getMainLooper()).post {
-                        notification.setLargeIcon(bitmap)
+                        notification.setLargeIcon(cachedBitmap)
                         notificationManager?.notify(1, notification.build())
                     }
-
-                    Glide.with(this).clear(futureTarget)
                 } catch (e: Exception) {
                     Log.e(TAG, "Erro ao carregar imagem com Glide", e)
                 }
             }.start()
+        } else {
+            notification.setLargeIcon(cachedBitmap)
+        }
 
-        startForeground(1, notification.build())
+        notificationManager?.notify(1, notification.build())
+
+        if (!isCancelled) {
+            startForeground(1, notification.build());
+        }
     }
 
     private fun createNotificationChannel() {
@@ -241,6 +294,23 @@ class DownloadService : Service() {
 
     override fun onBind(intent: Intent): IBinder? {
     return null
+    }
+
+    override fun onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(cancelReceiver);
+    }
+
+    private fun showSuccessNotification(title: String, message: String) {
+        val notification = NotificationCompat.Builder(this, CHANNEL_ID)
+            .setContentTitle(title)
+            .setContentText(message)
+            .setSmallIcon(R.drawable.ic_launcher_background)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setAutoCancel(true)
+            .build()
+
+        notificationManager?.notify(2, notification)
     }
 
     companion object {

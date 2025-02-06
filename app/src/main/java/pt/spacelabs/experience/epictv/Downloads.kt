@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -36,7 +37,12 @@ class Downloads : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.isNestedScrollingEnabled = false
 
-        val movies: MutableList<Content> = DBHelper(this).getMovies()
+        val movies: MutableList<Content> = DBHelper(this).getMovies(true)
+        val txtOfflineAlert = findViewById<TextView>(R.id.offlineAlert)
+
+        if(movies.size != 0){
+            txtOfflineAlert.visibility = View.INVISIBLE
+        }
 
         val adapter = OfflineItems(movies)
         recyclerView.adapter = adapter

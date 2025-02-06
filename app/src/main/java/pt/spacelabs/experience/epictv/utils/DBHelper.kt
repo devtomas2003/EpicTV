@@ -14,7 +14,7 @@ class DBHelper(context: Context?) :
     override fun onCreate(epicTV: SQLiteDatabase) {
         epicTV.execSQL("CREATE TABLE configs(configType TEXT PRIMARY KEY, value TEXT)")
         epicTV.execSQL("CREATE TABLE offlinePlayback(id TEXT PRIMARY KEY, episodeId TEXT, movieId TEXT, chunk TEXT)")
-        epicTV.execSQL("CREATE TABLE movies(id TEXT PRIMARY KEY, name TEXT, time INTEGER, description TEXT, poster TEXT, isDone INTEGER)")
+        epicTV.execSQL("CREATE TABLE movies(id TEXT PRIMARY KEY, name TEXT, time INTEGER, description TEXT, poster TEXT, isDone INTEGER, isActive INTEGER)")
     }
 
     override fun onUpgrade(epicTV: SQLiteDatabase, i: Int, i1: Int) {
@@ -69,21 +69,35 @@ class DBHelper(context: Context?) :
         epicTV.insert("offlinePlayback", null, contentValues)
     }
 
-    fun createMovie(id: String?, name: String?, time: Int?, description: String?, poster: String?, isDone: Int?) {
+    fun createMovie(id: String?, name: String?, time: Int?, description: String?, poster: String?, isDone: Int?, isActive: Boolean?) {
         val epicTV = this.writableDatabase
         val contentValues = ContentValues()
+        var isact = 0
+
+        if(isActive == true){
+            isact = 1
+        }
+
         contentValues.put("id", id)
         contentValues.put("name", name)
         contentValues.put("time", time)
         contentValues.put("description", description)
         contentValues.put("poster", poster)
         contentValues.put("isDone", isDone)
+        contentValues.put("isActive", isact)
         epicTV.insert("movies", null, contentValues)
     }
 
-    fun getMovies(): MutableList<Content> {
+    fun getMovies(showActive: Boolean): MutableList<Content> {
         val movies = mutableListOf<Content>()
-        val query = "SELECT id, name, time, description, poster FROM movies WHERE isDone = 1"
+        var query = ""
+
+        if(showActive){
+            query = "SELECT id, name, time, description, poster FROM movies WHERE isDone = 1 AND isActive = 1"
+        }else{
+            query = "SELECT id, name, time, description, poster FROM movies WHERE isDone = 1"
+        }
+
         val cursor: Cursor = this.writableDatabase.rawQuery(query, null)
 
         if (cursor.moveToFirst()) {
@@ -93,8 +107,7 @@ class DBHelper(context: Context?) :
                 val time = cursor.getInt(cursor.getColumnIndexOrThrow("time"))
                 val description = cursor.getString(cursor.getColumnIndexOrThrow("description"))
                 val poster = cursor.getString(cursor.getColumnIndexOrThrow("poster"))
-
-                movies.add(Content(id, poster, name, time, description))
+                movies.add(Content(id, poster, name, time, description, true))
             } while (cursor.moveToNext())
         }
         cursor.close()
@@ -126,13 +139,20 @@ class DBHelper(context: Context?) :
         epicTV.update("movies", con, "id = ?", arrayOf(movieId))
     }
 
-    fun updateMovieData(movieId: String?, name: String?, time: Int?, description: String?, poster: String?) {
+    fun updateMovieData(movieId: String?, name: String?, time: Int?, description: String?, poster: String?, isActive: Boolean?) {
         val epicTV = this.readableDatabase
         val con = ContentValues()
+        var isact = 0
+
+        if(isActive == true){
+            isact = 1
+        }
+
         con.put("name", name)
         con.put("time", time)
         con.put("description", description)
         con.put("poster", poster)
+        con.put("isActive", isact)
 
         epicTV.update("movies", con, "id = ?", arrayOf(movieId))
     }

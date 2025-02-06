@@ -81,4 +81,5 @@
     <string name="perfil_subtitle_child">Feito para crianças com 12 anos ou menos, mas os pais têm controlo</string>
     <string name="lbl_loading">A processar...</string>
     <string name="downloads_title">Downloads</string>
+    <string name="no_offline">Não existem conteudos disponiveis offline!</string>
 </resources>

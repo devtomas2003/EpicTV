@@ -9,6 +9,7 @@ import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
@@ -59,12 +60,12 @@ class Catalog : AppCompatActivity() {
         connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         registerNetworkCallback()
 
-        val localMovies = DBHelper(this).getMovies()
+        val localMovies = DBHelper(this).getMovies(false)
         localMovies.forEach { movieLocal ->
             val getMovieInfo = StringRequest(
                 Request.Method.GET, Constants.baseURL + "/movieDetail?movieId=" + movieLocal.id, { response ->
                     val movieDB = JSONObject(response)
-                    DBHelper(this).updateMovieData(movieLocal.id, movieDB.getString("name"), movieDB.getInt("duration"), movieDB.getString("description"), movieDB.getString("poster"))
+                    DBHelper(this).updateMovieData(movieLocal.id, movieDB.getString("name"), movieDB.getInt("duration"), movieDB.getString("description"), movieDB.getString("poster"), movieDB.getBoolean("isActive"))
                 },
                 { error ->
                     alertDialog.hide()
@@ -84,9 +85,15 @@ class Catalog : AppCompatActivity() {
                 try {
                     val profileInfo = JSONObject(response)
 
-                    DBHelper(this).createConfig("email", profileInfo.getString("email"))
-                    DBHelper(this).createConfig("name", profileInfo.getString("name"))
-                    DBHelper(this).createConfig("telef", profileInfo.getString("telef"))
+                    if(DBHelper(this).getConfig("email") == "none"){
+                        DBHelper(this).createConfig("email", profileInfo.getString("email"))
+                        DBHelper(this).createConfig("name", profileInfo.getString("name"))
+                        DBHelper(this).createConfig("telef", profileInfo.getString("telef"))
+                    }else{
+                        DBHelper(this).updateConfig("email", profileInfo.getString("email"))
+                        DBHelper(this).updateConfig("name", profileInfo.getString("name"))
+                        DBHelper(this).updateConfig("telef", profileInfo.getString("telef"))
+                    }
 
                     alertDialog.hide()
                 } catch (e: JSONException) {
@@ -196,14 +203,17 @@ class Catalog : AppCompatActivity() {
                 for (a in 0 until listContentApi.length()) {
                     val contentObject = listContentApi.getJSONObject(a)
 
-                    val content = Content(
-                        id = contentObject.getString("id"),
-                        poster = contentObject.getString("poster"),
-                        description = contentObject.getString("description"),
-                        time = contentObject.getInt("duration"),
-                        name = contentObject.getString("name")
-                    )
-                    contentList.add(content)
+                    if(contentObject.getBoolean("isActive")){
+                        val content = Content(
+                            id = contentObject.getString("id"),
+                            poster = contentObject.getString("poster"),
+                            description = contentObject.getString("description"),
+                            time = contentObject.getInt("duration"),
+                            name = contentObject.getString("name"),
+                            isActive = contentObject.getBoolean("isActive")
+                        )
+                        contentList.add(content)
+                    }
                 }
 
                 val category = Category(
