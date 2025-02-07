@@ -1,20 +1,16 @@
 package pt.spacelabs.experience.epictv
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
-import androidx.annotation.RequiresApi
 
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -31,7 +27,7 @@ import com.squareup.picasso.Picasso
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
-import pt.spacelabs.experience.epictv.Adapters.CategoryAdapter
+import pt.spacelabs.experience.epictv.adapters.CategoryAdapter
 import pt.spacelabs.experience.epictv.entitys.Category
 import pt.spacelabs.experience.epictv.entitys.Content
 import pt.spacelabs.experience.epictv.utils.Constants

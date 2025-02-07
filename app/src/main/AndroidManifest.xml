@@ -10,10 +10,17 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -25,8 +32,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EpicTV"
         tools:targetApi="31">
+        <activity
+            android:name=".Bluetooth"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.EpicTV">
+        </activity>
 
-        <receiver android:name=".utils.DownloadService" android:exported="false"/>
+        <receiver
+            android:name=".utils.DownloadService"
+            android:exported="false" />
 
         <activity
             android:name=".AddGiftCard"
@@ -90,22 +105,22 @@
             android:name=".RecoverPassword"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.EpicTV"/>
+            android:theme="@style/Theme.EpicTV" />
         <activity
             android:name=".NumberVerification"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.EpicTV"/>
+            android:theme="@style/Theme.EpicTV" />
         <activity
             android:name=".ChangePassword"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.EpicTV"/>
+            android:theme="@style/Theme.EpicTV" />
         <activity
             android:name=".Menu"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.EpicTV"/>
+            android:theme="@style/Theme.EpicTV" />
         <activity
             android:name=".Catalog"
             android:exported="false"
@@ -132,7 +147,7 @@
             android:name=".DetailContent"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.EpicTV"/>
+            android:theme="@style/Theme.EpicTV" />
 
         <service
             android:name=".utils.DownloadService"

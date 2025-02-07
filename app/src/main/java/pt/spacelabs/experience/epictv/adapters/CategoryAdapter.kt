@@ -1,4 +1,4 @@
-package pt.spacelabs.experience.epictv.Adapters
+package pt.spacelabs.experience.epictv.adapters
 
 import ItemSpacingDecoration
 import android.view.LayoutInflater

@@ -1,4 +1,4 @@
-package pt.spacelabs.experience.epictv.Adapters
+package pt.spacelabs.experience.epictv.adapters
 
 import android.content.Intent
 import android.view.LayoutInflater
@@ -8,12 +8,9 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import pt.spacelabs.experience.epictv.DetailContent
-import pt.spacelabs.experience.epictv.Player
 import pt.spacelabs.experience.epictv.R
 import pt.spacelabs.experience.epictv.entitys.Content
 import pt.spacelabs.experience.epictv.utils.Constants
-import pt.spacelabs.experience.epictv.utils.DBHelper
-import pt.spacelabs.experience.epictv.utils.DownloadService
 
 class ContentAdapter(private val contentList: List<Content>) : RecyclerView.Adapter<ContentAdapter.ContentViewHolder>() {
 
