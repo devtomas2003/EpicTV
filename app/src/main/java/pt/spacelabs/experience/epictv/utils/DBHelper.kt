@@ -165,7 +165,6 @@ class DBHelper(context: Context?) :
         if (cursor.moveToFirst()) {
             do {
                 val chunk = cursor.getString(cursor.getColumnIndexOrThrow("chunk"))
-
                 playbacks.add(chunk)
             } while (cursor.moveToNext())
         }
@@ -176,6 +175,16 @@ class DBHelper(context: Context?) :
     fun deleteMovieLocal(movieId: String){
         val leanifyDB = this.writableDatabase
         leanifyDB.execSQL("DELETE FROM movies WHERE id = ?", arrayOf(movieId))
+        leanifyDB.execSQL("DELETE FROM offlinePlayback WHERE movieId = ?", arrayOf(movieId))
+    }
+
+    fun deleteMovie(movieId: String){
+        val leanifyDB = this.writableDatabase
+        leanifyDB.execSQL("DELETE FROM movies WHERE id = ?", arrayOf(movieId))
+    }
+
+    fun deleteMovieChunks(movieId: String){
+        val leanifyDB = this.writableDatabase
         leanifyDB.execSQL("DELETE FROM offlinePlayback WHERE movieId = ?", arrayOf(movieId))
     }
 

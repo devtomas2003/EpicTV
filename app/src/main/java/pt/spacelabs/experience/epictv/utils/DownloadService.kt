@@ -118,11 +118,17 @@ class DownloadService : Service() {
                         }else{
                             intent.getStringExtra("manifestName")
                                 ?.let {
-                                    DBHelper(this).deleteMovieLocal(it)
-                                    val chunksList = DBHelper(this).getChunksByMovieId(it)
+                                    DBHelper(this).deleteMovie(it)
+                                    try {
+                                        val chunksList = DBHelper(this).getChunksByMovieId(it)
 
-                                    chunksList.forEach { chunkData ->
-                                        deleteFile(chunkData)
+                                        chunksList.forEach { chunkData ->
+                                            deleteFile(chunkData)
+                                        }
+
+                                        DBHelper(this).deleteMovieChunks(it)
+                                    } catch (e: Exception) {
+                                        Log.e("test", "Error fetching chunks: ${e.message}", e)
                                     }
                                 }
                         }
