@@ -358,7 +358,19 @@ class Perfil : AppCompatActivity() {
                     } catch (e: JSONException) {
                     }
                 },
-                Response.ErrorListener { }
+                Response.ErrorListener { error ->
+                    val errorResponse = String(error.networkResponse.data, Charsets.UTF_8)
+                    val errorObject = JSONObject(errorResponse)
+
+                    androidx.appcompat.app.AlertDialog.Builder(this)
+                        .setTitle("Erro de atualização")
+                        .setMessage(errorObject.getString("message"))
+                        .setPositiveButton("OK") { dialog, _ ->
+                            dialog.dismiss()
+                        }
+                        .create()
+                        .show()
+                }
             ) {
                 override fun getBody(): ByteArray {
                     val body = JSONObject()
