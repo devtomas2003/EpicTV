@@ -5,7 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="10sp"
-    android:orientation="horizontal">
+    android:orientation="vertical">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/movieImage"
@@ -42,10 +49,17 @@
                 android:textSize="11dp" />
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/deleteIcon"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_marginTop="37dp"
-            android:src="@drawable/icon_delete" />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/deleteBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_secundary"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:layout_marginTop="10dp"
+        android:text="Apagar"
+        android:textColor="#FFFFFF" />
+
+</LinearLayout>

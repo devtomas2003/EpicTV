@@ -63,12 +63,14 @@ class DetailContent : AppCompatActivity() {
         val titlo = findViewById<TextView>(R.id.titlo)
         val description = findViewById<TextView>(R.id.descricao)
         val detail = findViewById<TextView>(R.id.detail)
-        val downloadBtn = findViewById<Button>(R.id.downloadBtn)
+        val downloadBtn = findViewById<ImageView>(R.id.downloadBtn)
+        val trailerBtn = findViewById<Button>(R.id.trailerBtn)
+        val startWatch = findViewById<Button>(R.id.startMovie)
 
         val isAvailableOffline = intent.getStringExtra("movieId")
             ?.let { DBHelper(this).checkIfIsAvailableOffline(it) }
 
-        if (!isAvailableOffline!! || !DBHelper(this).getConfig("haveDownloads").toBoolean()) {
+        if (isAvailableOffline!! || !DBHelper(this).getConfig("haveDownloads").toBoolean()) {
             downloadBtn.visibility = View.INVISIBLE
         }
 
@@ -78,7 +80,7 @@ class DetailContent : AppCompatActivity() {
                 alertDialog.hide()
                 currentMovie = JSONObject(response)
 
-                imgPoster.setOnClickListener {
+                startWatch.setOnClickListener {
                     val intent = Intent(this, Player::class.java)
                     intent.putExtra("manifestName", movie.getString("manifestName"))
                     intent.putExtra("contentType", "movie")
@@ -87,11 +89,11 @@ class DetailContent : AppCompatActivity() {
                     startActivity(intent)
                 }
 
-                titlo.setOnClickListener {
+                downloadBtn.setOnClickListener {
                     checkNotificationPermissionAndStartService(movie)
                 }
 
-                description.setOnClickListener {
+                trailerBtn.setOnClickListener {
                     val intent = Intent(this, Player::class.java)
                     intent.putExtra("manifestName", movie.getString("trailerManifest"))
                     intent.putExtra("movieId", movie.getString("trailerManifest"))

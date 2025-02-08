@@ -5,6 +5,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -22,7 +23,7 @@ class OfflineItems(private val offlineList: MutableList<Content>) : RecyclerView
         val movieImage: ImageView = view.findViewById(R.id.movieImage)
         val timelbl: TextView = view.findViewById(R.id.timelbl)
         val movieDescription: TextView = view.findViewById(R.id.movieDescription)
-        val trashIcon: ImageView = view.findViewById(R.id.deleteIcon)
+        val trashIcon: Button = view.findViewById(R.id.deleteBtn)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OfflineItemsViewHolder {
