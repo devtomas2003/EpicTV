@@ -19,15 +19,42 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/arrowpageback"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/linearLayout3"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/icon_arrow_back"
-                android:layout_marginTop="44dp"
-                android:layout_marginLeft="21dp"
+                android:layout_marginTop="40dp"
+                android:orientation="horizontal"
+                android:paddingStart="21dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/arrowpageback"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:src="@drawable/icon_arrow_back" />
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="120dp"
+                    android:paddingEnd="120dp"
+                    android:text="@string/detailcontent_title"
+                    android:textColor="#FFFFFF"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/logout_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:src="@drawable/baseline_file_download_24"/>
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/linearLayout7"
@@ -73,43 +100,6 @@
                         android:layout_marginTop="5dp"
                         android:id="@+id/descricao"
                         android:textColor="#FFFFFF" />
-
-                    <!--os botãos tão muito grandes na minha opinião, por isso qualquer coisa diminui e vê
-                        um tamanho que fique bom-->
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="37dp"
-                        android:layout_marginTop="64dp">
-
-                        <Button
-                            android:id="@+id/startMovie"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="15dp"
-                            android:background="@drawable/main_orange"
-                            android:text="Assistir"
-                            android:textColor="#FFFFFF" />
-
-                        <Button
-                            android:id="@+id/downloadBtn"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/btn_secundary"
-                            android:paddingLeft="15dp"
-                            android:paddingRight="15dp"
-                            android:text="Transferir"
-                            android:textColor="#FFFFFF" />
-
-                    </LinearLayout>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="91% de avaliações positivas"
-                        android:textColor="#0F0"
-                        android:textSize="11dp" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -117,14 +107,43 @@
                 android:id="@+id/textView8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
+                android:text="91% de avaliações positivas"
+                android:textColor="#0F0"
                 android:layout_marginLeft="21dp"
-                android:text="Relacionados"
-                android:textColor="#FFFFFF"
-                android:textSize="20dp"
-                android:textStyle="bold"
+                android:layout_marginTop="5dp"
+                android:textSize="11dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout7" />
+
+            <LinearLayout
+                android:layout_width="400dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView8">
+
+                <Button
+                    android:id="@+id/startMovie"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/main_orange"
+                    android:text="Assistir"
+                    android:textColor="#FFFFFF" />
+
+                <Button
+                    android:id="@+id/downloadBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/btn_secundary"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:text="Trailer"
+                    android:textColor="#FFFFFF" />
+
+            </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

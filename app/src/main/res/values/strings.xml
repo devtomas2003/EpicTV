@@ -82,4 +82,5 @@
     <string name="lbl_loading">A processar...</string>
     <string name="downloads_title">Downloads</string>
     <string name="no_offline">Não existem conteudos disponiveis offline!</string>
+    <string name="detailcontent_title">Detalhe</string>
 </resources>
