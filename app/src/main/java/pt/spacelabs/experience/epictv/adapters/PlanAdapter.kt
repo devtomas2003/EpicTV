@@ -1,4 +1,4 @@
-package pt.spacelabs.experience.epictv.Adapters
+package pt.spacelabs.experience.epictv.adapters
 
 import android.view.LayoutInflater
 import android.view.View

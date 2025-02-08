@@ -19,7 +19,7 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import org.json.JSONArray
 import org.json.JSONException
-import pt.spacelabs.experience.epictv.Adapters.PlanAdapter
+import pt.spacelabs.experience.epictv.adapters.PlanAdapter
 import pt.spacelabs.experience.epictv.entitys.Plan
 import pt.spacelabs.experience.epictv.utils.Constants
 

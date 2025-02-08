@@ -1,20 +1,18 @@
 package pt.spacelabs.experience.epictv
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
-import androidx.annotation.RequiresApi
 
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -31,7 +29,7 @@ import com.squareup.picasso.Picasso
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
-import pt.spacelabs.experience.epictv.Adapters.CategoryAdapter
+import pt.spacelabs.experience.epictv.adapters.CategoryAdapter
 import pt.spacelabs.experience.epictv.entitys.Category
 import pt.spacelabs.experience.epictv.entitys.Content
 import pt.spacelabs.experience.epictv.utils.Constants
@@ -61,11 +59,31 @@ class Catalog : AppCompatActivity() {
         registerNetworkCallback()
 
         val localMovies = DBHelper(this).getMovies(false)
+
         localMovies.forEach { movieLocal ->
             val getMovieInfo = StringRequest(
                 Request.Method.GET, Constants.baseURL + "/movieDetail?movieId=" + movieLocal.id, { response ->
                     val movieDB = JSONObject(response)
-                    DBHelper(this).updateMovieData(movieLocal.id, movieDB.getString("name"), movieDB.getInt("duration"), movieDB.getString("description"), movieDB.getString("poster"), movieDB.getBoolean("isActive"))
+
+                    if(movieDB.getBoolean("isActive")){
+                        DBHelper(this).updateMovieData(movieLocal.id, movieDB.getString("name"), movieDB.getInt("duration"), movieDB.getString("description"), movieDB.getString("poster"), movieDB.getBoolean("isActive"))
+                    }else{
+                        DBHelper(this).deleteMovie(movieLocal.id)
+                        try {
+                            val chunksList = DBHelper(this).getChunksByMovieId(movieLocal.id)
+
+                            chunksList.forEach { chunkData ->
+                                deleteFile(chunkData)
+                            }
+
+                            Toast.makeText(this, "Foram removidos conteudos offline, devido a alterações de politicas.", Toast.LENGTH_SHORT).show()
+
+                            DBHelper(this).deleteMovieChunks(movieLocal.id)
+                        } catch (e: Exception) {
+                            Log.e("test", "Error fetching chunks: ${e.message}", e)
+                        }
+                    }
+
                 },
                 { error ->
                     alertDialog.hide()
@@ -309,9 +327,9 @@ class Catalog : AppCompatActivity() {
                         val jsonObject = JSONObject(response)
                         val status = jsonObject.getString("message")
                         if (status != "ok") {
-                            android.app.AlertDialog.Builder(this)
+                            AlertDialog.Builder(this)
                                 .setTitle("Ocorreu um erro")
-                                .setMessage(jsonObject.getString("Message"))
+                                .setMessage(jsonObject.getString("message"))
                                 .setPositiveButton("OK") { dialog, _ ->
                                     dialog.dismiss()
                                 }
@@ -320,10 +338,21 @@ class Catalog : AppCompatActivity() {
                         }else{
                             DBHelper(this).clearConfig("haveToUpdateProfile")
                         }
-                    } catch (e: JSONException) {
-                    }
+                    } catch (e: JSONException) {}
                 },
-                Response.ErrorListener { }
+                Response.ErrorListener { error ->
+                    val errorResponse = String(error.networkResponse.data, Charsets.UTF_8)
+                    val errorObject = JSONObject(errorResponse)
+
+                    AlertDialog.Builder(this)
+                        .setTitle("Erro de atualização")
+                        .setMessage(errorObject.getString("message"))
+                        .setPositiveButton("OK") { dialog, _ ->
+                            dialog.dismiss()
+                        }
+                        .create()
+                        .show()
+                }
             ) {
                 override fun getBody(): ByteArray {
                     val body = JSONObject()

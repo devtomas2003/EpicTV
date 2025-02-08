@@ -98,15 +98,20 @@ class Perfil : AppCompatActivity() {
         val nickname = findViewById<EditText>(R.id.inp_name_perfil);
         val phoneinp = findViewById<EditText>(R.id.inp_phone_perfil);
         val btnSaveInfo = findViewById<Button>(R.id.btnSaveInfo)
+        val btnBlue = findViewById<Button>(R.id.btnBlue)
 
         val requestQueue: RequestQueue = Volley.newRequestQueue(this)
-
 
         val dialogBuilder: AlertDialog.Builder = AlertDialog.Builder(this)
         val inflater = this.layoutInflater
         val dialogView: View = inflater.inflate(R.layout.loading, null)
         dialogBuilder.setView(dialogView)
         val alertDialog: AlertDialog = dialogBuilder.create()
+
+        btnBlue.setOnClickListener {
+            val intent = Intent(this, Bluetooth::class.java)
+            startActivity(intent)
+        }
 
         btnSaveInfo.setOnClickListener {
             if(validateFields(email, pass, repass, nickname, phoneinp)){
@@ -353,7 +358,19 @@ class Perfil : AppCompatActivity() {
                     } catch (e: JSONException) {
                     }
                 },
-                Response.ErrorListener { }
+                Response.ErrorListener { error ->
+                    val errorResponse = String(error.networkResponse.data, Charsets.UTF_8)
+                    val errorObject = JSONObject(errorResponse)
+
+                    androidx.appcompat.app.AlertDialog.Builder(this)
+                        .setTitle("Erro de atualização")
+                        .setMessage(errorObject.getString("message"))
+                        .setPositiveButton("OK") { dialog, _ ->
+                            dialog.dismiss()
+                        }
+                        .create()
+                        .show()
+                }
             ) {
                 override fun getBody(): ByteArray {
                     val body = JSONObject()
