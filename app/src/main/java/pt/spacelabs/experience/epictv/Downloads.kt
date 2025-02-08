@@ -66,7 +66,11 @@ class Downloads : AppCompatActivity() {
 
         val backIcon: ImageView = findViewById(R.id.arrowpageback)
         backIcon.setOnClickListener {
-            onBackPressed()
+            if(isNetworkAvailable()){
+                val intent = Intent(this, Catalog::class.java)
+                startActivity(intent)
+                finish()
+            }
         }
     }
     private fun enableImmersiveMode() {

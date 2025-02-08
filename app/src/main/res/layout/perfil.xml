@@ -23,7 +23,7 @@
                     android:id="@+id/linearLayout3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="40dp"
+                    android:layout_marginTop="20dp"
                     android:orientation="horizontal"
                     android:paddingStart="21dp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -73,7 +73,7 @@
                     android:id="@+id/linearLayout10"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="40dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginLeft="21dp"
                     android:layout_marginRight="21dp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -91,7 +91,7 @@
                         android:layout_height="200dp"
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
-                        android:src="@mipmap/ic_launcher" />
+                        android:src="@drawable/avatar" />
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -321,7 +321,7 @@
                     android:layout_height="28dp"
                     android:layout_weight="1"
                     android:background="@drawable/main_orange"
-                    android:text="@string/next_lbl"
+                    android:text="Gravar"
                     android:textColor="#fff"
                     android:textSize="14sp" />
             </LinearLayout>

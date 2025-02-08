@@ -33,4 +33,16 @@ class NearbyAdapter(private val devicesList: MutableList<String>) :
             notifyItemInserted(devicesList.size - 1)
         }
     }
+
+    fun removeMissingDevices(currentScanDevices: List<String>) {
+        val iterator = devicesList.iterator()
+        while (iterator.hasNext()) {
+            val device = iterator.next()
+            if (!currentScanDevices.contains(device)) {
+                val index = devicesList.indexOf(device)
+                iterator.remove()
+                notifyItemRemoved(index)
+            }
+        }
+    }
 }

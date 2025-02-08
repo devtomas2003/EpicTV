@@ -111,6 +111,28 @@ class Catalog : AppCompatActivity() {
                         DBHelper(this).updateConfig("email", profileInfo.getString("email"))
                         DBHelper(this).updateConfig("name", profileInfo.getString("name"))
                         DBHelper(this).updateConfig("telef", profileInfo.getString("telef"))
+                        DBHelper(this).updateConfig("haveDownloads", profileInfo.getBoolean("haveDownloads").toString())
+
+                        if(!profileInfo.getBoolean("haveDownloads")){
+                            val localMovies = DBHelper(this).getMovies(false)
+
+                            localMovies.forEach { movieLocal ->
+                                DBHelper(this).deleteMovie(movieLocal.id)
+                                try {
+                                    val chunksList = DBHelper(this).getChunksByMovieId(movieLocal.id)
+
+                                    chunksList.forEach { chunkData ->
+                                        deleteFile(chunkData)
+                                    }
+
+                                    Toast.makeText(this, "Foram removidos conteudos offline, devido a alterações de politicas.", Toast.LENGTH_SHORT).show()
+
+                                    DBHelper(this).deleteMovieChunks(movieLocal.id)
+                                } catch (e: Exception) {
+                                    Log.e("test", "Error fetching chunks: ${e.message}", e)
+                                }
+                            }
+                        }
                     }
 
                     alertDialog.hide()

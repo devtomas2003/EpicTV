@@ -72,6 +72,7 @@ class Login : AppCompatActivity() {
                                 DBHelper(this).updateConfig("haveWatchShare", haveWatchShare.toString())
                                 DBHelper(this).updateConfig("qtdProfiles", qtdProfiles.toString())
                             }
+                            alertDialog.dismiss()
                             val intent = Intent(this, Catalog::class.java)
                             startActivity(intent)
                             finish()

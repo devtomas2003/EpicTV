@@ -15,6 +15,7 @@ import android.provider.Settings
 import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
 import androidx.core.app.ActivityCompat
@@ -28,6 +29,9 @@ class Bluetooth : ComponentActivity() {
     private val REQUEST_BLUETOOTH_PERMISSIONS = 1
     private lateinit var nearbyAdapter: NearbyAdapter
     private val blueList = mutableListOf<String>()
+    private val tempDeviceList = mutableListOf<String>()
+    private lateinit var txtNotFound: TextView
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +41,8 @@ class Bluetooth : ComponentActivity() {
         findViewById<ImageView>(R.id.arrowpageback).setOnClickListener {
             onBackPressed()
         }
+
+        txtNotFound = findViewById(R.id.noBlue)
 
         if (!hasBluetoothPermissions()) {
             requestBluetoothPermissions()
@@ -49,6 +55,8 @@ class Bluetooth : ComponentActivity() {
         listBlue.isNestedScrollingEnabled = false
         nearbyAdapter = NearbyAdapter(blueList)
         listBlue.adapter = nearbyAdapter
+
+        txtNotFound.visibility = if (blueList.isEmpty()) TextView.VISIBLE else TextView.GONE
     }
 
     private fun hasBluetoothPermissions(): Boolean {
@@ -123,10 +131,13 @@ class Bluetooth : ComponentActivity() {
             override fun onScanResult(callbackType: Int, result: ScanResult) {
                 val device = result.device
                 val deviceInfo = "${device.name ?: "Desconhecido"} - ${device.address}"
-                Log.d("BLE", "Dispositivo encontrado: $deviceInfo")
 
                 runOnUiThread {
-                    nearbyAdapter.addDevice(deviceInfo)
+                    if (!blueList.contains(deviceInfo)) {
+                        blueList.add(deviceInfo)
+                        nearbyAdapter.addDevice(deviceInfo)
+                        txtNotFound.visibility = TextView.GONE
+                    }
                 }
             }
 
@@ -149,6 +160,16 @@ class Bluetooth : ComponentActivity() {
             .build()
 
         scanner.startScan(listOf(scanFilter), scanSettings, scanCallback)
+
+        val scanPeriod: Long = 5000
+        window.decorView.postDelayed({
+            runOnUiThread {
+                nearbyAdapter.removeMissingDevices(tempDeviceList)
+                tempDeviceList.clear()
+
+                txtNotFound.visibility = if (blueList.isEmpty()) TextView.VISIBLE else TextView.GONE
+            }
+        }, scanPeriod)
 
         val advertiser = bluetoothAdapter.bluetoothLeAdvertiser
         val settings = AdvertiseSettings.Builder()

@@ -62,6 +62,7 @@ class Welcome1 : ComponentActivity() {
                             val jsonObject = JSONObject(response)
                             val status = jsonObject.getString("message")
                             if(status == "ok"){
+                                alertDialog.dismiss()
                                 val intent = Intent(this, Catalog::class.java)
                                 startActivity(intent)
                                 finish()
