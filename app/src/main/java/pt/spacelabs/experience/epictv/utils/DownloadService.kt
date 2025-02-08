@@ -23,7 +23,9 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.FutureTarget
 import org.json.JSONException
 import org.json.JSONObject
+import pt.spacelabs.experience.epictv.Downloads
 import pt.spacelabs.experience.epictv.R
+import pt.spacelabs.experience.epictv.Welcome1
 import pt.spacelabs.experience.epictv.entitys.Content
 import java.io.BufferedInputStream
 import java.io.InputStream
@@ -308,12 +310,19 @@ class DownloadService : Service() {
     }
 
     private fun showSuccessNotification(title: String, message: String) {
+        val intent = Intent(this, Downloads::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+
+        val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+
         val notification = NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle(title)
             .setContentText(message)
             .setSmallIcon(R.drawable.play)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setAutoCancel(true)
+            .setContentIntent(pendingIntent) // Define o intent ao clicar na notificação
             .build()
 
         notificationManager?.notify(2, notification)
