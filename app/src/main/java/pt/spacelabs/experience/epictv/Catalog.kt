@@ -7,13 +7,11 @@ import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
-
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,7 +22,6 @@ import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-
 import com.squareup.picasso.Picasso
 import org.json.JSONArray
 import org.json.JSONException
@@ -79,9 +76,7 @@ class Catalog : AppCompatActivity() {
                             Toast.makeText(this, "Foram removidos conteudos offline, devido a alterações de politicas.", Toast.LENGTH_SHORT).show()
 
                             DBHelper(this).deleteMovieChunks(movieLocal.id)
-                        } catch (e: Exception) {
-                            Log.e("test", "Error fetching chunks: ${e.message}", e)
-                        }
+                        } catch (e: Exception) { }
                     }
 
                 },
@@ -128,9 +123,7 @@ class Catalog : AppCompatActivity() {
                                     Toast.makeText(this, "Foram removidos conteudos offline, devido a alterações de politicas.", Toast.LENGTH_SHORT).show()
 
                                     DBHelper(this).deleteMovieChunks(movieLocal.id)
-                                } catch (e: Exception) {
-                                    Log.e("test", "Error fetching chunks: ${e.message}", e)
-                                }
+                                } catch (e: Exception) { }
                             }
                         }
                     }

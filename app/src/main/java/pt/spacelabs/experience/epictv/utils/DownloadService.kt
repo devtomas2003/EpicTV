@@ -13,20 +13,16 @@ import android.graphics.Bitmap
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.FutureTarget
 import org.json.JSONException
 import org.json.JSONObject
 import pt.spacelabs.experience.epictv.Downloads
 import pt.spacelabs.experience.epictv.R
-import pt.spacelabs.experience.epictv.Welcome1
-import pt.spacelabs.experience.epictv.entitys.Content
 import java.io.BufferedInputStream
 import java.io.InputStream
 import java.net.HttpURLConnection
@@ -102,13 +98,7 @@ class DownloadService : Service() {
                                         fileUrl
                                     )
                                 }
-                            } catch (e: Exception) {
-                                Log.e(
-                                        TAG,
-                                        "Error downloading file: $fileUrl",
-                                        e
-                                )
-                            }
+                            } catch (e: Exception) { }
                         }
 
                         DBHelper(this).clearConfig("downloadUnderway")
@@ -129,20 +119,13 @@ class DownloadService : Service() {
                                         }
 
                                         DBHelper(this).deleteMovieChunks(it)
-                                    } catch (e: Exception) {
-                                        Log.e("test", "Error fetching chunks: ${e.message}", e)
-                                    }
+                                    } catch (e: Exception) { }
                                 }
                         }
 
                         stopForeground(true)
                         stopSelf()
                     } catch (e: Exception) {
-                        Log.e(
-                                TAG,
-                                "Download process failed",
-                                e
-                        )
                         showNotification("Download Failed", "Error occurred during download.", 0, fileUrl)
                     } finally {
                         stopSelf()
@@ -276,9 +259,7 @@ class DownloadService : Service() {
                         notification.setLargeIcon(cachedBitmap)
                         notificationManager?.notify(1, notification.build())
                     }
-                } catch (e: Exception) {
-                    Log.e(TAG, "Erro ao carregar imagem com Glide", e)
-                }
+                } catch (e: Exception) { }
             }.start()
         } else {
             notification.setLargeIcon(cachedBitmap)
@@ -322,7 +303,7 @@ class DownloadService : Service() {
             .setSmallIcon(R.drawable.play)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setAutoCancel(true)
-            .setContentIntent(pendingIntent) // Define o intent ao clicar na notificação
+            .setContentIntent(pendingIntent)
             .build()
 
         notificationManager?.notify(2, notification)
