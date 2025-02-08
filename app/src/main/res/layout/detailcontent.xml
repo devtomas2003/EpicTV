@@ -109,7 +109,7 @@
                 android:layout_height="wrap_content"
                 android:text="91% de avaliações positivas"
                 android:textColor="#0F0"
-                android:layout_marginLeft="21dp"
+                android:layout_marginLeft="22dp"
                 android:layout_marginTop="5dp"
                 android:textSize="11dp"
                 app:layout_constraintStart_toStartOf="parent"
