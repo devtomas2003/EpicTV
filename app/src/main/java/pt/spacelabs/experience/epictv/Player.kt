@@ -14,6 +14,7 @@ import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.OptIn
+import androidx.appcompat.app.AlertDialog
 import androidx.media3.common.MediaItem
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.datasource.DataSource
@@ -33,6 +34,25 @@ class Player : ComponentActivity() {
     private lateinit var player : ExoPlayer
     var statusShow = false;
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_ENABLE_SILENCE) {
+            val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            if (notificationManager.isNotificationPolicyAccessGranted) {
+                notificationManager.setInterruptionFilter(NotificationManager.INTERRUPTION_FILTER_PRIORITY)
+            } else {
+                AlertDialog.Builder(this)
+                    .setTitle("Permissão necessária")
+                    .setMessage("Para uma melhor experiência, ative a permissão para silenciar notificações.")
+                    .setPositiveButton("Configurações") { _, _ ->
+                        startActivity(Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS))
+                    }
+                    .setNegativeButton("Cancelar", null)
+                    .show()
+            }
+        }
+    }
+
     @OptIn(UnstableApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,14 +65,11 @@ class Player : ComponentActivity() {
 
         if (!notificationManager.isNotificationPolicyAccessGranted) {
             val intent = Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS)
-            startActivity(intent)
+            startActivityForResult(intent, REQUEST_ENABLE_SILENCE)
         }else{
             notificationManager.setInterruptionFilter(NotificationManager.INTERRUPTION_FILTER_PRIORITY)
         }
 
-        val mNotificationManager =
-            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        mNotificationManager.setInterruptionFilter(NotificationManager.INTERRUPTION_FILTER_ALARMS)
         window.addFlags(WindowManager.LayoutParams.FLAG_SECURE);
 
         player = ExoPlayer.Builder(this).build()
@@ -154,5 +171,9 @@ class Player : ComponentActivity() {
         if (hasFocus) {
             enterImmersiveMode()
         }
+    }
+
+    companion object {
+        private const val REQUEST_ENABLE_SILENCE = 3
     }
 }

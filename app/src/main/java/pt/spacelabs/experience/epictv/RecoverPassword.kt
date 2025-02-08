@@ -52,7 +52,7 @@ class RecoverPassword : AppCompatActivity() {
                             intent.putExtra("phoneNumber", phoneInp.text.toString())
                             startActivity(intent)
                         } catch (e: JSONException) {
-                            alertDialog.hide()
+                            alertDialog.dismiss()
                             AlertDialog.Builder(this)
                                 .setTitle("Falha de ligação")
                                 .setMessage("Ocorreu um erro com a resposta do servidor!")
@@ -63,7 +63,7 @@ class RecoverPassword : AppCompatActivity() {
                     },
                     Response.ErrorListener { error ->
                         try {
-                            alertDialog.hide()
+                            alertDialog.dismiss()
                             val errorResponse = String(error.networkResponse.data, Charsets.UTF_8)
                             val errorObject = JSONObject(errorResponse)
                             AlertDialog.Builder(this)
@@ -74,7 +74,7 @@ class RecoverPassword : AppCompatActivity() {
                                 .show()
 
                         } catch (e: Exception) {
-                            alertDialog.hide()
+                            alertDialog.dismiss()
                             AlertDialog.Builder(this)
                                 .setTitle("Falha de ligação")
                                 .setMessage("Para usares esta funcionalidade, verifica a tua ligação!")

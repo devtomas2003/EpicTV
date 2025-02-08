@@ -68,7 +68,7 @@ class Welcome1 : ComponentActivity() {
                                 finish()
                             }
                         } catch (e: JSONException) {
-                            alertDialog.hide()
+                            alertDialog.dismiss()
                             AlertDialog.Builder(this)
                                 .setTitle("Falha de ligação")
                                 .setMessage("Ocorreu um erro com a resposta do servidor!")
@@ -84,9 +84,9 @@ class Welcome1 : ComponentActivity() {
                             if(errorObject.has("message")){
                                 DBHelper(this).clearConfig("token");
                             }
-                            alertDialog.hide()
+                            alertDialog.dismiss()
                         } catch (e: Exception) {
-                            alertDialog.hide()
+                            alertDialog.dismiss()
                         }
                     }
                 ) {

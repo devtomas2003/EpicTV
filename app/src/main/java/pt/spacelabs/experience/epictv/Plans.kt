@@ -97,7 +97,7 @@ class Plans : AppCompatActivity() {
                     }
                     alertDialog.hide()
                 } catch (e: JSONException) {
-                    alertDialog.hide()
+                    alertDialog.dismiss()
                     AlertDialog.Builder(this)
                         .setTitle("Falha de ligação")
                         .setMessage("Ocorreu um erro com a resposta do servidor!")
@@ -107,7 +107,7 @@ class Plans : AppCompatActivity() {
                 }
             },
             Response.ErrorListener { error ->
-                alertDialog.hide()
+                alertDialog.dismiss()
                 AlertDialog.Builder(this)
                     .setTitle("Ocorreu um erro")
                     .setMessage("Verifica a tua ligação com a internet!")

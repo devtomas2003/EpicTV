@@ -86,7 +86,7 @@ class Catalog : AppCompatActivity() {
 
                 },
                 { error ->
-                    alertDialog.hide()
+                    alertDialog.dismiss()
                     AlertDialog.Builder(this)
                         .setTitle("Error")
                         .setMessage("Erro ao fazer request: ${error.message}")
@@ -135,9 +135,9 @@ class Catalog : AppCompatActivity() {
                         }
                     }
 
-                    alertDialog.hide()
+                    alertDialog.dismiss()
                 } catch (e: JSONException) {
-                    alertDialog.hide()
+                    alertDialog.dismiss()
                     android.app.AlertDialog.Builder(this)
                         .setTitle("Falha de ligação")
                         .setMessage("Ocorreu um erro com a resposta do servidor!")
@@ -147,7 +147,7 @@ class Catalog : AppCompatActivity() {
                 }
             },
             Response.ErrorListener { error ->
-                alertDialog.hide()
+                alertDialog.dismiss()
                 android.app.AlertDialog.Builder(this)
                     .setTitle("Ocorreu um erro")
                     .setMessage("Verifica a tua ligação com a internet!")
@@ -225,7 +225,7 @@ class Catalog : AppCompatActivity() {
             }
         },
             { error ->
-                alertDialog.hide()
+                alertDialog.dismiss()
                 AlertDialog.Builder(this)
                     .setTitle("Error")
                     .setMessage("Erro ao fazer request: ${error.message}")
@@ -234,7 +234,7 @@ class Catalog : AppCompatActivity() {
 
         val getCategories = StringRequest(Request.Method.GET, Constants.baseURL + "/catalog", { response ->
             val categories = JSONArray(response)
-            alertDialog.hide()
+            alertDialog.dismiss()
 
             for(index in 0 until categories.length()){
                 val categoryObject = categories.getJSONObject(index)
@@ -270,7 +270,7 @@ class Catalog : AppCompatActivity() {
             recyclerView.adapter = adapter
         },
             { error ->
-                alertDialog.hide()
+                alertDialog.dismiss()
                 AlertDialog.Builder(this)
                     .setTitle("Error")
                     .setMessage("Erro ao fazer request: ${error.message}")

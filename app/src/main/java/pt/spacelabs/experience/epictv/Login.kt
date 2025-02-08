@@ -90,7 +90,7 @@ class Login : AppCompatActivity() {
                     },
                     Response.ErrorListener { error ->
                         try {
-                            alertDialog.hide()
+                            alertDialog.dismiss()
                             val errorResponse = String(error.networkResponse.data, Charsets.UTF_8)
                             val errorObject = JSONObject(errorResponse)
                             inpEmail.setText("")
@@ -103,7 +103,7 @@ class Login : AppCompatActivity() {
                                 .show()
 
                         } catch (e: Exception) {
-                            alertDialog.hide()
+                            alertDialog.dismiss()
                             inpEmail.setText("")
                             inpPass.setText("")
                             AlertDialog.Builder(this)

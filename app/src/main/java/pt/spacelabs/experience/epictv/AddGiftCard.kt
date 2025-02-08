@@ -126,7 +126,7 @@ class AddGiftCard : ComponentActivity() {
                         .create()
                         .show()
                 } catch (e: JSONException) {
-                    alertDialog.hide()
+                    alertDialog.dismiss()
                     AlertDialog.Builder(this)
                         .setTitle("Falha de ligação")
                         .setMessage("Ocorreu um erro com a resposta do servidor!")
@@ -137,7 +137,7 @@ class AddGiftCard : ComponentActivity() {
             },
             Response.ErrorListener { error ->
                 try {
-                    alertDialog.hide()
+                    alertDialog.dismiss()
                     val errorResponse =
                         String(error.networkResponse.data, Charsets.UTF_8)
                     val errorObject = JSONObject(errorResponse)
@@ -150,7 +150,7 @@ class AddGiftCard : ComponentActivity() {
                             .show()
                     }
                 } catch (e: Exception) {
-                    alertDialog.hide()
+                    alertDialog.dismiss()
                     AlertDialog.Builder(this)
                         .setTitle("Falha de ligação")
                         .setMessage("Para usares esta funcionalidade, verifica a tua ligação!")

@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -77,7 +78,7 @@ class DetailContent : AppCompatActivity() {
         val getMovieInfo = StringRequest(
             Request.Method.GET, Constants.baseURL + "/movieDetail?movieId=" + intent.getStringExtra("movieId"), { response ->
                 val movie = JSONObject(response)
-                alertDialog.hide()
+                alertDialog.dismiss()
                 currentMovie = JSONObject(response)
 
                 startWatch.setOnClickListener {
@@ -113,7 +114,7 @@ class DetailContent : AppCompatActivity() {
                     .into(imgPoster)
             },
             { error ->
-                alertDialog.hide()
+                alertDialog.dismiss()
                 AlertDialog.Builder(this)
                     .setTitle("Error")
                     .setMessage("Erro ao fazer request: ${error.message}")
@@ -171,6 +172,8 @@ class DetailContent : AppCompatActivity() {
                 0,
                 movie.getBoolean("isActive")
             )
+
+            Toast.makeText(this, "O download vai iniciar dentro de momentos.", Toast.LENGTH_SHORT).show()
 
             startForegroundService(downloadIntent)
         }else{

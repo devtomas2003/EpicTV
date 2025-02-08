@@ -68,7 +68,7 @@ class ChangePassword : AppCompatActivity() {
                                 .create()
                                 .show()
                         } catch (e: JSONException) {
-                            alertDialog.hide()
+                            alertDialog.dismiss()
                             pass.setText("")
                             repass.setText("")
                             AlertDialog.Builder(this)
@@ -96,7 +96,7 @@ class ChangePassword : AppCompatActivity() {
                                     .show()
                             }
                         } catch (e: Exception) {
-                            alertDialog.hide()
+                            alertDialog.dismiss()
                             pass.setText("")
                             repass.setText("")
                             AlertDialog.Builder(this)
