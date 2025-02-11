@@ -5,21 +5,17 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothManager
-import android.bluetooth.le.AdvertiseCallback
-import android.bluetooth.le.AdvertiseData
-import android.bluetooth.le.AdvertiseSettings
-import android.bluetooth.le.ScanCallback
-import android.bluetooth.le.ScanFilter
-import android.bluetooth.le.ScanResult
-import android.bluetooth.le.ScanSettings
+import android.bluetooth.le.*
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.ParcelUuid
 import android.provider.Settings
+import android.util.Log
+import android.view.View
+import android.widget.Button
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
 import androidx.core.app.ActivityCompat
@@ -33,20 +29,17 @@ class Bluetooth : ComponentActivity() {
     private val REQUEST_BLUETOOTH_PERMISSIONS = 1
     private lateinit var nearbyAdapter: NearbyAdapter
     private val blueList = mutableListOf<String>()
-    private val tempDeviceList = mutableListOf<String>()
-    private lateinit var txtNotFound: TextView
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.bluetooth)
 
+        enableImmersiveMode()
+
         findViewById<ImageView>(R.id.arrowpageback).setOnClickListener {
             onBackPressed()
         }
-
-        txtNotFound = findViewById(R.id.noBlue)
 
         if (!hasBluetoothPermissions()) {
             requestBluetoothPermissions()
@@ -59,17 +52,33 @@ class Bluetooth : ComponentActivity() {
         listBlue.isNestedScrollingEnabled = false
         nearbyAdapter = NearbyAdapter(blueList)
         listBlue.adapter = nearbyAdapter
-
-        txtNotFound.visibility = if (blueList.isEmpty()) TextView.VISIBLE else TextView.GONE
     }
 
     private fun hasBluetoothPermissions(): Boolean {
-        return ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH) == PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_ADMIN) == PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) == PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_ADVERTISE) == PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED
+        return ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.BLUETOOTH
+        ) == PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.BLUETOOTH_ADMIN
+                ) == PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.BLUETOOTH_SCAN
+                ) == PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.BLUETOOTH_ADVERTISE
+                ) == PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.BLUETOOTH_CONNECT
+                ) == PackageManager.PERMISSION_GRANTED
     }
 
     private fun requestBluetoothPermissions() {
@@ -135,13 +144,10 @@ class Bluetooth : ComponentActivity() {
             override fun onScanResult(callbackType: Int, result: ScanResult) {
                 val device = result.device
                 val deviceInfo = "${device.name ?: "Desconhecido"} - ${device.address}"
+                Log.d("BLE", "Dispositivo encontrado: $deviceInfo")
 
                 runOnUiThread {
-                    if (!blueList.contains(deviceInfo)) {
-                        blueList.add(deviceInfo)
-                        nearbyAdapter.addDevice(deviceInfo)
-                        txtNotFound.visibility = TextView.GONE
-                    }
+                    nearbyAdapter.addDevice(deviceInfo)
                 }
             }
 
@@ -164,16 +170,6 @@ class Bluetooth : ComponentActivity() {
             .build()
 
         scanner.startScan(listOf(scanFilter), scanSettings, scanCallback)
-
-        val scanPeriod: Long = 5000
-        window.decorView.postDelayed({
-            runOnUiThread {
-                nearbyAdapter.removeMissingDevices(tempDeviceList)
-                tempDeviceList.clear()
-
-                txtNotFound.visibility = if (blueList.isEmpty()) TextView.VISIBLE else TextView.GONE
-            }
-        }, scanPeriod)
 
         val advertiser = bluetoothAdapter.bluetoothLeAdvertiser
         val settings = AdvertiseSettings.Builder()
@@ -216,6 +212,21 @@ class Bluetooth : ComponentActivity() {
             } else {
                 iniciarPublicidadeEBusca(bluetoothAdapter)
             }
+        }
+    }
+
+    private fun enableImmersiveMode() {
+        window.decorView.systemUiVisibility = (
+                View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
+                        View.SYSTEM_UI_FLAG_FULLSCREEN or
+                        View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                )
+    }
+
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        if (hasFocus) {
+            enableImmersiveMode()
         }
     }
 
